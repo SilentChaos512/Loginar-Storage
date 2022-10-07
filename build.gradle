@@ -50,9 +50,9 @@ def gpr_creds = { // Credentials for GitHub Packages, since this is used multipl
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
-}
+//mixin {
+//    add sourceSets.main, "${mod_id}.refmap.json"
+//}
 
 minecraft {
     mappings channel: 'official', version: mc_version
@@ -62,7 +62,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            arg "-mixin.config=${mod_id}.mixins.json".toString()
+//            arg "-mixin.config=${mod_id}.mixins.json".toString()
 
             property 'forge.logging.console.level', 'debug'
 
@@ -79,7 +79,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            arg "-mixin.config=${mod_id}.mixins.json".toString()
+//            arg "-mixin.config=${mod_id}.mixins.json".toString()
 
             property 'forge.logging.console.level', 'debug'
 
@@ -186,8 +186,8 @@ jar {
                     "Implementation-Title"    : project.name,
                     "Implementation-Vendor"   : "SilentChaos512",
                     "Implementation-Version"  : version_short,
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                    "MixinConfigs"            : "${mod_id}.mixins.json"])
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")/*,
+                    "MixinConfigs"            : "${mod_id}.mixins.json"*/])
     }
 }
 
