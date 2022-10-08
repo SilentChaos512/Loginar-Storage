@@ -11,7 +11,7 @@ authors="SilentChaos512"
     modId="loginar"
     version="${file.jarVersion}"
     displayName="Loginar Urns"
-    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Loginar-Urns/1.19.x/update.json"
+#    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Loginar-Urns/1.19.x/update.json"
     description='''
     TODO
     '''

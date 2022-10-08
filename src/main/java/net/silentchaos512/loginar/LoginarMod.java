@@ -5,7 +5,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.silentchaos512.loginar.setup.LoginarItems;
+import net.silentchaos512.loginar.setup.LuBlockEntityTypes;
+import net.silentchaos512.loginar.setup.LuBlocks;
+import net.silentchaos512.loginar.setup.LuItems;
+import net.silentchaos512.loginar.setup.LuMenuTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +29,11 @@ public final class LoginarMod {
         INSTANCE = this;
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        LoginarItems.REGISTER.register(modEventBus);
+
+        LuBlockEntityTypes.REGISTER.register(modEventBus);
+        LuBlocks.REGISTER.register(modEventBus);
+        LuItems.REGISTER.register(modEventBus);
+        LuMenuTypes.REGISTER.register(modEventBus);
     }
 
     public static ResourceLocation getId(String path) {

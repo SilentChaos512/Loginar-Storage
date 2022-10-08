@@ -2,7 +2,7 @@ package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.food.FoodProperties;
 
-public class LoginarFoods {
+public class LuFoods {
     public static final FoodProperties LOGINAR_TENTACLE = (new FoodProperties.Builder())
             .nutrition(2)
             .saturationMod(0.3f)
