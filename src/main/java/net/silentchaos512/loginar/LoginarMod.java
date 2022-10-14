@@ -5,10 +5,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.silentchaos512.loginar.setup.LuBlockEntityTypes;
-import net.silentchaos512.loginar.setup.LuBlocks;
-import net.silentchaos512.loginar.setup.LuItems;
-import net.silentchaos512.loginar.setup.LuMenuTypes;
+import net.silentchaos512.loginar.setup.LsBlockEntityTypes;
+import net.silentchaos512.loginar.setup.LsBlocks;
+import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.setup.LsMenuTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ import java.util.Random;
 @Mod(LoginarMod.MOD_ID)
 public final class LoginarMod {
     public static final String MOD_ID = "loginar";
-    public static final String MOD_NAME = "Loginar Urns";
+    public static final String MOD_NAME = "Loginar Storage";
 
     public static final Random RANDOM = new Random();
     public static final RandomSource RANDOM_SOURCE = RandomSource.create();
@@ -30,10 +30,10 @@ public final class LoginarMod {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        LuBlockEntityTypes.REGISTER.register(modEventBus);
-        LuBlocks.REGISTER.register(modEventBus);
-        LuItems.REGISTER.register(modEventBus);
-        LuMenuTypes.REGISTER.register(modEventBus);
+        LsBlockEntityTypes.REGISTER.register(modEventBus);
+        LsBlocks.REGISTER.register(modEventBus);
+        LsItems.REGISTER.register(modEventBus);
+        LsMenuTypes.REGISTER.register(modEventBus);
     }
 
     public static ResourceLocation getId(String path) {

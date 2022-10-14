@@ -1,13 +1,13 @@
-# Loginar Urns
+# Loginar Storage
 
 TODO - description
 
 ## Links and Downloads
 
-- [CurseForge](https://minecraft.curseforge.com/projects/loginar-urns) (downloads and more information)
-- [Wiki](https://github.com/SilentChaos512/Loginar-Urns/wiki) (advanced information)
-- [GitHub repository](https://github.com/SilentChaos512/Loginar-Urns) (source code)
-- [Issue Tracker on GitHub](https://github.com/SilentChaos512/Loginar-Urns/issues) (bug reports and feature requests)
+- [CurseForge](https://minecraft.curseforge.com/projects/loginar-storage) (downloads and more information)
+- [Wiki](https://github.com/SilentChaos512/Loginar-Storage/wiki) (advanced information)
+- [GitHub repository](https://github.com/SilentChaos512/Loginar-Storage) (source code)
+- [Issue Tracker on GitHub](https://github.com/SilentChaos512/Loginar-Storage/issues) (bug reports and feature requests)
 - [Discord Server](https://discord.gg/Adyk9zHnUn) (easiest way to get quick questions answered, do not use to report bugs)
 
 ### Note on Downloads

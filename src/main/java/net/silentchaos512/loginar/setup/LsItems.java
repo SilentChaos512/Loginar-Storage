@@ -10,7 +10,7 @@ import net.silentchaos512.loginar.item.LoginarTentacleItem;
 
 import java.util.function.Supplier;
 
-public class LuItems {
+public class LsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, LoginarMod.MOD_ID);
 
     public static final ItemRegistryObject<Item> LOGINAR_ANTENNA = register("loginar_antenna", () ->
@@ -19,13 +19,13 @@ public class LuItems {
     public static final ItemRegistryObject<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
             new LoginarTentacleItem(props()
                     .tab(CreativeModeTab.TAB_FOOD)
-                    .food(LuFoods.LOGINAR_TENTACLE)
+                    .food(LsFoods.LOGINAR_TENTACLE)
             )
     );
     public static final ItemRegistryObject<Item> LOGINAR_CALAMARI = register("loginar_calamari", () ->
             new Item(props()
                     .tab(CreativeModeTab.TAB_FOOD)
-                    .food(LuFoods.LOGINAR_CALAMARI)
+                    .food(LsFoods.LOGINAR_CALAMARI)
             )
     );
 

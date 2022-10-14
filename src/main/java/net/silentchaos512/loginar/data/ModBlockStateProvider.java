@@ -4,7 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.setup.LuBlocks;
+import net.silentchaos512.loginar.setup.LsBlocks;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
@@ -13,7 +13,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(LuBlocks.LOGINAR_URN.get(), models()
+        simpleBlock(LsBlocks.LOGINAR_URN.get(), models()
                 .getExistingFile(modLoc("block/loginar_urn"))
         );
     }

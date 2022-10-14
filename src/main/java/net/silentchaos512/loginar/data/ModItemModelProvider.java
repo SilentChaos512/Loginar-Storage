@@ -11,8 +11,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.setup.LuBlocks;
-import net.silentchaos512.loginar.setup.LuItems;
+import net.silentchaos512.loginar.setup.LsBlocks;
+import net.silentchaos512.loginar.setup.LsItems;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -21,15 +21,15 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        LuBlocks.REGISTER.getEntries().stream()
+        LsBlocks.REGISTER.getEntries().stream()
                 .map(RegistryObject::get)
                 .forEach(this::blockItemModel);
 
         ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
 
-        builder(LuItems.LOGINAR_ANTENNA, itemGenerated);
-        builder(LuItems.LOGINAR_TENTACLE, itemGenerated);
-        builder(LuItems.LOGINAR_CALAMARI, itemGenerated);
+        builder(LsItems.LOGINAR_ANTENNA, itemGenerated);
+        builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
+        builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
     }
 
     private ItemModelBuilder builder(ItemLike item) {

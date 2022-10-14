@@ -12,12 +12,12 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 
 import java.util.Arrays;
 
-public class LuBlockEntityTypes {
+public class LsBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, LoginarMod.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<LoginarUrnBlockEntity>> LOGINAR_URN = register("loginar_urn",
             LoginarUrnBlockEntity::new,
-            LuBlocks.LOGINAR_URN
+            LsBlocks.LOGINAR_URN
     );
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, IBlockProvider... blocks) {

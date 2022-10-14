@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ShulkerBoxSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.silentchaos512.loginar.setup.LuMenuTypes;
+import net.silentchaos512.loginar.setup.LsMenuTypes;
 
 public class LoginarUrnMenu extends AbstractContainerMenu {
     private final Container container;
@@ -19,7 +19,7 @@ public class LoginarUrnMenu extends AbstractContainerMenu {
     }
 
     public LoginarUrnMenu(int containerId, Inventory playerInventory, Container container) {
-        super(LuMenuTypes.LOGINAR_URN.get(), containerId);
+        super(LsMenuTypes.LOGINAR_URN.get(), containerId);
         this.container = container;
 
         for(int k = 0; k < 3; ++k) {

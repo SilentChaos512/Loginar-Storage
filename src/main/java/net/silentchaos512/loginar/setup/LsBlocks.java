@@ -15,7 +15,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class LuBlocks {
+public class LsBlocks {
     public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, LoginarMod.MOD_ID);
 
     public static final BlockRegistryObject<LoginarUrnBlock> LOGINAR_URN = register("loginar_urn", () ->
@@ -32,12 +32,12 @@ public class LuBlocks {
     }
 
     private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block) {
-        return register(name, block, LuBlocks::defaultItem);
+        return register(name, block, LsBlocks::defaultItem);
     }
 
     private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<? extends BlockItem>> item) {
         BlockRegistryObject<T> ret = registerNoItem(name, block);
-        LuItems.REGISTER.register(name, item.apply(ret));
+        LsItems.REGISTER.register(name, item.apply(ret));
         return ret;
     }
 

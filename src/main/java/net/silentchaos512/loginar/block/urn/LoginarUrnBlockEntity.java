@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import net.silentchaos512.loginar.setup.LuBlockEntityTypes;
+import net.silentchaos512.loginar.setup.LsBlockEntityTypes;
 import net.silentchaos512.loginar.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +25,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     private int[] slots;
 
     public LoginarUrnBlockEntity(BlockPos pos, BlockState state) {
-        super(LuBlockEntityTypes.LOGINAR_URN.get(), pos, state);
+        super(LsBlockEntityTypes.LOGINAR_URN.get(), pos, state);
         this.data = new UrnData(27, 0x985F45, 0x33EBCB); // FIXME
         this.itemStacks = NonNullList.withSize(data.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, data.inventorySize()).toArray();
