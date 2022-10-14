@@ -2,6 +2,8 @@ package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
@@ -28,6 +30,9 @@ public class LsItems {
                     .food(LsFoods.LOGINAR_CALAMARI)
             )
     );
+
+    public static final ItemRegistryObject<ForgeSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
+            new ForgeSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
 
     private static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
         return new ItemRegistryObject<>(REGISTER.register(name, item));

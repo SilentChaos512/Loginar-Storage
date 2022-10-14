@@ -5,10 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.silentchaos512.loginar.setup.LsBlockEntityTypes;
-import net.silentchaos512.loginar.setup.LsBlocks;
-import net.silentchaos512.loginar.setup.LsItems;
-import net.silentchaos512.loginar.setup.LsMenuTypes;
+import net.silentchaos512.loginar.setup.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +29,7 @@ public final class LoginarMod {
 
         LsBlockEntityTypes.REGISTER.register(modEventBus);
         LsBlocks.REGISTER.register(modEventBus);
+        LsEntityTypes.REGISTER.register(modEventBus);
         LsItems.REGISTER.register(modEventBus);
         LsMenuTypes.REGISTER.register(modEventBus);
     }
