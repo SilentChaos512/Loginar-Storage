@@ -23,6 +23,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_ANTENNA, "Loginar Antenna");
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
+        addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
     }
 
     private void add(String prefix, String suffix, String value) {

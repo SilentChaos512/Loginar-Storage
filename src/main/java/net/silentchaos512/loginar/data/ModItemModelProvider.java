@@ -30,6 +30,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.LOGINAR_ANTENNA, itemGenerated);
         builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
         builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
+
+        builder(LsItems.LOGINAR_SPAWN_EGG)
+                .parent(getExistingFile(mcLoc("item/template_spawn_egg")));
     }
 
     private ItemModelBuilder builder(ItemLike item) {
