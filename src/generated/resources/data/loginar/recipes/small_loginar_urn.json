@@ -1,0 +1,25 @@
+{
+  "type": "loginar:urn_upgrade",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/copper"
+    },
+    "*": {
+      "item": "loginar:tiny_loginar_urn"
+    },
+    "a": {
+      "tag": "forge:gems/amethyst"
+    },
+    "b": {
+      "item": "minecraft:glow_berries"
+    }
+  },
+  "pattern": [
+    "#a#",
+    "#*#",
+    "#b#"
+  ],
+  "result": {
+    "item": "loginar:small_loginar_urn"
+  }
+}

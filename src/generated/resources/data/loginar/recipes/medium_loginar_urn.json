@@ -1,0 +1,28 @@
+{
+  "type": "loginar:urn_upgrade",
+  "key": {
+    "#": {
+      "item": "minecraft:blackstone"
+    },
+    "*": {
+      "item": "loginar:small_loginar_urn"
+    },
+    "/": {
+      "tag": "forge:rods/blaze"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "q": {
+      "tag": "forge:gems/quartz"
+    }
+  },
+  "pattern": [
+    "/g/",
+    "q*q",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:medium_loginar_urn"
+  }
+}
