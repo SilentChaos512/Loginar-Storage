@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:terracotta"
+    },
+    "0": {
+      "tag": "forge:gems"
+    },
+    "~": {
+      "item": "loginar:loginar_antenna"
+    }
+  },
+  "pattern": [
+    "#~#",
+    "#0#",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:tiny_loginar_urn"
+  }
+}

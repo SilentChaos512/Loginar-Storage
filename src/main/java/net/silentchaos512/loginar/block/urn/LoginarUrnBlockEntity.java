@@ -13,20 +13,22 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import net.silentchaos512.loginar.setup.LsBlockEntityTypes;
+import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.IntStream;
 
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
+    private final UrnTypes type;
     private final UrnData data;
     private NonNullList<ItemStack> itemStacks;
     private int[] slots;
 
-    public LoginarUrnBlockEntity(BlockPos pos, BlockState state) {
-        super(LsBlockEntityTypes.LOGINAR_URN.get(), pos, state);
-        this.data = new UrnData(27, 0x985F45, 0x33EBCB); // FIXME
+    public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
+        super(type.blockEntity().get(), pos, state);
+        this.type = type;
+        this.data = new UrnData(type.getInventorySize(), 0x985F45, 0x33EBCB); // FIXME
         this.itemStacks = NonNullList.withSize(data.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, data.inventorySize()).toArray();
     }

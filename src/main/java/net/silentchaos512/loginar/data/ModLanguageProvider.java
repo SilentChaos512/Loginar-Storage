@@ -14,7 +14,12 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         // Blocks
-        addBlock(LsBlocks.LOGINAR_URN, "Loginar Urn");
+        addBlock(LsBlocks.TINY_LOGINAR_URN, "Loginar Urn (Tiny)");
+        addBlock(LsBlocks.SMALL_LOGINAR_URN, "Loginar Urn (Small)");
+        addBlock(LsBlocks.MEDIUM_LOGINAR_URN, "Loginar Urn (Medium)");
+        addBlock(LsBlocks.LARGE_LOGINAR_URN, "Loginar Urn (Large)");
+        addBlock(LsBlocks.HUGE_LOGINAR_URN, "Loginar Urn (Huge)");
+        addBlock(LsBlocks.SUPER_LOGINAR_URN, "Loginar Urn (Super)");
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");

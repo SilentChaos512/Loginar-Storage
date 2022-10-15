@@ -1,5 +1,10 @@
 {
-  "block.loginar.loginar_urn": "Loginar Urn",
+  "block.loginar.huge_loginar_urn": "Loginar Urn (Huge)",
+  "block.loginar.large_loginar_urn": "Loginar Urn (Large)",
+  "block.loginar.medium_loginar_urn": "Loginar Urn (Medium)",
+  "block.loginar.small_loginar_urn": "Loginar Urn (Small)",
+  "block.loginar.super_loginar_urn": "Loginar Urn (Super)",
+  "block.loginar.tiny_loginar_urn": "Loginar Urn (Tiny)",
   "container.loginar.loginar_urn": "Loginar Urn",
   "item.loginar.loginar_antenna": "Loginar Antenna",
   "item.loginar.loginar_calamari": "Loginar Calamari",

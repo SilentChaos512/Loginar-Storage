@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "loginar:block/loginar_urn"
+    }
+  }
+}

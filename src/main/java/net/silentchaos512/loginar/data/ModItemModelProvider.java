@@ -3,12 +3,11 @@ package net.silentchaos512.loginar.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsBlocks;
@@ -21,9 +20,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        LsBlocks.REGISTER.getEntries().stream()
-                .map(RegistryObject::get)
-                .forEach(this::blockItemModel);
+        registerBlocks();
 
         ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
 
@@ -33,6 +30,16 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         builder(LsItems.LOGINAR_SPAWN_EGG)
                 .parent(getExistingFile(mcLoc("item/template_spawn_egg")));
+    }
+
+    private void registerBlocks() {
+        ResourceLocation urnBlockModel = modLoc("block/loginar_urn");
+        blockItemModel(LsBlocks.TINY_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.SMALL_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.MEDIUM_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.LARGE_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.HUGE_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.SUPER_LOGINAR_URN, urnBlockModel);
     }
 
     private ItemModelBuilder builder(ItemLike item) {
@@ -48,8 +55,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         return getBuilder(NameUtils.fromItem(item).getPath()).parent(parent).texture("layer0", texture);
     }
 
-    private void blockItemModel(Block block) {
+    private void blockItemModel(IBlockProvider block) {
         String name = NameUtils.fromBlock(block).getPath();
-        withExistingParent(name, modLoc("block/" + name));
+        blockItemModel(block, modLoc("block/" + name));
+    }
+
+    private void blockItemModel(IBlockProvider block, ResourceLocation parent) {
+        String name = NameUtils.fromBlock(block).getPath();
+        withExistingParent(name, parent);
     }
 }

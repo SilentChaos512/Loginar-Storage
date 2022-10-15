@@ -8,9 +8,8 @@ import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.DynamicLoot;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -24,10 +23,12 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.setup.LsBlockEntityTypes;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.setup.UrnTypes;
 
 import java.util.List;
 import java.util.Map;
@@ -67,25 +68,29 @@ public class ModLootTableProvider extends LootTableProvider {
         @Override
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             // Loginar urns (very similar to shulker boxes)
-            add(LsBlocks.LOGINAR_URN.get(), LootTable.lootTable()
-                    .withPool(applyExplosionCondition(LsBlocks.LOGINAR_URN, LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(LsBlocks.LOGINAR_URN)
-                                    .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-                                    .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
-                                            .copy("Lock", "BlockEntityTag.Lock")
-                                            .copy("LootTable", "BlockEntityTag.LootTable")
-                                            .copy("LootTableSeed", "BlockEntityTag.LootTableSeed")
-                                            .copy("Lidded", "BlockEntityTag.Lidded")
-                                            .copy("Color", "BlockEntityTag.Color")
-                                            .copy("Gem", "BlockEntityTag.Gem")
-                                            .copy("Upgrades", "BlockEntityTag.Upgrades"))
-                                    .apply(SetContainerContents.setContents(LsBlockEntityTypes.LOGINAR_URN.get())
-                                            .withEntry(DynamicLoot.dynamicEntry(ShulkerBoxBlock.CONTENTS))
-                                    )
-                            )
-                    ))
-            );
+            for (UrnTypes type : UrnTypes.values()) {
+                LoginarUrnBlock block = type.block().get();
+                BlockEntityType<LoginarUrnBlockEntity> blockEntity = type.blockEntity().get();
+                add(block, LootTable.lootTable()
+                        .withPool(applyExplosionCondition(block, LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(block)
+                                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
+                                        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
+                                                .copy("Lock", "BlockEntityTag.Lock")
+                                                .copy("LootTable", "BlockEntityTag.LootTable")
+                                                .copy("LootTableSeed", "BlockEntityTag.LootTableSeed")
+                                                .copy("Lidded", "BlockEntityTag.Lidded")
+                                                .copy("Color", "BlockEntityTag.Color")
+                                                .copy("Gem", "BlockEntityTag.Gem")
+                                                .copy("Upgrades", "BlockEntityTag.Upgrades"))
+                                        .apply(SetContainerContents.setContents(blockEntity)
+                                                .withEntry(DynamicLoot.dynamicEntry(LoginarUrnBlock.CONTENTS))
+                                        )
+                                )
+                        ))
+                );
+            }
         }
 
         @Override

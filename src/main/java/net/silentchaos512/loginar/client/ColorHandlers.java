@@ -13,11 +13,11 @@ public final class ColorHandlers {
 
     @SubscribeEvent
     public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register(LoginarUrnBlock::getBlockColor, LsBlocks.LOGINAR_URN.get());
+        event.register(LoginarUrnBlock::getBlockColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
     }
 
     @SubscribeEvent
     public static void onItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(LoginarUrnBlock::getItemColor, LsBlocks.LOGINAR_URN.get());
+        event.register(LoginarUrnBlock::getItemColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
     }
 }
