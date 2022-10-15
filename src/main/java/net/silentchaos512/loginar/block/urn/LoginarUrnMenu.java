@@ -6,37 +6,48 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ShulkerBoxSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
 public class LoginarUrnMenu extends AbstractContainerMenu {
     private final Container container;
+    private final int containerRows;
 
     public LoginarUrnMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        this(containerId, playerInventory, new SimpleContainer(27));
+        this(containerId, playerInventory, new SimpleContainer(buf.readByte()));
     }
 
     public LoginarUrnMenu(int containerId, Inventory playerInventory, Container container) {
         super(LsMenuTypes.LOGINAR_URN.get(), containerId);
         this.container = container;
+        checkContainerSize(this.container, this.container.getContainerSize());
+        this.containerRows = this.container.getContainerSize() / 9;
+//        this.container.startOpen(playerInventory.player);
+        int i = (containerRows - 4) * 18;
 
-        for(int k = 0; k < 3; ++k) {
-            for(int l = 0; l < 9; ++l) {
-                this.addSlot(new ShulkerBoxSlot(container, l + k * 9, 8 + l * 18, 18 + k * 18));
+        // Urn inventory slots
+        for(int j = 0; j < containerRows; ++j) {
+            for(int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(this.container, k + j * 9, 8 + k * 18, 18 + j * 18));
             }
         }
 
-        for(int i1 = 0; i1 < 3; ++i1) {
-            for(int k1 = 0; k1 < 9; ++k1) {
-                this.addSlot(new Slot(playerInventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 84 + i1 * 18));
+        // Player inventory slots
+        for(int l = 0; l < 3; ++l) {
+            for(int j1 = 0; j1 < 9; ++j1) {
+                this.addSlot(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
             }
         }
 
-        for(int j1 = 0; j1 < 9; ++j1) {
-            this.addSlot(new Slot(playerInventory, j1, 8 + j1 * 18, 142));
+        // Player hotbar slots
+        for(int i1 = 0; i1 < 9; ++i1) {
+            this.addSlot(new Slot(playerInventory, i1, 8 + i1 * 18, 161 + i));
         }
+    }
+
+    public int getRowCount() {
+        return this.containerRows;
     }
 
     @Override

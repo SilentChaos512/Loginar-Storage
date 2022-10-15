@@ -3,7 +3,9 @@ package net.silentchaos512.loginar.block.urn;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,9 +30,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
-        this.data = new UrnData(type.getInventorySize(), 0x985F45, 0x33EBCB); // FIXME
-        this.itemStacks = NonNullList.withSize(data.inventorySize(), ItemStack.EMPTY);
-        this.slots = IntStream.range(0, data.inventorySize()).toArray();
+        this.data = new UrnData(this.type.inventorySize(), 0x985F45, 0x33EBCB); // FIXME
+        this.itemStacks = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
+        this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
 
     public int getClayColor() {
@@ -72,13 +74,30 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int p_58627_, Inventory p_58628_) {
-        return new LoginarUrnMenu(p_58627_, p_58628_, this);
+    protected AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
+        return new LoginarUrnMenu(containerId, playerInventory, this);
     }
 
     @Override
     public int getContainerSize() {
         return this.data.inventorySize();
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(tag) && tag.contains("Items", 9)) {
+            ContainerHelper.loadAllItems(tag, this.itemStacks);
+        }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, this.itemStacks, false);
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ public enum UrnTypes {
         this.blockEntity = blockEntity;
     }
 
-    public int getInventorySize() {
+    public int inventorySize() {
         return inventorySize;
     }
 

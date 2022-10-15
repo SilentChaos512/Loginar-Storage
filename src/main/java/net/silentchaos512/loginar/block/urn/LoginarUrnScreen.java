@@ -9,26 +9,33 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class LoginarUrnScreen extends AbstractContainerScreen<LoginarUrnMenu> {
-    private static final ResourceLocation CONTAINER_TEXTURE = new ResourceLocation("textures/gui/container/shulker_box.png");
+    private static final ResourceLocation CONTAINER_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
+
+    private final int containerRows;
 
     public LoginarUrnScreen(LoginarUrnMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        ++this.imageHeight;
+        this.passEvents = false;
+        int i = 222;
+        int j = 114;
+        this.containerRows = menu.getRowCount();
+        this.imageHeight = 114 + this.containerRows * 18;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
-    public void render(PoseStack stack, int p_99250_, int p_99251_, float p_99252_) {
+    public void render(PoseStack stack, int p_98419_, int p_98420_, float p_98421_) {
         this.renderBackground(stack);
-        super.render(stack, p_99250_, p_99251_, p_99252_);
-        this.renderTooltip(stack, p_99250_, p_99251_);
+        super.render(stack, p_98419_, p_98420_, p_98421_);
+        this.renderTooltip(stack, p_98419_, p_98420_);
     }
 
-    @Override
-    protected void renderBg(PoseStack stack, float p_97788_, int p_97789_, int p_97790_) {
+    protected void renderBg(PoseStack stack, float p_98414_, int p_98415_, int p_98416_) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, CONTAINER_TEXTURE);
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        this.blit(stack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(stack, i, j, 0, 0, this.imageWidth, this.containerRows * 18 + 17);
+        this.blit(stack, i, j + this.containerRows * 18 + 17, 0, 126, this.imageWidth, 96);
     }
 }

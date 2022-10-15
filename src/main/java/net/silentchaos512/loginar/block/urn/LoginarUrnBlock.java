@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.utils.Color;
 import org.jetbrains.annotations.Nullable;
@@ -104,7 +106,8 @@ public class LoginarUrnBlock extends BaseEntityBlock {
             BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof LoginarUrnBlockEntity) {
                 LoginarUrnBlockEntity urn = (LoginarUrnBlockEntity) blockentity;
-                player.openMenu(urn);
+//                player.openMenu(urn);
+                NetworkHooks.openScreen((ServerPlayer) player, urn, buf -> buf.writeByte(this.type.inventorySize()));
 //                player.awardStat(Stats.OPEN_SHULKER_BOX);
                 PiglinAi.angerNearbyPiglins(player, true);
 

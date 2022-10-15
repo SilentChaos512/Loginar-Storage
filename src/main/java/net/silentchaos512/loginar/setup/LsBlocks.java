@@ -63,7 +63,7 @@ public class LsBlocks {
     @NotNull
     private static BlockBehaviour.Properties urnProps() {
         return BlockBehaviour.Properties.of(Material.STONE)
-                .strength(3f)
+                .strength(2f)
                 .noOcclusion()
                 .isSuffocating((state, level, pos) -> false)
                 .isViewBlocking((state, level, pos) -> false);

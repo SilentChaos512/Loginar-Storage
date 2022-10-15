@@ -1,0 +1,77 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "Lock",
+                  "target": "BlockEntityTag.Lock"
+                },
+                {
+                  "op": "replace",
+                  "source": "LootTable",
+                  "target": "BlockEntityTag.LootTable"
+                },
+                {
+                  "op": "replace",
+                  "source": "LootTableSeed",
+                  "target": "BlockEntityTag.LootTableSeed"
+                },
+                {
+                  "op": "replace",
+                  "source": "Lidded",
+                  "target": "BlockEntityTag.Lidded"
+                },
+                {
+                  "op": "replace",
+                  "source": "Color",
+                  "target": "BlockEntityTag.Color"
+                },
+                {
+                  "op": "replace",
+                  "source": "Gem",
+                  "target": "BlockEntityTag.Gem"
+                },
+                {
+                  "op": "replace",
+                  "source": "Upgrades",
+                  "target": "BlockEntityTag.Upgrades"
+                }
+              ],
+              "source": "block_entity"
+            },
+            {
+              "type": "loginar:tiny_loginar_urn",
+              "entries": [
+                {
+                  "type": "minecraft:dynamic",
+                  "name": "minecraft:contents"
+                }
+              ],
+              "function": "minecraft:set_contents"
+            }
+          ],
+          "name": "loginar:tiny_loginar_urn"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

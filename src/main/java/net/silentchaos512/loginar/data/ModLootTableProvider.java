@@ -66,7 +66,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
     public static final class ModBlockLoot extends BlockLoot {
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        protected void addTables() {
             // Loginar urns (very similar to shulker boxes)
             for (UrnTypes type : UrnTypes.values()) {
                 LoginarUrnBlock block = type.block().get();
