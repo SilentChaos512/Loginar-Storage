@@ -2,12 +2,12 @@ package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.item.LoginarAntennaItem;
 import net.silentchaos512.loginar.item.LoginarTentacleItem;
 
 import java.util.function.Supplier;
@@ -15,8 +15,8 @@ import java.util.function.Supplier;
 public class LsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, LoginarMod.MOD_ID);
 
-    public static final ItemRegistryObject<Item> LOGINAR_ANTENNA = register("loginar_antenna", () ->
-            new Item(props())
+    public static final ItemRegistryObject<LoginarAntennaItem> LOGINAR_ANTENNA = register("loginar_antenna", () ->
+            new LoginarAntennaItem(props())
     );
     public static final ItemRegistryObject<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
             new LoginarTentacleItem(props()

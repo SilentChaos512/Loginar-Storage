@@ -26,6 +26,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Items
         addItem(LsItems.LOGINAR_ANTENNA, "Loginar Antenna");
+        add("item.loginar.loginar_antenna.lit", "The antenna is shining faintly...");
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");

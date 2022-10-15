@@ -7,6 +7,7 @@
   "block.loginar.tiny_loginar_urn": "Loginar Urn (Tiny)",
   "container.loginar.loginar_urn": "Loginar Urn",
   "item.loginar.loginar_antenna": "Loginar Antenna",
+  "item.loginar.loginar_antenna.lit": "The antenna is shining faintly...",
   "item.loginar.loginar_calamari": "Loginar Calamari",
   "item.loginar.loginar_spawn_egg": "Loginar Spawn Egg",
   "item.loginar.loginar_tentacle": "Loginar Tentacle"
