@@ -1,9 +1,9 @@
 {
   "type": "loginar:urn_base",
-  "clay_color": "#985F45",
+  "clay_color": "#D1B1A1",
   "key": {
     "#": {
-      "item": "minecraft:terracotta"
+      "item": "minecraft:white_terracotta"
     },
     "0": {
       "tag": "forge:gems"

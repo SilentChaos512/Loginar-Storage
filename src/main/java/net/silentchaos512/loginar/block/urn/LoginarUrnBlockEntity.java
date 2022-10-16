@@ -23,14 +23,14 @@ import java.util.stream.IntStream;
 
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     private final UrnTypes type;
-    private final UrnData data;
+    private UrnData data;
     private NonNullList<ItemStack> itemStacks;
     private int[] slots;
 
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
-        this.data = new UrnData(this.type.inventorySize(), 0x985F45, 0x33EBCB); // FIXME
+        this.data = new UrnData(this.type.inventorySize(), UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
         this.itemStacks = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
@@ -90,6 +90,18 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         if (!this.tryLoadLootTable(tag) && tag.contains("Items", 9)) {
             ContainerHelper.loadAllItems(tag, this.itemStacks);
         }
+
+        int clayColor = UrnData.DEFAULT_CLAY_COLOR;
+        if (tag.contains(UrnData.NBT_CLAY_COLOR)) {
+            clayColor = tag.getInt(UrnData.NBT_CLAY_COLOR);
+        }
+
+        int gemColor = UrnData.DEFAULT_GEM_COLOR;
+        if (tag.contains(UrnData.NBT_GEM_COLOR)) {
+            gemColor = tag.getInt(UrnData.NBT_GEM_COLOR);
+        }
+
+        this.data = new UrnData(this.type.inventorySize(), clayColor, gemColor);
     }
 
     @Override
@@ -98,6 +110,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.itemStacks, false);
         }
+
+        tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
+        tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());
     }
 
     @Override

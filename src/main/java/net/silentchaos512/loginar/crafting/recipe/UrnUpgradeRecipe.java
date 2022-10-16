@@ -6,12 +6,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 
-public class UrnUpgradeRecipe extends ExtendedShapedRecipe {
+public class UrnUpgradeRecipe extends UrnBaseRecipe {
     public UrnUpgradeRecipe(ShapedRecipe recipe) {
         super(recipe);
     }

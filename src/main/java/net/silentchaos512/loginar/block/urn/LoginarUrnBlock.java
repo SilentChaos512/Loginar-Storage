@@ -85,14 +85,21 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
-        // TODO
         if (tintIndex == 0) {
             // Main body (clay)
-            return 0x985F45;
+            return UrnHelper.getClayColor(stack);
         } else if (tintIndex == 1) {
-            return 0x33EBCB;
+            // Decorative gem
+            return UrnHelper.getGemColor(stack);
         }
         return Color.VALUE_WHITE;
+    }
+
+    public ItemStack makeStack(int clayColor, int gemColor) {
+        ItemStack stack = new ItemStack(this);
+        UrnHelper.setClayColor(stack, clayColor);
+        UrnHelper.setGemColor(stack, gemColor);
+        return stack;
     }
 
     @SuppressWarnings("deprecation")
