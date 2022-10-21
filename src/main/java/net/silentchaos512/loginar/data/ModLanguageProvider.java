@@ -14,12 +14,12 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         // Blocks
-        addBlock(LsBlocks.TINY_LOGINAR_URN, "Loginar Urn (Tiny)");
-        addBlock(LsBlocks.SMALL_LOGINAR_URN, "Loginar Urn (Small)");
-        addBlock(LsBlocks.MEDIUM_LOGINAR_URN, "Loginar Urn (Medium)");
-        addBlock(LsBlocks.LARGE_LOGINAR_URN, "Loginar Urn (Large)");
-        addBlock(LsBlocks.HUGE_LOGINAR_URN, "Loginar Urn (Huge)");
-        addBlock(LsBlocks.SUPER_LOGINAR_URN, "Loginar Urn (Super)");
+        addBlock(LsBlocks.TINY_LOGINAR_URN, "Tiny Loginar Urn");
+        addBlock(LsBlocks.SMALL_LOGINAR_URN, "Small Loginar Urn");
+        addBlock(LsBlocks.MEDIUM_LOGINAR_URN, "Medium Loginar Urn");
+        addBlock(LsBlocks.LARGE_LOGINAR_URN, "Large Loginar Urn");
+        addBlock(LsBlocks.HUGE_LOGINAR_URN, "Huge Loginar Urn");
+        addBlock(LsBlocks.SUPER_LOGINAR_URN, "Super Loginar Urn");
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
@@ -34,6 +34,9 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
+
+        // Misc
+        add("misc", "not_implemented", "Not Implemented! This feature does not work yet.");
     }
 
     private void add(String prefix, String suffix, String value) {

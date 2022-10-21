@@ -1,10 +1,10 @@
 {
-  "block.loginar.huge_loginar_urn": "Loginar Urn (Huge)",
-  "block.loginar.large_loginar_urn": "Loginar Urn (Large)",
-  "block.loginar.medium_loginar_urn": "Loginar Urn (Medium)",
-  "block.loginar.small_loginar_urn": "Loginar Urn (Small)",
-  "block.loginar.super_loginar_urn": "Loginar Urn (Super)",
-  "block.loginar.tiny_loginar_urn": "Loginar Urn (Tiny)",
+  "block.loginar.huge_loginar_urn": "Huge Loginar Urn",
+  "block.loginar.large_loginar_urn": "Large Loginar Urn",
+  "block.loginar.medium_loginar_urn": "Medium Loginar Urn",
+  "block.loginar.small_loginar_urn": "Small Loginar Urn",
+  "block.loginar.super_loginar_urn": "Super Loginar Urn",
+  "block.loginar.tiny_loginar_urn": "Tiny Loginar Urn",
   "container.loginar.loginar_urn": "Loginar Urn",
   "item.loginar.loginar_antenna": "Loginar Antenna",
   "item.loginar.loginar_antenna.lit": "The antenna is shining faintly...",
@@ -12,5 +12,6 @@
   "item.loginar.loginar_spawn_egg": "Loginar Spawn Egg",
   "item.loginar.loginar_tentacle": "Loginar Tentacle",
   "key.category.loginar": "Loginar Storage",
-  "key.loginar.swapUrnItems": "Swap Urn Items"
+  "key.loginar.swapUrnItems": "Swap Urn Items",
+  "misc.loginar.not_implemented": "Not Implemented! This feature does not work yet."
 }

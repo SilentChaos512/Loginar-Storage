@@ -1,10 +1,10 @@
 # Loginar Storage
 
-TODO - description
+Loginar Storage aims to improve inventory management by adding new ways to store and transport items. The mod is meant to "fit in" with vanilla, while also being useful in a heavily modded environment.
 
 ## Links and Downloads
 
-- [CurseForge](https://minecraft.curseforge.com/projects/loginar-storage) (downloads and more information)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/loginar-storage) (downloads and more information)
 - [Wiki](https://github.com/SilentChaos512/Loginar-Storage/wiki) (advanced information)
 - [GitHub repository](https://github.com/SilentChaos512/Loginar-Storage) (source code)
 - [Issue Tracker on GitHub](https://github.com/SilentChaos512/Loginar-Storage/issues) (bug reports and feature requests)
