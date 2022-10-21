@@ -1,0 +1,10 @@
+{
+  "values": [
+    "loginar:tiny_loginar_urn",
+    "loginar:small_loginar_urn",
+    "loginar:medium_loginar_urn",
+    "loginar:large_loginar_urn",
+    "loginar:huge_loginar_urn",
+    "loginar:super_loginar_urn"
+  ]
+}
