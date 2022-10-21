@@ -10,5 +10,7 @@
   "item.loginar.loginar_antenna.lit": "The antenna is shining faintly...",
   "item.loginar.loginar_calamari": "Loginar Calamari",
   "item.loginar.loginar_spawn_egg": "Loginar Spawn Egg",
-  "item.loginar.loginar_tentacle": "Loginar Tentacle"
+  "item.loginar.loginar_tentacle": "Loginar Tentacle",
+  "key.category.loginar": "Loginar Storage",
+  "key.loginar.swapUrnItems": "Swap Urn Items"
 }

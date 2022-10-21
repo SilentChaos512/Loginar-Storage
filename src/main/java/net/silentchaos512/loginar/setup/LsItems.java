@@ -9,12 +9,14 @@ import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.LoginarAntennaItem;
 import net.silentchaos512.loginar.item.LoginarTentacleItem;
+import net.silentchaos512.loginar.item.UpgradeItem;
 
 import java.util.function.Supplier;
 
 public class LsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, LoginarMod.MOD_ID);
 
+    // Loginar drops
     public static final ItemRegistryObject<LoginarAntennaItem> LOGINAR_ANTENNA = register("loginar_antenna", () ->
             new LoginarAntennaItem(props())
     );
@@ -31,6 +33,15 @@ public class LsItems {
             )
     );
 
+    // Urn upgrades
+    public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
+            new UpgradeItem(props())
+    );
+    public static final ItemRegistryObject<UpgradeItem> HOTBAR_SWAPPER_UPGRADE = register("hotbar_swapper_upgrade", () ->
+            new UpgradeItem(props())
+    );
+
+    // Misc
     public static final ItemRegistryObject<ForgeSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
             new ForgeSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
 

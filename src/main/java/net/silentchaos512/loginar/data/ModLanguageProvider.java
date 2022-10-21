@@ -24,6 +24,10 @@ public class ModLanguageProvider extends LanguageProvider {
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
 
+        // Keybindings
+        add("key.category." + LoginarMod.MOD_ID, "Loginar Storage");
+        add("key", "swapUrnItems", "Swap Urn Items");
+
         // Items
         addItem(LsItems.LOGINAR_ANTENNA, "Loginar Antenna");
         add("item.loginar.loginar_antenna.lit", "The antenna is shining faintly...");

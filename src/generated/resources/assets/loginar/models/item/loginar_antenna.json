@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "loginar:item/loginar_antenna_lit",
+      "predicate": {
+        "loginar:is_loginar_chunk": 1.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "loginar:item/loginar_antenna"
   }

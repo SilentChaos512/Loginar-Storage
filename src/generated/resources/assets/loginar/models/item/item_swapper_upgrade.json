@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "loginar:item/item_swapper_upgrade"
+  }
+}

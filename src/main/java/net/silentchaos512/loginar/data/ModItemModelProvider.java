@@ -12,6 +12,7 @@ import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.util.Const;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -24,9 +25,16 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
 
-        builder(LsItems.LOGINAR_ANTENNA, itemGenerated);
+        builder(LsItems.LOGINAR_ANTENNA, itemGenerated)
+                .override()
+                .predicate(Const.IS_LOGINAR_CHUNK, 1f)
+                .model(getBuilder("loginar_antenna_lit").parent(itemGenerated).texture("layer0", "item/loginar_antenna_lit"))
+                .end();
         builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
         builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
+
+        builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
+        builder(LsItems.HOTBAR_SWAPPER_UPGRADE, itemGenerated);
 
         builder(LsItems.LOGINAR_SPAWN_EGG)
                 .parent(getExistingFile(mcLoc("item/template_spawn_egg")));
