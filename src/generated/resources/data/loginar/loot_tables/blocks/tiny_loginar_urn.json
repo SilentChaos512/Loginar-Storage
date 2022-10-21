@@ -41,13 +41,13 @@
                 },
                 {
                   "op": "replace",
-                  "source": "Color",
-                  "target": "BlockEntityTag.Color"
+                  "source": "ClayColor",
+                  "target": "BlockEntityTag.ClayColor"
                 },
                 {
                   "op": "replace",
-                  "source": "Gem",
-                  "target": "BlockEntityTag.Gem"
+                  "source": "GemColor",
+                  "target": "BlockEntityTag.GemColor"
                 },
                 {
                   "op": "replace",
