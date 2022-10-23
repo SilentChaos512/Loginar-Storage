@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Urns can now acquire gem colors from Silent Gear materials (only if Silent Gear is installed)
 - Urns can now have their clay parts dyed any color by crafting them with dyes
+### Fixed
+- Urns not having the correct colors when placed as blocks
 
 ## [0.1.0] - 2022-10-21
 - First alpha release!

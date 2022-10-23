@@ -4,7 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,6 +16,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
@@ -123,6 +128,28 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
 
         tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
         tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tags = super.getUpdateTag();
+        this.data.writeNbt(tags);
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        super.onDataPacket(net, pkt);
+        CompoundTag tags = pkt.getTag();
+        if (tags != null) {
+            this.data = UrnData.readNbt(tags);
+        }
     }
 
     @Override
