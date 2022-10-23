@@ -14,6 +14,7 @@ import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.loginar.compat.SgearCompat;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.utils.Color;
 
@@ -78,7 +79,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         return ItemStack.EMPTY;
     }
 
-    private static int getGemColor(ItemStack stack) {
+    static int getGemColor(ItemStack stack) {
         for (Map.Entry<TagKey<Item>, Integer> entry : GEM_COLORS.entrySet()) {
             TagKey<Item> tag = entry.getKey();
             Integer color = entry.getValue();
@@ -86,6 +87,13 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
             if (stack.is(tag)) {
                 return color;
             }
+        }
+
+        // Try to get a color from Silent Gear
+        int gearMaterialColor = SgearCompat.getMainPartColor(stack);
+        if ((gearMaterialColor & 0xFFFFFF) != 0xFFFFFF) {
+            LoginarMod.LOGGER.debug("Got gem color {} for {} from Silent Gear", Color.format(gearMaterialColor), stack);
+            return gearMaterialColor;
         }
 
         return UrnData.DEFAULT_GEM_COLOR;

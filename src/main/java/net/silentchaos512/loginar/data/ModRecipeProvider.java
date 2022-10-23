@@ -30,6 +30,8 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         // Loginar Urn recipes
 
+        registerCustomRecipe(consumer, LsRecipeSerializers.URN_MODIFICATION.get());
+
         baseUrn(consumer, Blocks.TERRACOTTA, UrnData.DEFAULT_CLAY_COLOR);
         baseUrn(consumer, Blocks.WHITE_TERRACOTTA, 0xD1B1A1);
         baseUrn(consumer, Blocks.ORANGE_TERRACOTTA, 0xA05325);
