@@ -10,6 +10,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,6 +27,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     private UrnData data;
     private NonNullList<ItemStack> itemStacks;
     private int[] slots;
+    private boolean hasChanged = false;
 
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
@@ -33,6 +35,13 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         this.data = new UrnData(this.type.inventorySize(), UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
         this.itemStacks = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, LoginarUrnBlockEntity blockEntity) {
+        if (blockEntity.hasChanged) {
+            level.sendBlockUpdated(pos, state, state, 3);
+            blockEntity.hasChanged = false;
+        }
     }
 
     public int getClayColor() {
@@ -102,6 +111,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         }
 
         this.data = new UrnData(this.type.inventorySize(), clayColor, gemColor);
+        this.hasChanged = true;
     }
 
     @Override
