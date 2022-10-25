@@ -14,5 +14,6 @@ public class LsEntityTypes {
     public static final RegistryObject<EntityType<LoginarEntity>> LOGINAR = REGISTER.register("loginar", () ->
             EntityType.Builder.of(LoginarEntity::new, MobCategory.MONSTER)
                     .sized(0.875f, 1.25f)
+                    .fireImmune()
                     .build(LoginarMod.getId("loginar").toString()));
 }
