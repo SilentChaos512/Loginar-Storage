@@ -18,6 +18,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.silentchaos512.loginar.entity.ai.goal.LoginarFireballAttackGoal;
 
 import java.util.Random;
 
@@ -33,8 +34,8 @@ public class LoginarEntity extends Monster {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 8.0f, 0.6, 1.0));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 8.0f, 0.7, 1.275));
+        this.goalSelector.addGoal(4, new LoginarFireballAttackGoal(this));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D, 0.0F));
@@ -48,7 +49,7 @@ public class LoginarEntity extends Monster {
         return Monster.createMonsterAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.3)
-                .add(Attributes.FOLLOW_RANGE, 48.0)
+                .add(Attributes.FOLLOW_RANGE, 12.0)
                 .build();
     }
 
