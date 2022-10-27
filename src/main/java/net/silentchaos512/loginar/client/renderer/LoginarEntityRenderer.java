@@ -12,6 +12,7 @@ public class LoginarEntityRenderer extends MobRenderer<LoginarEntity, LoginarMod
 
     public LoginarEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new LoginarModel(context.bakeLayer(LoginarModel.LAYER_LOCATION)), 0.5f);
+        this.addLayer(new LoginarAntennaeLayer<>(this));
     }
 
     @Override
