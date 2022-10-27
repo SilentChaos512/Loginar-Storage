@@ -12,6 +12,7 @@ import net.minecraftforge.common.Tags;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
+import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.loginar.setup.LsTags;
 
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class UrnModifcationRecipe extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return LsRecipeSerializers.URN_MODIFICATION.get();
     }
 
     @Override
