@@ -87,7 +87,7 @@ public class LoginarFireballAttackGoal extends Goal {
                         }
 
                         for(int i = 0; i < 1; ++i) {
-                            SmallFireball smallfireball = new SmallFireball(this.loginar.level, this.loginar, this.loginar.getRandom().triangle(d1, 2.297D * d4), d2, this.loginar.getRandom().triangle(d3, 2.297D * d4));
+                            SmallFireball smallfireball = new SmallFireball(this.loginar.level, this.loginar, d1 + this.loginar.getRandom().nextGaussian() * d4, d2, d3 + this.loginar.getRandom().nextGaussian() * d4);
                             smallfireball.setPos(smallfireball.getX(), this.loginar.getY(0.5D) + 0.5D, smallfireball.getZ());
                             this.loginar.level.addFreshEntity(smallfireball);
                         }

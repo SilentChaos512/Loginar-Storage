@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.item;
 
+import net.minecraft.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +19,7 @@ public class LoginarAntennaItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (level instanceof ServerLevelAccessor && LoginarEntity.isSpawningChunk((ServerLevelAccessor) level, player.blockPosition())) {
-            player.sendSystemMessage(TextUtil.translate("item", "loginar_antenna.lit"));
+            player.sendMessage(TextUtil.translate("item", "loginar_antenna.lit"), Util.NIL_UUID);
         }
         return InteractionResultHolder.success(player.getItemInHand(hand));
     }

@@ -3,8 +3,8 @@ package net.silentchaos512.loginar.event;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -43,7 +43,7 @@ public final class LsClientModEvents {
     }
 
     @SubscribeEvent
-    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(KeyTracker.SWAP_URN_ITEMS);
+    public static void onRegisterKeyMappings(FMLClientSetupEvent event) {
+        ClientRegistry.registerKeyBinding(KeyTracker.SWAP_URN_ITEMS);
     }
 }

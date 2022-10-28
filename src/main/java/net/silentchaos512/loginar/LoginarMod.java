@@ -1,7 +1,6 @@
 package net.silentchaos512.loginar;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,7 +16,6 @@ public final class LoginarMod {
     public static final String MOD_NAME = "Loginar Storage";
 
     public static final Random RANDOM = new Random();
-    public static final RandomSource RANDOM_SOURCE = RandomSource.create();
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     public static LoginarMod INSTANCE;

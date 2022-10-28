@@ -15,7 +15,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 import java.util.Arrays;
 
 public class LsBlockEntityTypes {
-    public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, LoginarMod.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, LoginarMod.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<LoginarUrnBlockEntity>> TINY_LOGINAR_URN = registerUrn(UrnTypes.TINY, 1);
     public static final RegistryObject<BlockEntityType<LoginarUrnBlockEntity>> SMALL_LOGINAR_URN = registerUrn(UrnTypes.SMALL, 2);

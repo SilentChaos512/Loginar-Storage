@@ -9,7 +9,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.entity.LoginarEntity;
 
 public class LsEntityTypes {
-    public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, LoginarMod.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, LoginarMod.MOD_ID);
 
     public static final RegistryObject<EntityType<LoginarEntity>> LOGINAR = REGISTER.register("loginar", () ->
             EntityType.Builder.of(LoginarEntity::new, MobCategory.MONSTER)

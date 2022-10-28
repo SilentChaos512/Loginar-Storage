@@ -2,7 +2,6 @@ package net.silentchaos512.loginar.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -68,7 +67,7 @@ public class LoginarEntity extends Monster {
         return false;
     }
 
-    public static boolean canSpawn(EntityType<LoginarEntity> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean canSpawn(EntityType<LoginarEntity> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, Random random) {
         return level.getDifficulty() != Difficulty.PEACEFUL
                 && spawnType == MobSpawnType.SPAWNER
                 || (pos.getY() < 9 && isSpawningChunk(level, pos));

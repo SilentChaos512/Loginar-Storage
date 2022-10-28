@@ -11,7 +11,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnMenu;
 
 public class LsMenuTypes {
-    public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, LoginarMod.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, LoginarMod.MOD_ID);
 
     public static final RegistryObject<MenuType<LoginarUrnMenu>> LOGINAR_URN = register("loginar_urn",
             LoginarUrnMenu::new

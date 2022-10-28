@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.client;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
@@ -12,12 +12,12 @@ public final class ColorHandlers {
     private ColorHandlers() {}
 
     @SubscribeEvent
-    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register(LoginarUrnBlock::getBlockColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
+    public static void onBlockColors(ColorHandlerEvent.Block event) {
+        event.getBlockColors().register(LoginarUrnBlock::getBlockColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
     }
 
     @SubscribeEvent
-    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(LoginarUrnBlock::getItemColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
+    public static void onItemColors(ColorHandlerEvent.Item event) {
+        event.getItemColors().register(LoginarUrnBlock::getItemColor, LsBlocks.getUrns().toArray(new LoginarUrnBlock[0]));
     }
 }

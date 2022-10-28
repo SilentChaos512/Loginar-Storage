@@ -4,17 +4,27 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.silentchaos512.utils.Color;
 
 public final class TextUtil {
     private TextUtil() {throw new IllegalAccessError("Utility class");}
 
+    public static MutableComponent literal(String text) {
+        return new TextComponent(text);
+    }
+
+    public static MutableComponent translateStraight(String key, Object... args) {
+        return new TranslatableComponent(key, args);
+    }
+
     public static MutableComponent translate(String prefix, String suffix) {
-        return Component.translatable(prefix + ".loginar." + suffix);
+        return new TranslatableComponent(prefix + ".loginar." + suffix);
     }
 
     public static MutableComponent translate(String prefix, String suffix, Object... args) {
-        return Component.translatable(prefix + ".loginar." + suffix, args);
+        return new TranslatableComponent(prefix + ".loginar." + suffix, args);
     }
 
     public static MutableComponent misc(String key, Object... args) {

@@ -36,6 +36,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.UrnTypes;
+import net.silentchaos512.loginar.util.TextUtil;
 import net.silentchaos512.utils.Color;
 import org.jetbrains.annotations.Nullable;
 
@@ -122,7 +123,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
             if (blockentity instanceof LoginarUrnBlockEntity) {
                 LoginarUrnBlockEntity urn = (LoginarUrnBlockEntity) blockentity;
 //                player.openMenu(urn);
-                NetworkHooks.openScreen((ServerPlayer) player, urn, buf -> buf.writeByte(this.type.inventorySize()));
+                NetworkHooks.openGui((ServerPlayer) player, urn, buf -> buf.writeByte(this.type.inventorySize()));
 //                player.awardStat(Stats.OPEN_SHULKER_BOX);
                 PiglinAi.angerNearbyPiglins(player, true);
 
@@ -200,7 +201,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         CompoundTag compoundtag = BlockItem.getBlockEntityData(stack);
         if (compoundtag != null) {
             if (compoundtag.contains("LootTable", 8)) {
-                tooltip.add(Component.literal("???????"));
+                tooltip.add(TextUtil.literal("???????"));
             }
 
             if (compoundtag.contains("Items", 9)) {
@@ -222,7 +223,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
                 }
 
                 if (j - i > 0) {
-                    tooltip.add(Component.translatable("container.shulkerBox.more", j - i).withStyle(ChatFormatting.ITALIC));
+                    tooltip.add(TextUtil.translateStraight("container.shulkerBox.more", j - i).withStyle(ChatFormatting.ITALIC));
                 }
             }
         }

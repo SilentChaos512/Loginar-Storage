@@ -64,12 +64,12 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private void blockItemModel(IBlockProvider block) {
-        String name = NameUtils.fromBlock(block).getPath();
+        String name = NameUtils.from(block.asBlock()).getPath();
         blockItemModel(block, modLoc("block/" + name));
     }
 
     private void blockItemModel(IBlockProvider block, ResourceLocation parent) {
-        String name = NameUtils.fromBlock(block).getPath();
+        String name = NameUtils.from(block.asBlock()).getPath();
         withExistingParent(name, parent);
     }
 }
