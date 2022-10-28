@@ -4,10 +4,12 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.ChestLoot;
 import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.*;
@@ -29,6 +31,7 @@ import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.UrnTypes;
+import net.silentchaos512.loginar.util.Const;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,7 @@ public class ModLootTableProvider extends LootTableProvider {
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return ImmutableList.of(
                 Pair.of(ModBlockLoot::new, LootContextParamSets.BLOCK),
+                Pair.of(ModChestLoot::new, LootContextParamSets.CHEST),
                 Pair.of(ModEntityLoot::new, LootContextParamSets.ENTITY)
         );
     }
@@ -96,6 +100,76 @@ public class ModLootTableProvider extends LootTableProvider {
         @Override
         protected Iterable<Block> getKnownBlocks() {
             return LsBlocks.REGISTER.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+        }
+    }
+
+    public static final class ModChestLoot extends ChestLoot {
+        @Override
+        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+            consumer.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(2, 3))
+                            .add(LootItem.lootTableItem(LsItems.LOGINAR_ANTENNA)
+                                    .setWeight(3)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
+                            )
+                            .add(LootItem.lootTableItem(Items.BONE)
+                                    .setWeight(2)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 6)))
+                            )
+                            .add(LootItem.lootTableItem(Items.GUNPOWDER)
+                                    .setWeight(2)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4)))
+                            )
+                            .add(LootItem.lootTableItem(Items.NAME_TAG)
+                                    .setWeight(1)
+                            )
+                            .add(LootItem.lootTableItem(Items.CLOCK)
+                                    .setWeight(1)
+                            )
+                    )
+                    .withPool(LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(2, 4))
+                            .add(LootItem.lootTableItem(Items.APPLE)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4)))
+                            )
+                            .add(LootItem.lootTableItem(Items.COAL)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10)))
+                            )
+                            .add(LootItem.lootTableItem(Items.GLOW_BERRIES)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
+                            )
+                            .add(LootItem.lootTableItem(Items.MELON_SLICE)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8)))
+                            )
+                            .add(LootItem.lootTableItem(Items.STICK)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 7)))
+                            )
+                    )
+                    .withPool(LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(1, 2))
+                            .add(LootItem.lootTableItem(Items.DIAMOND)
+                                    .setWeight(1)
+                            )
+                            .add(LootItem.lootTableItem(Items.EMERALD)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
+                            )
+                            .add(LootItem.lootTableItem(Items.QUARTZ)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 7)))
+                            )
+                            .add(LootItem.lootTableItem(Items.AMETHYST_SHARD)
+                                    .setWeight(1)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 6)))
+                            )
+                    )
+            );
         }
     }
 

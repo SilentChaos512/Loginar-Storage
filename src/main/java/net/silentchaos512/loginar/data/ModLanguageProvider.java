@@ -4,6 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsBlocks;
+import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsItems;
 
 public class ModLanguageProvider extends LanguageProvider {
@@ -23,6 +24,9 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
+
+        // Entities
+        addEntityType(LsEntityTypes.LOGINAR, "Loginar");
 
         // Keybindings
         add("key.category." + LoginarMod.MOD_ID, "Loginar Storage");

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "loginar:loginar_dungeon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 298198062,
+    "spacing": 12,
+    "separation": 6,
+    "type": "minecraft:random_spread"
+  }
+}
