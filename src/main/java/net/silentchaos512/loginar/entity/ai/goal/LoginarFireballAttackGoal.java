@@ -1,11 +1,13 @@
 package net.silentchaos512.loginar.entity.ai.goal;
 
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.setup.LsSounds;
 
 import java.util.EnumSet;
 
@@ -92,6 +94,8 @@ public class LoginarFireballAttackGoal extends Goal {
                             this.loginar.level.addFreshEntity(smallfireball);
                         }
                     }
+                } else if (this.attackTime == 20 && this.attackStep == 1) {
+                    loginar.level.playSound(null, loginar, LsSounds.LOGINAR_ATTACK.get(), SoundSource.HOSTILE, 1f, 1f);
                 }
 
                 this.loginar.getLookControl().setLookAt(targetEntity, 10.0F, 10.0F);

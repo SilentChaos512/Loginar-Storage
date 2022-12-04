@@ -1,9 +1,11 @@
 package net.silentchaos512.loginar.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -19,6 +21,8 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.silentchaos512.loginar.entity.ai.goal.LoginarFireballAttackGoal;
+import net.silentchaos512.loginar.setup.LsSounds;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -66,6 +70,22 @@ public class LoginarEntity extends Monster {
     @Override
     public boolean isOnFire() {
         return false;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return LsSounds.LOGINAR_IDLE.get();
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return LsSounds.LOGINAR_DEATH.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return LsSounds.LOGINAR_HURT.get();
     }
 
     public static boolean canSpawn(EntityType<LoginarEntity> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
