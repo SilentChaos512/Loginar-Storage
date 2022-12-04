@@ -36,7 +36,15 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
 
         // Misc
-        add("misc", "not_implemented", "Not Implemented! This feature does not work yet.");
+        add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");
+
+        // Subtitles
+        add("subtitles.block.loginar.urn.lid", "Loginar urn lid moves");
+        add("subtitles.block.loginar.urn.open", "Loginar urn opens");
+        add("subtitles.entity.loginar.attack", "Loginar barks");
+        add("subtitles.entity.loginar.death", "Loginar dies");
+        add("subtitles.entity.loginar.hurt", "Loginar hurt");
+        add("subtitles.entity.loginar.idle", "Loginar purrs");
     }
 
     private void add(String prefix, String suffix, String value) {

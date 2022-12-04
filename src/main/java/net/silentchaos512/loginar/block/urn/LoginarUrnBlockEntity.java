@@ -23,8 +23,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {

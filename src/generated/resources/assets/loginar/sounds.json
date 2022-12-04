@@ -1,0 +1,42 @@
+{
+  "block.loginar.urn.lid": {
+    "sounds": [
+      "loginar:urn_lid"
+    ],
+    "subtitle": "subtitles.block.loginar.urn.lid"
+  },
+  "block.loginar.urn.open": {
+    "sounds": [
+      "loginar:urn_open"
+    ],
+    "subtitle": "subtitles.block.loginar.urn.open"
+  },
+  "entity.loginar.attack": {
+    "sounds": [
+      "loginar:loginar_attack"
+    ],
+    "subtitle": "subtitles.entity.loginar.attack"
+  },
+  "entity.loginar.death": {
+    "sounds": [
+      "loginar:loginar_death1",
+      "loginar:loginar_death2"
+    ],
+    "subtitle": "subtitles.entity.loginar.death"
+  },
+  "entity.loginar.hurt": {
+    "sounds": [
+      "loginar:loginar_hurt1",
+      "loginar:loginar_hurt2",
+      "loginar:loginar_hurt3",
+      "loginar:loginar_hurt4"
+    ],
+    "subtitle": "subtitles.entity.loginar.hurt"
+  },
+  "entity.loginar.idle": {
+    "sounds": [
+      "loginar:loginar_idle"
+    ],
+    "subtitle": "subtitles.entity.loginar.idle"
+  }
+}

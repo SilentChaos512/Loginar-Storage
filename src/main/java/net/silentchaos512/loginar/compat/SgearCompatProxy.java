@@ -6,7 +6,6 @@ import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.gear.init.ModTags;
 import net.silentchaos512.utils.Color;
-
 final class SgearCompatProxy {
     private SgearCompatProxy() {}
 

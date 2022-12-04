@@ -31,6 +31,7 @@ public final class LoginarMod {
         LsItems.REGISTER.register(modEventBus);
         LsMenuTypes.REGISTER.register(modEventBus);
         LsRecipeSerializers.REGISTER.register(modEventBus);
+        LsSounds.REGISTER.register(modEventBus);
     }
 
     public static ResourceLocation getId(String path) {

@@ -13,5 +13,11 @@
   "item.loginar.loginar_tentacle": "Loginar Tentacle",
   "key.category.loginar": "Loginar Storage",
   "key.loginar.swapUrnItems": "Swap Urn Items",
-  "misc.loginar.not_implemented": "Not Implemented! This feature does not work yet."
+  "misc.loginar.not_implemented": "Not Implemented! This feature does not work yet. :(",
+  "subtitles.block.loginar.urn.lid": "Loginar urn lid moves",
+  "subtitles.block.loginar.urn.open": "Loginar urn opens",
+  "subtitles.entity.loginar.attack": "Loginar barks",
+  "subtitles.entity.loginar.death": "Loginar dies",
+  "subtitles.entity.loginar.hurt": "Loginar hurt",
+  "subtitles.entity.loginar.idle": "Loginar purrs"
 }

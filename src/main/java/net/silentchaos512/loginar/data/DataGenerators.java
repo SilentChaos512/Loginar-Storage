@@ -25,5 +25,6 @@ public final class DataGenerators {
         gen.addProvider(new ModLanguageProvider(gen));
         gen.addProvider(new ModBlockStateProvider(gen, existingFileHelper));
         gen.addProvider(new ModItemModelProvider(gen, existingFileHelper));
+        gen.addProvider(new ModSoundDefinitionsProvider(gen, existingFileHelper));
     }
 }
