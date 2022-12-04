@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
+import net.silentchaos512.loginar.setup.LsTags;
 
 public class LoginarUrnMenu extends AbstractContainerMenu {
     private final Container container;
@@ -29,7 +30,7 @@ public class LoginarUrnMenu extends AbstractContainerMenu {
         // Urn inventory slots
         for(int j = 0; j < containerRows; ++j) {
             for(int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(this.container, k + j * 9, 8 + k * 18, 18 + j * 18));
+                this.addSlot(new UrnSlot(this.container, k + j * 9, 8 + k * 18, 18 + j * 18));
             }
         }
 
@@ -78,5 +79,16 @@ public class LoginarUrnMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return this.container.stillValid(player);
+    }
+
+    public static class UrnSlot extends Slot {
+        public UrnSlot(Container container, int slot, int x, int y) {
+            super(container, slot, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return !stack.is(LsTags.Items.URNS);
+        }
     }
 }

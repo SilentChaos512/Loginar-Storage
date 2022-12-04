@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2022-10-28
+### Added
+- A "loginar dungeon" structure that spawns underground below Y 0. Can contain up to three urns with loot in them.
+
+## [0.1.3] - 2022-10-26
+### Fixed
+- Unable to connect to servers
+
 ## [0.1.2] - 2022-10-26
 ### Changed
 - Improved Loginar AI. It now runs from players and fights back occasionally.
