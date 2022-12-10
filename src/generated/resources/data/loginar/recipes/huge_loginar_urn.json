@@ -1,0 +1,28 @@
+{
+  "type": "loginar:urn_upgrade",
+  "key": {
+    "#": {
+      "item": "minecraft:purpur_block"
+    },
+    "*": {
+      "item": "loginar:large_loginar_urn"
+    },
+    "c": {
+      "item": "minecraft:chorus_flower"
+    },
+    "e": {
+      "tag": "forge:gems/emerald"
+    },
+    "s": {
+      "item": "minecraft:shulker_shell"
+    }
+  },
+  "pattern": [
+    "csc",
+    "e*e",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:huge_loginar_urn"
+  }
+}

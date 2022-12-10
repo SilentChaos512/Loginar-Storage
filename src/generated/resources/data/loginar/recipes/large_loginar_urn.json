@@ -1,0 +1,31 @@
+{
+  "type": "loginar:urn_upgrade",
+  "key": {
+    "#": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "*": {
+      "item": "loginar:medium_loginar_urn"
+    },
+    "c": {
+      "item": "minecraft:crimson_fungus"
+    },
+    "n": {
+      "tag": "forge:ingots/netherite"
+    },
+    "o": {
+      "item": "minecraft:ender_eye"
+    },
+    "w": {
+      "item": "minecraft:warped_fungus"
+    }
+  },
+  "pattern": [
+    "cnw",
+    "o*o",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:large_loginar_urn"
+  }
+}

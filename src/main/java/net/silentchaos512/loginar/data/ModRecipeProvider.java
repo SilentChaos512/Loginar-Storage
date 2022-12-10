@@ -72,6 +72,43 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('#', Blocks.BLACKSTONE)
                 .addCriterion("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
                 .build(consumer);
+
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.LARGE_LOGINAR_URN)
+                .patternLine("cnw")
+                .patternLine("o*o")
+                .patternLine("###")
+                .key('*', LsBlocks.MEDIUM_LOGINAR_URN)
+                .key('o', Items.ENDER_EYE)
+                .key('n', Tags.Items.INGOTS_NETHERITE)
+                .key('c', Items.CRIMSON_FUNGUS)
+                .key('w', Items.WARPED_FUNGUS)
+                .key('#', Blocks.CRYING_OBSIDIAN)
+                .addCriterion("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
+                .build(consumer);
+
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.HUGE_LOGINAR_URN)
+                .patternLine("csc")
+                .patternLine("e*e")
+                .patternLine("###")
+                .key('*', LsBlocks.LARGE_LOGINAR_URN)
+                .key('c', Items.CHORUS_FLOWER)
+                .key('s', Items.SHULKER_SHELL)
+                .key('e', Tags.Items.GEMS_EMERALD)
+                .key('#', Blocks.PURPUR_BLOCK)
+                .addCriterion("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
+                .build(consumer);
+
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.SUPER_LOGINAR_URN)
+                .patternLine("wsw")
+                .patternLine("p*p")
+                .patternLine("###")
+                .key('*', LsBlocks.HUGE_LOGINAR_URN)
+                .key('w', Items.WITHER_ROSE)
+                .key('s', Items.SCULK)
+                .key('p', Tags.Items.GEMS_PRISMARINE)
+                .key('#', Blocks.PRISMARINE)
+                .addCriterion("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
+                .build(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {

@@ -1,0 +1,28 @@
+{
+  "type": "loginar:urn_upgrade",
+  "key": {
+    "#": {
+      "item": "minecraft:prismarine"
+    },
+    "*": {
+      "item": "loginar:huge_loginar_urn"
+    },
+    "p": {
+      "tag": "forge:gems/prismarine"
+    },
+    "s": {
+      "item": "minecraft:sculk"
+    },
+    "w": {
+      "item": "minecraft:wither_rose"
+    }
+  },
+  "pattern": [
+    "wsw",
+    "p*p",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:super_loginar_urn"
+  }
+}
