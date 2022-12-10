@@ -9,6 +9,7 @@ import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.crafting.recipe.UrnBaseRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnModifcationRecipe;
+import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
 
 import java.util.function.Supplier;
 
@@ -22,7 +23,7 @@ public class LsRecipeSerializers {
             () -> new SimpleRecipeSerializer<>(UrnModifcationRecipe::new)
     );
     public static final RegistryObject<RecipeSerializer<?>> URN_UPGRADE = register("urn_upgrade",
-            () -> ExtendedShapedRecipe.Serializer.basic(UrnBaseRecipe::new)
+            () -> ExtendedShapedRecipe.Serializer.basic(UrnUpgradeRecipe::new)
     );
 
     private static <T extends RecipeSerializer<?>> RegistryObject<T> register(String name, Supplier<T> serializer) {

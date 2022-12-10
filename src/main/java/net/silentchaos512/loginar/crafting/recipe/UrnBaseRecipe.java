@@ -49,8 +49,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     @Override
     public ItemStack assemble(CraftingContainer craftingContainer) {
         ItemStack baseResult = getBaseRecipe().getResultItem();
-        if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock) {
-            LoginarUrnBlock block = (LoginarUrnBlock) ((BlockItem) baseResult.getItem()).getBlock();
+        if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
             int gemColor = getGemColor(findGem(craftingContainer));
             return block.makeStack(this.color, gemColor);
         } else {

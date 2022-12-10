@@ -47,7 +47,8 @@ public class UrnModifcationRecipe extends CustomRecipe {
             }*/
         }
 
-        return !urn.isEmpty() && (list.size() == 1 || !mods.isEmpty() || !dyes.isEmpty());
+        int ingredientCount = mods.size() + dyes.size() + 1;
+        return !urn.isEmpty() && list.size() == ingredientCount;
     }
 
     @Override
