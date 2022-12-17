@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.loginar.network.LsNetwork;
 import net.silentchaos512.loginar.setup.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,8 @@ public final class LoginarMod {
         LsMenuTypes.REGISTER.register(modEventBus);
         LsRecipeSerializers.REGISTER.register(modEventBus);
         LsSounds.REGISTER.register(modEventBus);
+
+        LsNetwork.init();
     }
 
     public static ResourceLocation getId(String path) {

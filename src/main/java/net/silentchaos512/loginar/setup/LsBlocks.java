@@ -12,6 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -57,7 +58,10 @@ public class LsBlocks {
     }
 
     private static BlockRegistryObject<LoginarUrnBlock> registerUrn(UrnTypes type) {
-        return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn", () -> new LoginarUrnBlock(type, urnProps()));
+        return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
+                () -> new LoginarUrnBlock(type, urnProps()),
+                bro -> () -> new LoginarUrnBlockItem(bro.get(), new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1))
+        );
     }
 
     @NotNull

@@ -22,6 +22,7 @@ public final class LsTags {
     }
 
     public static final class Items {
+        public static final TagKey<Item> URN_UPGRADES = mod("urn_upgrades");
         public static final TagKey<Item> URNS = mod("urns");
 
         private static TagKey<Item> forge(String path) {

@@ -2,10 +2,15 @@ package net.silentchaos512.loginar.block.urn;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.silentchaos512.loginar.setup.LsTags;
 
 public final class UrnHelper {
     private UrnHelper() {
         throw new IllegalAccessError("Utility class");
+    }
+
+    public static boolean isUrn(ItemStack stack) {
+        return stack.is(LsTags.Items.URNS);
     }
 
     public static int getClayColor(ItemStack stack) {

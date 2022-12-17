@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -37,7 +38,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
-        this.data = new UrnData(this.type.inventorySize(), UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
+        this.data = new UrnData(this.type, UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
         this.itemStacks = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
@@ -94,14 +95,14 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
 
     @Override
     public int getContainerSize() {
-        return this.data.inventorySize();
+        return this.type.inventorySize();
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag) && tag.contains("Items", 9)) {
+        if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
             ContainerHelper.loadAllItems(tag, this.itemStacks);
         }
 
@@ -115,7 +116,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
             gemColor = tag.getInt(UrnData.NBT_GEM_COLOR);
         }
 
-        this.data = new UrnData(this.type.inventorySize(), clayColor, gemColor);
+        this.data = new UrnData(this.type, clayColor, gemColor);
         this.hasChanged = true;
     }
 

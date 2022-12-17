@@ -33,6 +33,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
         builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
 
+        builder(LsItems.BACKPACK_UPGRADE, itemGenerated);
+        builder(LsItems.VACUUM_UPGRADE, itemGenerated);
         builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
         builder(LsItems.HOTBAR_SWAPPER_UPGRADE, itemGenerated);
 

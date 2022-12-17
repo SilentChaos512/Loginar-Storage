@@ -1,7 +1,10 @@
 package net.silentchaos512.loginar.data;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
@@ -34,10 +37,15 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Items
         addItem(LsItems.LOGINAR_ANTENNA, "Loginar Antenna");
-        add("item.loginar.loginar_antenna.lit", "The antenna is shining faintly...");
+        addItemSub(LsItems.LOGINAR_ANTENNA, "lit", "The antenna is shining faintly...");
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
+        // Urn Upgrades
+        addItem(LsItems.BACKPACK_UPGRADE, "Backpack Urn Upgrade");
+        addItem(LsItems.VACUUM_UPGRADE, "Vacuum Urn Upgrade");
+        addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
+        addItem(LsItems.HOTBAR_SWAPPER_UPGRADE, "Hotbar Swapper Urn Upgrade");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");
@@ -53,5 +61,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
     private void add(String prefix, String suffix, String value) {
         add(prefix + "." + LoginarMod.MOD_ID + "." + suffix, value);
+    }
+
+    private void addItemSub(ItemLike item, String suffix, String value) {
+        ResourceLocation name = NameUtils.fromItem(item);
+        add(String.format("item.%s.%s.%s", name.getNamespace(), name.getPath(), suffix), value);
     }
 }

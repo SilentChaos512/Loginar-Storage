@@ -9,8 +9,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBackpackScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnScreen;
 import net.silentchaos512.loginar.client.KeyTracker;
+import net.silentchaos512.loginar.client.LoginarUrnSwapperScreen;
 import net.silentchaos512.loginar.client.model.LoginarModel;
 import net.silentchaos512.loginar.client.renderer.LoginarEntityRenderer;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
@@ -25,6 +27,8 @@ public final class LsClientModEvents {
     @SubscribeEvent
     public static void onFmlClientSetup(FMLClientSetupEvent event) {
         MenuScreens.register(LsMenuTypes.LOGINAR_URN.get(), LoginarUrnScreen::new);
+        MenuScreens.register(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), LoginarUrnBackpackScreen::new);
+        MenuScreens.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
 
         ItemProperties.register(LsItems.LOGINAR_ANTENNA.get(), Const.IS_LOGINAR_CHUNK, (stack, level, entity, par4) -> {
             // TODO: Return 1 for loginar spawn chunks, 0 otherwise (can only calculate on the server...)
