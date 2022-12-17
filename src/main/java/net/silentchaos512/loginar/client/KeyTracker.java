@@ -8,8 +8,6 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.network.LsNetwork;
-import net.silentchaos512.loginar.network.OpenUrnSwapperPacket;
 import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
@@ -34,6 +32,7 @@ public class KeyTracker {
     }
 
     private static void handleSwapUrnItemsKeyPress() {
-        LsNetwork.channel.sendToServer(new OpenUrnSwapperPacket());
+        // FIXME: This is disabled for publishing 0.2.0 because it doesn't work properly yet
+//        LsNetwork.channel.sendToServer(new OpenUrnSwapperPacket());
     }
 }

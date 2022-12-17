@@ -43,12 +43,16 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
         // Urn Upgrades
         addItem(LsItems.BACKPACK_UPGRADE, "Backpack Urn Upgrade");
+        addItemSub(LsItems.BACKPACK_UPGRADE, "desc", "Allows the urn to be opened without placing it");
         addItem(LsItems.VACUUM_UPGRADE, "Vacuum Urn Upgrade");
         addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
         addItem(LsItems.HOTBAR_SWAPPER_UPGRADE, "Hotbar Swapper Urn Upgrade");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");
+        add("misc", "swapper.holdingUrn", "Cannot swap items with an urn");
+        add("misc", "swapper.noCompatibleUrn", "No urns with swapper upgrades found");
+        add("misc", "urn.upgrades", "Upgrades (%s / %s)");
 
         // Subtitles
         add("subtitles.block.loginar.urn.lid", "Loginar urn lid moves");

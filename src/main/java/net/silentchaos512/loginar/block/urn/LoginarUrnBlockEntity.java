@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,15 +30,13 @@ import java.util.stream.IntStream;
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     private final UrnTypes type;
     private UrnData data;
-    private NonNullList<ItemStack> itemStacks;
-    private int[] slots;
+    private final int[] slots;
     private boolean hasChanged = false;
 
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
         this.data = new UrnData(this.type, UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
-        this.itemStacks = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
 
@@ -60,12 +57,12 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
 
     @Override
     protected NonNullList<ItemStack> getItems() {
-        return this.itemStacks;
+        return this.data.items();
     }
 
     @Override
     protected void setItems(NonNullList<ItemStack> list) {
-        this.itemStacks = list;
+        this.data.setItems(list);
     }
 
     @Override
@@ -101,10 +98,6 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
-            ContainerHelper.loadAllItems(tag, this.itemStacks);
-        }
 
         int clayColor = UrnData.DEFAULT_CLAY_COLOR;
         if (tag.contains(UrnData.NBT_CLAY_COLOR)) {
@@ -117,6 +110,15 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         }
 
         this.data = new UrnData(this.type, clayColor, gemColor);
+
+        if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
+            UrnHelper.loadAllItems(tag, "Items", this.data.items());
+        }
+
+        if (tag.contains("Upgrades", Tag.TAG_LIST)) {
+            UrnHelper.loadAllItems(tag, "Upgrades", this.data.upgrades());
+        }
+
         this.hasChanged = true;
     }
 
@@ -124,8 +126,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.itemStacks, false);
+            UrnHelper.saveAllItems(tag, "Items", this.data.items(), false);
         }
+        UrnHelper.saveAllItems(tag, "Upgrades", this.data.upgrades(), false);
 
         tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
         tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());

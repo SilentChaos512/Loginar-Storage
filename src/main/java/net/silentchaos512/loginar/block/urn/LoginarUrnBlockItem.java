@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.network.NetworkHooks;
+import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.util.TextUtil;
 
 public class LoginarUrnBlockItem extends BlockItem {
@@ -19,12 +20,16 @@ public class LoginarUrnBlockItem extends BlockItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        // TODO: Only if urn has backpack upgrade
         ItemStack stack = player.getItemInHand(hand);
-        if (!level.isClientSide) {
-            openContainer((ServerPlayer) player, stack);
+
+        if (UrnHelper.hasUpgrade(stack, LsItems.BACKPACK_UPGRADE)) {
+            if (!level.isClientSide) {
+                openContainer((ServerPlayer) player, stack);
+            }
+            return InteractionResultHolder.success(stack);
         }
-        return InteractionResultHolder.success(stack);
+
+        return InteractionResultHolder.pass(stack);
     }
 
     private void openContainer(ServerPlayer player, ItemStack stack) {

@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Urn Upgrades. Craft them with an urn to apply. Urns have limited upgrade slots based on their size.
+- Backpack Urn Upgrade. Allows the urn to be opened and used without placing it, like how many backpack mods work.
+### Changed
+- Urn GUI texture (it's loginar-colored now!)
 ### Fixed
 - Urn items stacking together
 

@@ -38,6 +38,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.LsSounds;
 import net.silentchaos512.loginar.setup.UrnTypes;
+import net.silentchaos512.loginar.util.TextUtil;
 import net.silentchaos512.utils.Color;
 import org.jetbrains.annotations.Nullable;
 
@@ -201,6 +202,9 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         super.appendHoverText(stack, level, tooltip, flags);
         CompoundTag compoundtag = BlockItem.getBlockEntityData(stack);
         if (compoundtag != null) {
+            // TODO: Show upgrades
+            tooltip.add(TextUtil.misc("urn.upgrades", UrnHelper.getUpgradeCount(stack), UrnHelper.getMaxUpgradeCount(stack)));
+
             if (compoundtag.contains("LootTable", 8)) {
                 tooltip.add(Component.literal("???????"));
             }

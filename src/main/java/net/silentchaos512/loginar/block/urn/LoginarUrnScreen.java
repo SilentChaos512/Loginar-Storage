@@ -7,9 +7,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.silentchaos512.loginar.LoginarMod;
 
 public class LoginarUrnScreen extends AbstractContainerScreen<LoginarUrnMenu> {
-    private static final ResourceLocation CONTAINER_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
+    private static final ResourceLocation CONTAINER_TEXTURE = LoginarMod.getId("textures/gui/urn.png");
 
     private final int containerRows;
 

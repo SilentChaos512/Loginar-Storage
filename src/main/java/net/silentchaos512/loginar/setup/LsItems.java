@@ -35,7 +35,7 @@ public class LsItems {
 
     // Urn upgrades
     public static final ItemRegistryObject<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
-            new UpgradeItem(true, props())
+            new UpgradeItem(false, props())
     );
     public static final ItemRegistryObject<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
             new UpgradeItem(true, props())

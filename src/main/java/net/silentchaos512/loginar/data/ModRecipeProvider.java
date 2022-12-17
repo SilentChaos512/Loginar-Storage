@@ -109,6 +109,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('#', Blocks.PRISMARINE)
                 .addCriterion("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
                 .build(consumer);
+
+        // Upgrade recipes
+        shapedBuilder(LsItems.BACKPACK_UPGRADE)
+                .patternLine(" e ")
+                .patternLine(" l ")
+                .patternLine("lal")
+                .key('e', Tags.Items.ENDER_PEARLS)
+                .key('l', Tags.Items.LEATHER)
+                .key('a', LsItems.LOGINAR_ANTENNA)
+                .build(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {

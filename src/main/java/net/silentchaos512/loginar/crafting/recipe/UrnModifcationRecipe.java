@@ -3,7 +3,6 @@ package net.silentchaos512.loginar.crafting.recipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -35,16 +34,11 @@ public class UrnModifcationRecipe extends CustomRecipe {
         Collection<ItemStack> mods = list.allMatches(UrnModifcationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
 
-        // For upgrade items, make sure the urn doesn't have it already
+        // For upgrade items, make sure the urn doesn't have it already and has free upgrade slots
         for (ItemStack mod : mods) {
-            /*if (mod.getItem() instanceof IUrnUpgradeItem) {
-                IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
-
-                List<UrnUpgrade> currentUpgrades = UrnUpgrade.ListHelper.load(urn);
-                if (UrnUpgrade.ListHelper.contains(currentUpgrades, upgradeItem.getSerializer())) {
-                    return false;
-                }
-            }*/
+            if (UrnHelper.isUpgrade(mod) && (UrnHelper.hasUpgrade(urn, mod.getItem()) || UrnHelper.getUpgradeCount(urn) >= UrnHelper.getMaxUpgradeCount(urn))) {
+                return false;
+            }
         }
 
         int ingredientCount = mods.size() + dyes.size() + 1;
@@ -55,6 +49,7 @@ public class UrnModifcationRecipe extends CustomRecipe {
     public ItemStack assemble(CraftingContainer inv) {
         StackList list = StackList.from(inv);
         ItemStack urn = list.uniqueMatch(UrnModifcationRecipe::isUrn).copy();
+        UrnData data = UrnData.fromItem(urn);
         Collection<ItemStack> mods = list.allMatches(UrnModifcationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
 
@@ -63,9 +58,11 @@ public class UrnModifcationRecipe extends CustomRecipe {
             // No modifier items, toggle between lidded and lidless version
             //UrnHelper.toggleHasLid(urn);
         } else {
-            mods.forEach(mod -> applyModifierItem(urn, mod));
+            mods.forEach(mod -> applyModifierItem(urn, data, mod));
             applyDyes(urn, dyes);
         }
+
+        data.writeNbtToItem(urn);
 
         return urn;
     }
@@ -75,16 +72,17 @@ public class UrnModifcationRecipe extends CustomRecipe {
     }
 
     private static boolean isModifierItem(ItemStack stack) {
-        Item item = stack.getItem();
-        return stack.is(Tags.Items.GEMS); // TODO: Upgrade items
+        return stack.is(Tags.Items.GEMS) || UrnHelper.isUpgrade(stack);
     }
 
-    private static void applyModifierItem(ItemStack urn, ItemStack mod) {
+    private static void applyModifierItem(ItemStack urn, UrnData data, ItemStack mod) {
         if (mod.is(Tags.Items.GEMS)) {
             int color = UrnBaseRecipe.getGemColor(mod);
             UrnHelper.setGemColor(urn, color);
         }
-        // TODO: Upgrade items
+        if (UrnHelper.isUpgrade(mod)) {
+            data.addUpgrade(mod);
+        }
     }
 
     // Largely copied from RecipesArmorDyes

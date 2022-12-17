@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "loginar:loginar_antenna"
+    },
+    "e": {
+      "tag": "forge:ender_pearls"
+    },
+    "l": {
+      "tag": "forge:leather"
+    }
+  },
+  "pattern": [
+    " e ",
+    " l ",
+    "lal"
+  ],
+  "result": {
+    "item": "loginar:backpack_upgrade"
+  }
+}
