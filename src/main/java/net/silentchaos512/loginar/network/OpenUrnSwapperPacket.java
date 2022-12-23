@@ -10,6 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
+import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.util.TextUtil;
 
 import java.util.function.Supplier;
@@ -22,6 +23,7 @@ public class OpenUrnSwapperPacket {
         ServerPlayer player = context.get().getSender();
         if (player != null) {
             // Make sure player is not holding an urn...
+            // TODO: Check for other invalid items like shulker boxes...
             if (UrnHelper.isUrn(player.getMainHandItem())) {
                 player.sendSystemMessage(TextUtil.misc("swapper.holdingUrn"));
                 return;
@@ -44,9 +46,9 @@ public class OpenUrnSwapperPacket {
         }
     }
 
-    private static ItemStack selectUrnToOpen(ServerPlayer player) {
+    public static ItemStack selectUrnToOpen(ServerPlayer player) {
         // Offhand first
-        if (UrnHelper.isUrn(player.getOffhandItem())) {
+        if (isSwapperUrn(player.getOffhandItem())) {
             return player.getOffhandItem();
         }
 
@@ -55,12 +57,16 @@ public class OpenUrnSwapperPacket {
         // Other items last
         NonNullList<ItemStack> items = player.getInventory().items;
         for (ItemStack stack : items) {
-            if (UrnHelper.isUrn(stack)) {
+            if (isSwapperUrn(stack)) {
                 return stack;
             }
         }
 
         return ItemStack.EMPTY;
+    }
+
+    private static boolean isSwapperUrn(ItemStack stack) {
+        return UrnHelper.isUrn(stack) && UrnHelper.hasUpgrade(stack, LsItems.ITEM_SWAPPER_UPGRADE);
     }
 
     public static OpenUrnSwapperPacket decode(FriendlyByteBuf buf) {

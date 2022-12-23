@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "loginar:loginar_antenna"
+    },
+    "i": {
+      "tag": "forge:ingots/gold"
+    },
+    "w": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    " w ",
+    "i i",
+    "waw"
+  ],
+  "result": {
+    "item": "loginar:item_swapper_upgrade"
+  }
+}

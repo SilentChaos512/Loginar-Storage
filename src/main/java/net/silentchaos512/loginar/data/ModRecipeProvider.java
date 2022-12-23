@@ -2,6 +2,7 @@ package net.silentchaos512.loginar.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -115,9 +116,18 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .patternLine(" e ")
                 .patternLine(" l ")
                 .patternLine("lal")
+                .key('a', LsItems.LOGINAR_ANTENNA)
                 .key('e', Tags.Items.ENDER_PEARLS)
                 .key('l', Tags.Items.LEATHER)
+                .build(consumer);
+
+        shapedBuilder(LsItems.ITEM_SWAPPER_UPGRADE)
+                .patternLine(" w ")
+                .patternLine("i i")
+                .patternLine("waw")
                 .key('a', LsItems.LOGINAR_ANTENNA)
+                .key('i', Tags.Items.INGOTS_GOLD)
+                .key('w', ItemTags.WOOL)
                 .build(consumer);
     }
 

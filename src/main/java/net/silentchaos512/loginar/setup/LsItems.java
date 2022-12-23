@@ -41,7 +41,7 @@ public class LsItems {
             new UpgradeItem(true, props())
     );
     public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
-            new UpgradeItem(true, props())
+            new UpgradeItem(false, props())
     );
     public static final ItemRegistryObject<UpgradeItem> HOTBAR_SWAPPER_UPGRADE = register("hotbar_swapper_upgrade", () ->
             new UpgradeItem(true, props())

@@ -1,9 +1,6 @@
 package net.silentchaos512.loginar.block.urn;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -14,6 +11,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.network.HandleUrnItemSwapPacket;
+import net.silentchaos512.loginar.network.LsNetwork;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
 public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
@@ -34,14 +33,16 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
         this.containerRows = this.itemHandler.getSlots() / 9;
 
         // Urn inventory slots
-        for(int j = 0; j < containerRows; ++j) {
-            for(int k = 0; k < 9; ++k) {
+        for (int j = 0; j < containerRows; ++j) {
+            for (int k = 0; k < 9; ++k) {
                 this.addSlot(new GhostSlot(this.itemHandler, k + j * 9, 2 + k * 20, 2 + j * 20));
             }
         }
     }
 
-    public int getRowCount() {return this.containerRows; }
+    public int getRowCount() {
+        return this.containerRows;
+    }
 
     @Override
     public void clicked(int slotIndex, int dragType, ClickType clickType, Player player) {
@@ -49,15 +50,9 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
             Slot slot = this.slots.get(slotIndex);
             ItemStack item = slot.getItem();
 
-            if (!item.isEmpty()) {
-                LoginarMod.LOGGER.info("clicked on item: {}", item);
-
-                ItemStack currentHeldItem = player.getMainHandItem();
-                player.setItemInHand(InteractionHand.MAIN_HAND, item);
-                slot.set(currentHeldItem);
-
-                player.closeContainer();
-            }
+            LoginarMod.LOGGER.info("Attempting to swap urn item with hand: {}", item);
+            LsNetwork.channel.sendToServer(new HandleUrnItemSwapPacket(slotIndex));
+            player.closeContainer();
         }
     }
 
@@ -65,8 +60,8 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
     public void removed(Player player) {
         super.removed(player);
         // FIXME: Does not save changes
-        CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT();
-        this.item.getOrCreateTag().getCompound("BlockEntityTag").put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));
+        /*CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT();
+        this.item.getOrCreateTag().getCompound("BlockEntityTag").put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));*/
     }
 
     @Override

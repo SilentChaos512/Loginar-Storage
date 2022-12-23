@@ -26,6 +26,12 @@ public class LsNetwork {
                 .encoder(OpenUrnSwapperPacket::encode)
                 .consumerMainThread(OpenUrnSwapperPacket::handle)
                 .add();
+
+        channel.messageBuilder(HandleUrnItemSwapPacket.class, 1, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(HandleUrnItemSwapPacket::decode)
+                .encoder(HandleUrnItemSwapPacket::encode)
+                .consumerMainThread(HandleUrnItemSwapPacket::handle)
+                .add();
     }
 
     private LsNetwork() {}
