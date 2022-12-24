@@ -22,7 +22,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -46,8 +45,6 @@ import java.util.List;
 
 public class LoginarUrnBlock extends BaseEntityBlock {
     public static final ResourceLocation CONTENTS = new ResourceLocation("contents");
-
-    private static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 15, 12);
 
     private final UrnTypes type;
 
@@ -243,7 +240,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        return this.type.blockShape();
     }
 
     @SuppressWarnings("deprecation")
