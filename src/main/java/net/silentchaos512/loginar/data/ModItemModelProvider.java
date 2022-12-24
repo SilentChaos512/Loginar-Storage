@@ -43,13 +43,12 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private void registerBlocks() {
-        ResourceLocation urnBlockModel = modLoc("block/loginar_urn");
-        blockItemModel(LsBlocks.TINY_LOGINAR_URN, urnBlockModel);
-        blockItemModel(LsBlocks.SMALL_LOGINAR_URN, urnBlockModel);
-        blockItemModel(LsBlocks.MEDIUM_LOGINAR_URN, urnBlockModel);
-        blockItemModel(LsBlocks.LARGE_LOGINAR_URN, urnBlockModel);
-        blockItemModel(LsBlocks.HUGE_LOGINAR_URN, urnBlockModel);
-        blockItemModel(LsBlocks.SUPER_LOGINAR_URN, urnBlockModel);
+        blockItemModel(LsBlocks.TINY_LOGINAR_URN);
+        blockItemModel(LsBlocks.SMALL_LOGINAR_URN);
+        blockItemModel(LsBlocks.MEDIUM_LOGINAR_URN);
+        blockItemModel(LsBlocks.LARGE_LOGINAR_URN);
+        blockItemModel(LsBlocks.HUGE_LOGINAR_URN);
+        blockItemModel(LsBlocks.SUPER_LOGINAR_URN);
     }
 
     private ItemModelBuilder builder(ItemLike item) {

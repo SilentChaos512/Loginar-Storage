@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "loginar:block/loginar_urn"
+      "model": "loginar:block/large_loginar_urn"
     }
   }
 }
