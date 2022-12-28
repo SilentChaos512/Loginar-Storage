@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_loginar_tentacle": {
+    "has_item": {
       "conditions": {
         "items": [
           {
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:loginar_calamari_from_campfire_cooking"
+        "recipe": "minecraft:loginar_calamari_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_loginar_tentacle",
+      "has_item",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:loginar_calamari_from_campfire_cooking"
+      "minecraft:loginar_calamari_smoking"
     ]
   }
 }

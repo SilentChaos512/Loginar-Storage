@@ -2,9 +2,10 @@ package net.silentchaos512.loginar.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -26,8 +27,15 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        simpleCookingRecipe(consumer, "smoking", RecipeSerializer.SMOKING_RECIPE, 100, LsItems.LOGINAR_TENTACLE, LsItems.LOGINAR_CALAMARI, 0.35f);
-        simpleCookingRecipe(consumer, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, 600, LsItems.LOGINAR_TENTACLE, LsItems.LOGINAR_CALAMARI, 0.35f);
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 200)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
+                .save(consumer, "loginar_calamari_smelting");
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 100)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
+                .save(consumer, "loginar_calamari_smoking");
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 600)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
+                .save(consumer, "loginar_calamari_campfire_cooking");
 
         // Loginar Urn recipes
 
@@ -119,6 +127,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('a', LsItems.LOGINAR_ANTENNA)
                 .key('e', Tags.Items.ENDER_PEARLS)
                 .key('l', Tags.Items.LEATHER)
+                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .build(consumer);
 
         shapedBuilder(LsItems.ITEM_SWAPPER_UPGRADE)
@@ -128,6 +137,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('a', LsItems.LOGINAR_ANTENNA)
                 .key('i', Tags.Items.INGOTS_GOLD)
                 .key('w', ItemTags.WOOL)
+                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .build(consumer);
     }
 

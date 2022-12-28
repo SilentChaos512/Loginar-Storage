@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Crash when pressing the "Swap Urn Items" key when not in a world (main menu, etc.) [#3]
 - Applying a second upgrade to an urn with an upgrade breaking all the upgrades [#2]
+- Not being able to cook loginar calamari in a furnace
 - Keybinding category localization
 
 ## [0.2.2] - 2022-12-24
