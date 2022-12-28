@@ -4,8 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Loginar urns now display their upgrades in their tooltip
 ### Fixed
 - Crash when pressing the "Swap Urn Items" key when not in a world (main menu, etc.) [#3]
+- Applying a second upgrade to an urn with an upgrade breaking all the upgrades [#2]
 - Keybinding category localization
 
 ## [0.2.2] - 2022-12-24

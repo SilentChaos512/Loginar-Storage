@@ -3,7 +3,6 @@ package net.silentchaos512.loginar.block.urn;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.loginar.setup.UrnTypes;
@@ -51,10 +50,10 @@ public class UrnData {
                 blockData.getInt(NBT_GEM_COLOR)
         );
         if (blockData.contains(NBT_ITEMS, Tag.TAG_LIST)) {
-            ContainerHelper.loadAllItems(blockData, ret.items);
+            UrnHelper.loadAllItems(blockData, UrnData.NBT_ITEMS, ret.items);
         }
         if (blockData.contains(NBT_UPGRADES, Tag.TAG_LIST)) {
-            ContainerHelper.loadAllItems(blockData, ret.upgrades);
+            UrnHelper.loadAllItems(blockData, UrnData.NBT_UPGRADES, ret.upgrades);
         }
         return ret;
     }

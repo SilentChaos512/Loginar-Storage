@@ -9,7 +9,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -197,28 +196,38 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flags) {
         super.appendHoverText(stack, level, tooltip, flags);
-        CompoundTag compoundtag = BlockItem.getBlockEntityData(stack);
-        if (compoundtag != null) {
-            // TODO: Show upgrades
-            tooltip.add(TextUtil.misc("urn.upgrades", UrnHelper.getUpgradeCount(stack), UrnHelper.getMaxUpgradeCount(stack)));
-
-            if (compoundtag.contains("LootTable", 8)) {
+        CompoundTag tags = BlockItem.getBlockEntityData(stack);
+        if (tags != null) {
+            if (tags.contains("LootTable", 8)) {
                 tooltip.add(Component.literal("???????"));
             }
 
-            if (compoundtag.contains("Items", 9)) {
-                NonNullList<ItemStack> nonnulllist = NonNullList.withSize(27, ItemStack.EMPTY);
-                ContainerHelper.loadAllItems(compoundtag, nonnulllist);
+            // Upgrades
+            tooltip.add(TextUtil.misc("urn.upgrades", UrnHelper.getUpgradeCount(stack), UrnHelper.getMaxUpgradeCount(stack)));
+            if (tags.contains(UrnData.NBT_UPGRADES, 9)) {
+                NonNullList<ItemStack> upgrades = NonNullList.withSize(this.type.upgradeSlots(), ItemStack.EMPTY);
+                UrnHelper.loadAllItems(tags, UrnData.NBT_UPGRADES, upgrades);
+                for (ItemStack upgrade : upgrades) {
+                    if (!upgrade.isEmpty()) {
+                        tooltip.add(Component.literal("- ").append(upgrade.getHoverName()).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+                }
+            }
+
+            // Item list
+            if (tags.contains(UrnData.NBT_ITEMS, 9)) {
+                NonNullList<ItemStack> items = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
+                UrnHelper.loadAllItems(tags, UrnData.NBT_ITEMS, items);
                 int i = 0;
                 int j = 0;
 
-                for (ItemStack itemstack : nonnulllist) {
-                    if (!itemstack.isEmpty()) {
+                for (ItemStack item : items) {
+                    if (!item.isEmpty()) {
                         ++j;
                         if (i <= 4) {
                             ++i;
-                            MutableComponent mutablecomponent = itemstack.getHoverName().copy();
-                            mutablecomponent.append(" x").append(String.valueOf(itemstack.getCount()));
+                            MutableComponent mutablecomponent = item.getHoverName().copy();
+                            mutablecomponent.append(" x").append(String.valueOf(item.getCount()));
                             tooltip.add(mutablecomponent);
                         }
                     }
