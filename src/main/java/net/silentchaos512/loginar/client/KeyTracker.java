@@ -2,6 +2,7 @@ package net.silentchaos512.loginar.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -19,7 +20,7 @@ public class KeyTracker {
     private static KeyMapping createKeyBinding(String description, int key) {
         return new KeyMapping(
                 "key." + LoginarMod.MOD_ID + "." + description,
-                KeyConflictContext.GUI,
+                KeyConflictContext.IN_GAME,
                 InputConstants.Type.KEYSYM,
                 key,
                 "key.categories." + LoginarMod.MOD_ID
@@ -28,6 +29,11 @@ public class KeyTracker {
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
+        //noinspection ConstantConditions
+        if (Minecraft.getInstance() == null || Minecraft.getInstance().getConnection() == null) {
+            return;
+        }
+
         if (event.getAction() == GLFW.GLFW_PRESS && event.getKey() == SWAP_URN_ITEMS.getKey().getValue()) {
             handleSwapUrnItemsKeyPress();
         }
