@@ -33,9 +33,9 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
         this.containerRows = this.itemHandler.getSlots() / 9;
 
         // Urn inventory slots
-        for (int j = 0; j < containerRows; ++j) {
-            for (int k = 0; k < 9; ++k) {
-                this.addSlot(new GhostSlot(this.itemHandler, k + j * 9, 2 + k * 20, 2 + j * 20));
+        for (int r = 0; r < containerRows; ++r) {
+            for (int c = 0; c < 9; ++c) {
+                this.addSlot(new GhostSlot(this.itemHandler, c + r * 9, 2 + c * 20, 19 + r * 20));
             }
         }
     }

@@ -11,7 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.LsItems;
-import net.silentchaos512.loginar.util.TextUtil;
 
 public class LoginarUrnBlockItem extends BlockItem {
     public LoginarUrnBlockItem(Block block, Properties properties) {
@@ -36,7 +35,7 @@ public class LoginarUrnBlockItem extends BlockItem {
         NetworkHooks.openScreen(player,
                 new SimpleMenuProvider(
                         (id, inv, z) -> new LoginarUrnBackpackMenu(id, inv, stack),
-                        TextUtil.translate("container", "loginar_urn")
+                        stack.getHoverName()
                 ),
                 buf -> buf.writeItem(stack)
         );

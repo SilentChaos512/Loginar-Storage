@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.3] - 2022-12-28
 ### Added
 - Loginar urns now display their upgrades in their tooltip
 ### Fixed
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Applying a second upgrade to an urn with an upgrade breaking all the upgrades [#2]
 - Not being able to cook loginar calamari in a furnace
 - Keybinding category localization
+- Urn menu screens now display the urns actual name in all cases (backpack and swapper menus included)
 
 ## [0.2.2] - 2022-12-24
 ### Changed

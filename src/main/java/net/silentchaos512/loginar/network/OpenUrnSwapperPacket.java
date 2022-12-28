@@ -2,7 +2,6 @@ package net.silentchaos512.loginar.network;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +35,7 @@ public class OpenUrnSwapperPacket {
                         player,
                         new SimpleMenuProvider(
                                 (id, inv, p) -> new LoginarUrnSwapperMenu(id, inv, urn),
-                                Component.empty()
+                                urn.getHoverName()
                         ),
                         buf -> buf.writeItem(urn)
                 );
