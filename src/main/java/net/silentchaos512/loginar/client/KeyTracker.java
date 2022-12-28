@@ -23,7 +23,7 @@ public class KeyTracker {
                 KeyConflictContext.IN_GAME,
                 InputConstants.Type.KEYSYM,
                 key,
-                "key.categories." + LoginarMod.MOD_ID
+                "key.category." + LoginarMod.MOD_ID
         );
     }
 

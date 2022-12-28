@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Crash when pressing the "Swap Urn Items" key when not in a world (main menu, etc.) [#3]
+- Keybinding category localization
 
 ## [0.2.2] - 2022-12-24
 ### Changed
