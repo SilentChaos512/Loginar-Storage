@@ -51,6 +51,7 @@ public class LoginarEntity extends Monster {
 
     public static AttributeSupplier createAttributes() {
         return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 30)
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.3)
                 .add(Attributes.FOLLOW_RANGE, 12.0)
