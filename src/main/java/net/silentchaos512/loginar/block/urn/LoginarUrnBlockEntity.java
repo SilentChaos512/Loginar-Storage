@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.silentchaos512.loginar.api.TickingUrnUpgrade;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,12 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, LoginarUrnBlockEntity blockEntity) {
+        for (ItemStack upgrade : blockEntity.data.upgrades()) {
+            if (!upgrade.isEmpty() && upgrade.getItem() instanceof TickingUrnUpgrade) {
+                ((TickingUrnUpgrade) upgrade.getItem()).tick(blockEntity.data, level, pos);
+            }
+        }
+
         if (blockEntity.hasChanged) {
             level.sendBlockUpdated(pos, state, state, 3);
             blockEntity.hasChanged = false;

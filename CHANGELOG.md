@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Vacuum urn upgrade now works. It pulls nearby items towards a placed urn like a magnet, and stores anything that gets close.
 - Italian translation (giok3r)
 
 ## [0.2.3] - 2022-12-28

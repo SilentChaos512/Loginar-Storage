@@ -75,6 +75,10 @@ public final class UrnHelper {
         getData(stack).putInt(UrnData.NBT_GEM_COLOR, color);
     }
 
+    static boolean canUrnStoreItem(ItemStack stack) {
+        return !stack.is(LsTags.Items.URNS);
+    }
+
     public static CompoundTag getData(ItemStack stack) {
         return stack.getOrCreateTagElement(UrnData.NBT_ROOT);
     }

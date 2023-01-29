@@ -9,7 +9,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
-import net.silentchaos512.loginar.setup.LsTags;
 
 public class LoginarUrnMenu extends AbstractContainerMenu {
     private final Container container;
@@ -88,7 +87,7 @@ public class LoginarUrnMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return !stack.is(LsTags.Items.URNS);
+            return UrnHelper.canUrnStoreItem(stack);
         }
     }
 }

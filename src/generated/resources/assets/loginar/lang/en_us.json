@@ -18,6 +18,7 @@
   "item.loginar.loginar_spawn_egg": "Loginar Spawn Egg",
   "item.loginar.loginar_tentacle": "Loginar Tentacle",
   "item.loginar.vacuum_upgrade": "Vacuum Urn Upgrade",
+  "item.loginar.vacuum_upgrade.desc": "Draws in nearby items and stores them",
   "key.category.loginar": "Loginar Storage",
   "key.loginar.swapUrnItems": "Swap Urn Items",
   "misc.loginar.not_implemented": "Not Implemented! This feature does not work yet. :(",

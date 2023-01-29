@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.utils.EnumUtils;
 
@@ -109,5 +110,36 @@ public class UrnData {
                 return;
             }
         }
+    }
+
+    public boolean tryAddItemToInventory(ItemStack stack) {
+        if (!UrnHelper.canUrnStoreItem(stack)) {
+            return false;
+        }
+
+        for (int slot = 0; slot < this.items.size(); ++slot) {
+            ItemStack stackInSlot = this.items.get(slot);
+            if (!stackInSlot.isEmpty() && !ItemHandlerHelper.canItemStacksStack(stack, stackInSlot)) {
+                continue;
+            }
+
+            if (!stackInSlot.isEmpty()) {
+                int amountCanFit = Math.min(stack.getCount(), stackInSlot.getMaxStackSize() - stackInSlot.getCount());
+                if (amountCanFit <= 0) {
+                    continue;
+                }
+                stackInSlot.setCount(stackInSlot.getCount() + amountCanFit);
+                stack.setCount(stack.getCount() - amountCanFit);
+
+                this.items.set(slot, stackInSlot);
+            } else {
+                this.items.set(slot, stack.copy());
+                stack.setCount(0);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

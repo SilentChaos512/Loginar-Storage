@@ -139,6 +139,17 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('w', ItemTags.WOOL)
                 .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .build(consumer);
+
+        shapedBuilder(LsItems.VACUUM_UPGRADE)
+                .patternLine(" i ")
+                .patternLine("rhr")
+                .patternLine("iai")
+                .key('a', LsItems.LOGINAR_ANTENNA)
+                .key('h', Items.HOPPER)
+                .key('i', Tags.Items.INGOTS_COPPER)
+                .key('r', Tags.Items.DUSTS_REDSTONE)
+                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .build(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {

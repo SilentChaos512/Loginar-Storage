@@ -18,6 +18,7 @@
   "item.loginar.loginar_spawn_egg": "Uovo Generatore di Loginar",
   "item.loginar.loginar_tentacle": "Tentacolo di Loginar",
   "item.loginar.vacuum_upgrade": "Aggiunta Aspirapolvere per l'Urna",
+  "item.loginar.vacuum_upgrade.desc": "Attira oggetti in giro e li magazzina",
   "key.category.loginar": "Conserva di Loginar",
   "key.loginar.swapUrnItems": "Scambia Articoli dell'Urna",
   "misc.loginar.not_implemented": "Non Implementata! Questa caratteristica ancora non funziona. :(",

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "loginar:loginar_antenna"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "i": {
+      "tag": "forge:ingots/copper"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "pattern": [
+    " i ",
+    "rhr",
+    "iai"
+  ],
+  "result": {
+    "item": "loginar:vacuum_upgrade"
+  }
+}

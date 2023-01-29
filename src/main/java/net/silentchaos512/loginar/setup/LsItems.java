@@ -10,6 +10,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.LoginarAntennaItem;
 import net.silentchaos512.loginar.item.LoginarTentacleItem;
 import net.silentchaos512.loginar.item.UpgradeItem;
+import net.silentchaos512.loginar.item.VacuumUrnUpgrade;
 
 import java.util.function.Supplier;
 
@@ -38,7 +39,7 @@ public class LsItems {
             new UpgradeItem(false, props())
     );
     public static final ItemRegistryObject<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
-            new UpgradeItem(true, props())
+            new VacuumUrnUpgrade(props())
     );
     public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
             new UpgradeItem(false, props())
