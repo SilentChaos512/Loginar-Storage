@@ -1,6 +1,5 @@
 package net.silentchaos512.loginar.item;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -14,20 +13,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class UpgradeItem extends Item {
-    private final boolean unimplemented;
-
-    public UpgradeItem(boolean unimplemented, Properties properties) {
+    public UpgradeItem(Properties properties) {
         super(properties);
-        this.unimplemented = unimplemented;
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flags) {
-        if (unimplemented) {
-            tooltip.add(TextUtil.misc("not_implemented").withStyle(ChatFormatting.DARK_RED, ChatFormatting.ITALIC));
-        } else {
-            ResourceLocation name = NameUtils.fromItem(this);
-            tooltip.add(TextUtil.translate("item", name.getPath() + ".desc"));
-        }
+        ResourceLocation name = NameUtils.fromItem(this);
+        tooltip.add(TextUtil.translate("item", name.getPath() + ".desc"));
     }
 }

@@ -2,7 +2,6 @@
   "values": [
     "loginar:backpack_upgrade",
     "loginar:vacuum_upgrade",
-    "loginar:item_swapper_upgrade",
-    "loginar:hotbar_swapper_upgrade"
+    "loginar:item_swapper_upgrade"
   ]
 }

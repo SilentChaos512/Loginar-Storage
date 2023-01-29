@@ -36,7 +36,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.BACKPACK_UPGRADE, itemGenerated);
         builder(LsItems.VACUUM_UPGRADE, itemGenerated);
         builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
-        builder(LsItems.HOTBAR_SWAPPER_UPGRADE, itemGenerated);
 
         builder(LsItems.LOGINAR_SPAWN_EGG)
                 .parent(getExistingFile(mcLoc("item/template_spawn_egg")));

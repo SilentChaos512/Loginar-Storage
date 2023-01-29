@@ -25,8 +25,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(LsTags.Items.URN_UPGRADES,
                 LsItems.BACKPACK_UPGRADE,
                 LsItems.VACUUM_UPGRADE,
-                LsItems.ITEM_SWAPPER_UPGRADE,
-                LsItems.HOTBAR_SWAPPER_UPGRADE
+                LsItems.ITEM_SWAPPER_UPGRADE
         );
     }
 

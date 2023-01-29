@@ -13,7 +13,7 @@ public class VacuumUrnUpgrade extends UpgradeItem implements TickingUrnUpgrade {
     private static final int RANGE = 4;
 
     public VacuumUrnUpgrade(Properties properties) {
-        super(false, properties);
+        super(properties);
     }
 
     @Override

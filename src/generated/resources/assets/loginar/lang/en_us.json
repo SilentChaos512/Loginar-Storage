@@ -9,7 +9,6 @@
   "entity.loginar.loginar": "Loginar",
   "item.loginar.backpack_upgrade": "Backpack Urn Upgrade",
   "item.loginar.backpack_upgrade.desc": "Allows the urn to be opened without placing it",
-  "item.loginar.hotbar_swapper_upgrade": "Hotbar Swapper Urn Upgrade",
   "item.loginar.item_swapper_upgrade": "Item Swapper Urn Upgrade",
   "item.loginar.item_swapper_upgrade.desc": "Allows individual items to be swapped out of the urn by pressing a bound key",
   "item.loginar.loginar_antenna": "Loginar Antenna",

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "loginar:item/hotbar_swapper_upgrade"
-  }
-}

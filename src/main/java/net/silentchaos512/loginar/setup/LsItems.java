@@ -36,16 +36,13 @@ public class LsItems {
 
     // Urn upgrades
     public static final ItemRegistryObject<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
-            new UpgradeItem(false, props())
+            new UpgradeItem(props())
     );
     public static final ItemRegistryObject<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
             new VacuumUrnUpgrade(props())
     );
     public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
-            new UpgradeItem(false, props())
-    );
-    public static final ItemRegistryObject<UpgradeItem> HOTBAR_SWAPPER_UPGRADE = register("hotbar_swapper_upgrade", () ->
-            new UpgradeItem(true, props())
+            new UpgradeItem(props())
     );
 
     // Misc

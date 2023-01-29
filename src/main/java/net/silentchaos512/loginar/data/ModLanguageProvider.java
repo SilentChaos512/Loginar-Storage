@@ -45,9 +45,9 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.BACKPACK_UPGRADE, "Backpack Urn Upgrade");
         addItemSub(LsItems.BACKPACK_UPGRADE, "desc", "Allows the urn to be opened without placing it");
         addItem(LsItems.VACUUM_UPGRADE, "Vacuum Urn Upgrade");
+        addItemSub(LsItems.VACUUM_UPGRADE, "desc", "Draws in nearby items and stores them");
         addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
         addItemSub(LsItems.ITEM_SWAPPER_UPGRADE, "desc", "Allows individual items to be swapped out of the urn by pressing a bound key");
-        addItem(LsItems.HOTBAR_SWAPPER_UPGRADE, "Hotbar Swapper Urn Upgrade");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");
