@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/SilentChaos512/Loginar-Storage/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/loginar-storage"
 logoFile="logo.png"
 #credits="Thanks for this example mod goes to Java"
-authors="SilentChaos512"
+authors="SilentChaos512, giok3r"
 
 [[mods]]
     modId="loginar"
