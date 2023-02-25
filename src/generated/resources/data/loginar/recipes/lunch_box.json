@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:red_terracotta"
+    },
+    "/": {
+      "tag": "forge:rods/wooden"
+    },
+    "a": {
+      "item": "loginar:loginar_antenna"
+    },
+    "c": {
+      "item": "loginar:loginar_calamari"
+    }
+  },
+  "pattern": [
+    " / ",
+    "#a#",
+    "#c#"
+  ],
+  "result": {
+    "item": "loginar:lunch_box"
+  }
+}

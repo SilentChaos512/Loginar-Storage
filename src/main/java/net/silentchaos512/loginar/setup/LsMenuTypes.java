@@ -11,6 +11,8 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBackpackMenu;
 import net.silentchaos512.loginar.block.urn.LoginarUrnMenu;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
+import net.silentchaos512.loginar.item.LunchBoxItem;
+import net.silentchaos512.loginar.item.container.ContainerItemMenu;
 
 public class LsMenuTypes {
     public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, LoginarMod.MOD_ID);
@@ -24,6 +26,9 @@ public class LsMenuTypes {
     public static final RegistryObject<MenuType<LoginarUrnSwapperMenu>> LOGINAR_URN_SWAPPER = register("loginar_urn_swapper",
             LoginarUrnSwapperMenu::new
     );
+
+    public static final RegistryObject<MenuType<ContainerItemMenu>> LUNCH_BOX = register("lunch_box", ((windowId, inv, data) ->
+            new ContainerItemMenu(windowId, inv, LsMenuTypes.LUNCH_BOX.get(), LunchBoxItem.class)));
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, IContainerFactory<T> factory) {
         return REGISTER.register(name, () -> IForgeMenuType.create(factory));

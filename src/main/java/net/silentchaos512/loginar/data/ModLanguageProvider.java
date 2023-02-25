@@ -27,6 +27,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
+        add("container", "lunch_box", "Lunch Box");
 
         // Entities
         addEntityType(LsEntityTypes.LOGINAR, "Loginar");
@@ -48,6 +49,9 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.VACUUM_UPGRADE, "desc", "Draws in nearby items and stores them");
         addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
         addItemSub(LsItems.ITEM_SWAPPER_UPGRADE, "desc", "Allows individual items to be swapped out of the urn by pressing a bound key");
+        // Container items
+        addItem(LsItems.LUNCH_BOX, "Lunch Box");
+        addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Right-click to eat, sneak + right-click to open.");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");

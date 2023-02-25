@@ -15,6 +15,7 @@ import net.silentchaos512.loginar.client.KeyTracker;
 import net.silentchaos512.loginar.client.LoginarUrnSwapperScreen;
 import net.silentchaos512.loginar.client.model.LoginarModel;
 import net.silentchaos512.loginar.client.renderer.LoginarEntityRenderer;
+import net.silentchaos512.loginar.item.container.ContainerItemScreen;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
@@ -26,14 +27,20 @@ public final class LsClientModEvents {
 
     @SubscribeEvent
     public static void onFmlClientSetup(FMLClientSetupEvent event) {
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN.get(), LoginarUrnScreen::new);
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), LoginarUrnBackpackScreen::new);
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
+        registerMenuScreens();
 
         ItemProperties.register(LsItems.LOGINAR_ANTENNA.get(), Const.IS_LOGINAR_CHUNK, (stack, level, entity, par4) -> {
             // TODO: Return 1 for loginar spawn chunks, 0 otherwise (can only calculate on the server...)
             return LoginarMod.RANDOM.nextInt(20) == 0 ? 1 : 0;
         });
+    }
+
+    private static void registerMenuScreens() {
+        MenuScreens.register(LsMenuTypes.LOGINAR_URN.get(), LoginarUrnScreen::new);
+        MenuScreens.register(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), LoginarUrnBackpackScreen::new);
+        MenuScreens.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
+
+        MenuScreens.register(LsMenuTypes.LUNCH_BOX.get(), ContainerItemScreen::new);
     }
 
     @SubscribeEvent

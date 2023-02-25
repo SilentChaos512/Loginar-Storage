@@ -7,10 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.item.LoginarAntennaItem;
-import net.silentchaos512.loginar.item.LoginarTentacleItem;
-import net.silentchaos512.loginar.item.UpgradeItem;
-import net.silentchaos512.loginar.item.VacuumUrnUpgrade;
+import net.silentchaos512.loginar.item.*;
 
 import java.util.function.Supplier;
 
@@ -43,6 +40,11 @@ public class LsItems {
     );
     public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
             new UpgradeItem(props())
+    );
+
+    // Container items
+    public static final ItemRegistryObject<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
+            new LunchBoxItem(props().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1).setNoRepair())
     );
 
     // Misc

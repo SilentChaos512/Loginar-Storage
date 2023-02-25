@@ -150,6 +150,19 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('r', Tags.Items.DUSTS_REDSTONE)
                 .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .build(consumer);
+
+        // Container items
+
+        shapedBuilder(LsItems.LUNCH_BOX)
+                .patternLine(" / ")
+                .patternLine("#a#")
+                .patternLine("#c#")
+                .key('/', Tags.Items.RODS_WOODEN)
+                .key('#', Blocks.RED_TERRACOTTA)
+                .key('a', LsItems.LOGINAR_ANTENNA)
+                .key('c', LsItems.LOGINAR_CALAMARI)
+                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .build(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {
