@@ -16,7 +16,7 @@ import net.silentchaos512.loginar.util.Const;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, LoginarMod.MOD_ID, existingFileHelper);
+        super(generator.getPackOutput(), LoginarMod.MOD_ID, existingFileHelper);
     }
 
     @Override

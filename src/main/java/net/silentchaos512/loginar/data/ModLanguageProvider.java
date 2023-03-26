@@ -12,7 +12,7 @@ import net.silentchaos512.loginar.setup.LsItems;
 
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(DataGenerator gen) {
-        super(gen, LoginarMod.MOD_ID, "en_us");
+        super(gen.getPackOutput(), LoginarMod.MOD_ID, "en_us");
     }
 
     @Override

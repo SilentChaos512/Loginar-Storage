@@ -2,6 +2,7 @@ package net.silentchaos512.loginar.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -26,14 +27,14 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 200)
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(consumer, "loginar_calamari_smelting");
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 100)
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 100)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(consumer, "loginar_calamari_smoking");
-        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), LsItems.LOGINAR_CALAMARI, 0.35f, 600)
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 600)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(consumer, "loginar_calamari_campfire_cooking");
 
@@ -59,110 +60,110 @@ public class ModRecipeProvider extends LibRecipeProvider {
         baseUrn(consumer, Blocks.RED_TERRACOTTA, 0x8E3C2E);
         baseUrn(consumer, Blocks.BLACK_TERRACOTTA, 0x251610);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.SMALL_LOGINAR_URN)
-                .patternLine("#a#")
-                .patternLine("#*#")
-                .patternLine("#b#")
-                .key('*', LsBlocks.TINY_LOGINAR_URN)
-                .key('#', Tags.Items.INGOTS_COPPER)
-                .key('a', Tags.Items.GEMS_AMETHYST)
-                .key('b', Items.GLOW_BERRIES)
-                .addCriterion("has_item", has(LsBlocks.TINY_LOGINAR_URN))
-                .build(consumer);
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.SMALL_LOGINAR_URN)
+                .pattern("#a#")
+                .pattern("#*#")
+                .pattern("#b#")
+                .define('*', LsBlocks.TINY_LOGINAR_URN)
+                .define('#', Tags.Items.INGOTS_COPPER)
+                .define('a', Tags.Items.GEMS_AMETHYST)
+                .define('b', Items.GLOW_BERRIES)
+                .unlockedBy("has_item", has(LsBlocks.TINY_LOGINAR_URN))
+                .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.MEDIUM_LOGINAR_URN)
-                .patternLine("/g/")
-                .patternLine("q*q")
-                .patternLine("###")
-                .key('*', LsBlocks.SMALL_LOGINAR_URN)
-                .key('/', Tags.Items.RODS_BLAZE)
-                .key('g', Tags.Items.INGOTS_GOLD)
-                .key('q', Tags.Items.GEMS_QUARTZ)
-                .key('#', Blocks.BLACKSTONE)
-                .addCriterion("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
-                .build(consumer);
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.MEDIUM_LOGINAR_URN)
+                .pattern("/g/")
+                .pattern("q*q")
+                .pattern("###")
+                .define('*', LsBlocks.SMALL_LOGINAR_URN)
+                .define('/', Tags.Items.RODS_BLAZE)
+                .define('g', Tags.Items.INGOTS_GOLD)
+                .define('q', Tags.Items.GEMS_QUARTZ)
+                .define('#', Blocks.BLACKSTONE)
+                .unlockedBy("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
+                .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.LARGE_LOGINAR_URN)
-                .patternLine("cnw")
-                .patternLine("o*o")
-                .patternLine("###")
-                .key('*', LsBlocks.MEDIUM_LOGINAR_URN)
-                .key('o', Items.ENDER_EYE)
-                .key('n', Tags.Items.INGOTS_NETHERITE)
-                .key('c', Items.CRIMSON_FUNGUS)
-                .key('w', Items.WARPED_FUNGUS)
-                .key('#', Blocks.CRYING_OBSIDIAN)
-                .addCriterion("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
-                .build(consumer);
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.LARGE_LOGINAR_URN)
+                .pattern("cnw")
+                .pattern("o*o")
+                .pattern("###")
+                .define('*', LsBlocks.MEDIUM_LOGINAR_URN)
+                .define('o', Items.ENDER_EYE)
+                .define('n', Tags.Items.INGOTS_NETHERITE)
+                .define('c', Items.CRIMSON_FUNGUS)
+                .define('w', Items.WARPED_FUNGUS)
+                .define('#', Blocks.CRYING_OBSIDIAN)
+                .unlockedBy("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
+                .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.HUGE_LOGINAR_URN)
-                .patternLine("csc")
-                .patternLine("e*e")
-                .patternLine("###")
-                .key('*', LsBlocks.LARGE_LOGINAR_URN)
-                .key('c', Items.CHORUS_FLOWER)
-                .key('s', Items.SHULKER_SHELL)
-                .key('e', Tags.Items.GEMS_EMERALD)
-                .key('#', Blocks.PURPUR_BLOCK)
-                .addCriterion("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
-                .build(consumer);
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.HUGE_LOGINAR_URN)
+                .pattern("csc")
+                .pattern("e*e")
+                .pattern("###")
+                .define('*', LsBlocks.LARGE_LOGINAR_URN)
+                .define('c', Items.CHORUS_FLOWER)
+                .define('s', Items.SHULKER_SHELL)
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .define('#', Blocks.PURPUR_BLOCK)
+                .unlockedBy("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
+                .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), LsBlocks.SUPER_LOGINAR_URN)
-                .patternLine("wsw")
-                .patternLine("p*p")
-                .patternLine("###")
-                .key('*', LsBlocks.HUGE_LOGINAR_URN)
-                .key('w', Items.WITHER_ROSE)
-                .key('s', Items.SCULK)
-                .key('p', Tags.Items.GEMS_PRISMARINE)
-                .key('#', Blocks.PRISMARINE)
-                .addCriterion("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
-                .build(consumer);
+        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.SUPER_LOGINAR_URN)
+                .pattern("wsw")
+                .pattern("p*p")
+                .pattern("###")
+                .define('*', LsBlocks.HUGE_LOGINAR_URN)
+                .define('w', Items.WITHER_ROSE)
+                .define('s', Items.SCULK)
+                .define('p', Tags.Items.GEMS_PRISMARINE)
+                .define('#', Blocks.PRISMARINE)
+                .unlockedBy("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
+                .save(consumer);
 
         // Upgrade recipes
-        shapedBuilder(LsItems.BACKPACK_UPGRADE)
-                .patternLine(" e ")
-                .patternLine(" l ")
-                .patternLine("lal")
-                .key('a', LsItems.LOGINAR_ANTENNA)
-                .key('e', Tags.Items.ENDER_PEARLS)
-                .key('l', Tags.Items.LEATHER)
-                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .build(consumer);
+        shapedBuilder(RecipeCategory.MISC, LsItems.BACKPACK_UPGRADE)
+                .pattern(" e ")
+                .pattern(" l ")
+                .pattern("lal")
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('e', Tags.Items.ENDER_PEARLS)
+                .define('l', Tags.Items.LEATHER)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
 
-        shapedBuilder(LsItems.ITEM_SWAPPER_UPGRADE)
-                .patternLine(" w ")
-                .patternLine("i i")
-                .patternLine("waw")
-                .key('a', LsItems.LOGINAR_ANTENNA)
-                .key('i', Tags.Items.INGOTS_GOLD)
-                .key('w', ItemTags.WOOL)
-                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .build(consumer);
+        shapedBuilder(RecipeCategory.MISC, LsItems.ITEM_SWAPPER_UPGRADE)
+                .pattern(" w ")
+                .pattern("i i")
+                .pattern("waw")
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('i', Tags.Items.INGOTS_GOLD)
+                .define('w', ItemTags.WOOL)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
 
-        shapedBuilder(LsItems.VACUUM_UPGRADE)
-                .patternLine(" i ")
-                .patternLine("rhr")
-                .patternLine("iai")
-                .key('a', LsItems.LOGINAR_ANTENNA)
-                .key('h', Items.HOPPER)
-                .key('i', Tags.Items.INGOTS_COPPER)
-                .key('r', Tags.Items.DUSTS_REDSTONE)
-                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .build(consumer);
+        shapedBuilder(RecipeCategory.MISC, LsItems.VACUUM_UPGRADE)
+                .pattern(" i ")
+                .pattern("rhr")
+                .pattern("iai")
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('h', Items.HOPPER)
+                .define('i', Tags.Items.INGOTS_COPPER)
+                .define('r', Tags.Items.DUSTS_REDSTONE)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
 
         // Container items
 
-        shapedBuilder(LsItems.LUNCH_BOX)
-                .patternLine(" / ")
-                .patternLine("#a#")
-                .patternLine("#c#")
-                .key('/', Tags.Items.RODS_WOODEN)
-                .key('#', Blocks.RED_TERRACOTTA)
-                .key('a', LsItems.LOGINAR_ANTENNA)
-                .key('c', LsItems.LOGINAR_CALAMARI)
-                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .build(consumer);
+        shapedBuilder(RecipeCategory.FOOD, LsItems.LUNCH_BOX)
+                .pattern(" / ")
+                .pattern("#a#")
+                .pattern("#c#")
+                .define('/', Tags.Items.RODS_WOODEN)
+                .define('#', Blocks.RED_TERRACOTTA)
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('c', LsItems.LOGINAR_CALAMARI)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {
@@ -173,15 +174,15 @@ public class ModRecipeProvider extends LibRecipeProvider {
             colorName = blockName.substring(0, i + 1);
         }
 
-        shapedBuilder(LsRecipeSerializers.URN_BASE.get(), LsBlocks.TINY_LOGINAR_URN)
+        shapedBuilder(LsRecipeSerializers.URN_BASE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.TINY_LOGINAR_URN)
                 .addExtraData(json -> json.addProperty("clay_color", Color.format(clayColor)))
-                .patternLine("#~#")
-                .patternLine("#0#")
-                .patternLine("###")
-                .key('#', clay)
-                .key('~', LsItems.LOGINAR_ANTENNA)
-                .key('0', Tags.Items.GEMS)
-                .addCriterion("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .build(consumer, modId(colorName + "tiny_loginar_urn"));
+                .pattern("#~#")
+                .pattern("#0#")
+                .pattern("###")
+                .define('#', clay)
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('0', Tags.Items.GEMS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer, modId(colorName + "tiny_loginar_urn"));
     }
 }

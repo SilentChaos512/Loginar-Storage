@@ -1,7 +1,6 @@
 package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -49,18 +48,18 @@ public class LsBlocks {
 
     private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<? extends BlockItem>> item) {
         BlockRegistryObject<T> ret = registerNoItem(name, block);
-        LsItems.REGISTER.register(name, item.apply(ret));
+        LsItems.register(name, item.apply(ret));
         return ret;
     }
 
     private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().tab(CreativeModeTab.TAB_TOOLS));
+        return () -> new BlockItem(block.get(), new Item.Properties());
     }
 
     private static BlockRegistryObject<LoginarUrnBlock> registerUrn(UrnTypes type) {
         return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
                 () -> new LoginarUrnBlock(type, urnProps()),
-                bro -> () -> new LoginarUrnBlockItem(bro.get(), new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1))
+                bro -> () -> new LoginarUrnBlockItem(bro.get(), new Item.Properties().stacksTo(1))
         );
     }
 

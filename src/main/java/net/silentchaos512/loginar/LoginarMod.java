@@ -32,6 +32,7 @@ public final class LoginarMod {
         LsBlocks.REGISTER.register(modEventBus);
         LsEntityTypes.REGISTER.register(modEventBus);
         LsItems.REGISTER.register(modEventBus);
+        modEventBus.addListener(LsItems::onBuildContentsOfCreativeTabs);
         LsMenuTypes.REGISTER.register(modEventBus);
         LsRecipeSerializers.REGISTER.register(modEventBus);
         LsSounds.REGISTER.register(modEventBus);

@@ -1,8 +1,9 @@
 package net.silentchaos512.loginar.setup;
 
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
@@ -20,13 +21,11 @@ public class LsItems {
     );
     public static final ItemRegistryObject<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
             new LoginarTentacleItem(props()
-                    .tab(CreativeModeTab.TAB_FOOD)
                     .food(LsFoods.LOGINAR_TENTACLE)
             )
     );
     public static final ItemRegistryObject<Item> LOGINAR_CALAMARI = register("loginar_calamari", () ->
             new Item(props()
-                    .tab(CreativeModeTab.TAB_FOOD)
                     .food(LsFoods.LOGINAR_CALAMARI)
             )
     );
@@ -44,18 +43,45 @@ public class LsItems {
 
     // Container items
     public static final ItemRegistryObject<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
-            new LunchBoxItem(props().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1).setNoRepair())
+            new LunchBoxItem(props().stacksTo(1).setNoRepair())
     );
 
     // Misc
     public static final ItemRegistryObject<ForgeSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
             new ForgeSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
 
-    private static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
+    protected static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
         return new ItemRegistryObject<>(REGISTER.register(name, item));
     }
 
     private static Item.Properties props() {
-        return new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS);
+        return new Item.Properties();
+    }
+
+    public static void onBuildContentsOfCreativeTabs(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(LsBlocks.TINY_LOGINAR_URN.get());
+            event.accept(LsBlocks.SMALL_LOGINAR_URN.get());
+            event.accept(LsBlocks.MEDIUM_LOGINAR_URN.get());
+            event.accept(LsBlocks.LARGE_LOGINAR_URN.get());
+            event.accept(LsBlocks.HUGE_LOGINAR_URN.get());
+            event.accept(LsBlocks.SUPER_LOGINAR_URN.get());
+        }
+        if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS) {
+            event.accept(LUNCH_BOX.get());
+            event.accept(LOGINAR_TENTACLE.get());
+            event.accept(LOGINAR_CALAMARI.get());
+        }
+        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(LOGINAR_ANTENNA.get());
+        }
+        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(BACKPACK_UPGRADE.get());
+            event.accept(VACUUM_UPGRADE.get());
+            event.accept(ITEM_SWAPPER_UPGRADE.get());
+        }
+        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(LOGINAR_SPAWN_EGG.get());
+        }
     }
 }

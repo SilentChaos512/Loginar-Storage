@@ -3,6 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.19.3-1.1.0] - 2023-03-26
+- Ported to Minecraft 1.19.3
+
 ## [1.1.0] - 2023-02-25
 ### Added
 - Lunch box. It stores 9 stacks of food. You can eat straight from it without removing the food first.

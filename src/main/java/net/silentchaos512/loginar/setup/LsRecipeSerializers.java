@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -19,8 +19,8 @@ public class LsRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<?>> URN_BASE = register("urn_base",
             UrnBaseRecipe.Serializer::new
     );
-    public static final RegistryObject<SimpleRecipeSerializer<?>> URN_MODIFICATION = register("urn_modification",
-            () -> new SimpleRecipeSerializer<>(UrnModifcationRecipe::new)
+    public static final RegistryObject<SimpleCraftingRecipeSerializer<?>> URN_MODIFICATION = register("urn_modification",
+            () -> new SimpleCraftingRecipeSerializer<>(UrnModifcationRecipe::new)
     );
     public static final RegistryObject<RecipeSerializer<?>> URN_UPGRADE = register("urn_upgrade",
             () -> ExtendedShapedRecipe.Serializer.basic(UrnUpgradeRecipe::new)

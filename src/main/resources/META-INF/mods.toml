@@ -19,18 +19,18 @@ authors="SilentChaos512, giok3r"
 [[dependencies.loginar]]
     modId="forge"
     mandatory=true
-    versionRange="[43.1,)"
+    versionRange="[44,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.loginar]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,)"
+    versionRange="[1.19.3,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.loginar]]
     modId="silentlib"
     mandatory=true
-    versionRange="[7.0.1,)"
+    versionRange="[7.1,)"
     ordering="NONE"
     side="BOTH"

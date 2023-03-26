@@ -1,12 +1,9 @@
 package net.silentchaos512.loginar.setup;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
-import net.silentchaos512.gear.SilentGear;
 import net.silentchaos512.loginar.LoginarMod;
 
 public class LsSounds {
@@ -20,6 +17,6 @@ public class LsSounds {
     public static final RegistryObject<SoundEvent> URN_OPEN = register("block.loginar.urn.open");
 
     private static RegistryObject<SoundEvent> register(String name) {
-        return REGISTER.register(name, () -> new SoundEvent(LoginarMod.getId(name)));
+        return REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(LoginarMod.getId(name)));
     }
 }

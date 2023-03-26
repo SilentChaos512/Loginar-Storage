@@ -10,7 +10,7 @@ import net.silentchaos512.loginar.setup.LsBlocks;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, LoginarMod.MOD_ID, exFileHelper);
+        super(gen.getPackOutput(), LoginarMod.MOD_ID, exFileHelper);
     }
 
     @Override

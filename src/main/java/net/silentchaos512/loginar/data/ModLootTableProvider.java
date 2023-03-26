@@ -1,14 +1,15 @@
 package net.silentchaos512.loginar.data;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.data.loot.ChestLoot;
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.packs.VanillaChestLoot;
+import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.DynamicLoot;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.*;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
@@ -33,21 +33,16 @@ import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.Const;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModLootTableProvider extends LootTableProvider {
     public ModLootTableProvider(DataGenerator gen) {
-        super(gen);
-    }
-
-    @Override
-    public String getName() {
-        return super.getName() + ": " + LoginarMod.MOD_ID;
+        super(gen.getPackOutput(), Collections.emptySet(), VanillaLootTableProvider.create(gen.getPackOutput()).getTables());
     }
 
     @Override
@@ -56,11 +51,11 @@ public class ModLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
+    public List<SubProviderEntry> getTables() {
         return ImmutableList.of(
-                Pair.of(ModBlockLoot::new, LootContextParamSets.BLOCK),
-                Pair.of(ModChestLoot::new, LootContextParamSets.CHEST),
-                Pair.of(ModEntityLoot::new, LootContextParamSets.ENTITY)
+                new SubProviderEntry(ModBlockLoot::new, LootContextParamSets.BLOCK),
+                new SubProviderEntry(ModChestLoot::new, LootContextParamSets.CHEST),
+                new SubProviderEntry(ModEntityLoot::new, LootContextParamSets.ENTITY)
         );
     }
 
@@ -68,9 +63,13 @@ public class ModLootTableProvider extends LootTableProvider {
         return LoginarMod.getId(path);
     }
 
-    public static final class ModBlockLoot extends BlockLoot {
+    public static final class ModBlockLoot extends BlockLootSubProvider {
+        protected ModBlockLoot() {
+            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        }
+
         @Override
-        protected void addTables() {
+        protected void generate() {
             // Loginar urns (very similar to shulker boxes)
             for (UrnTypes type : UrnTypes.values()) {
                 LoginarUrnBlock block = type.block().get();
@@ -103,9 +102,9 @@ public class ModLootTableProvider extends LootTableProvider {
         }
     }
 
-    public static final class ModChestLoot extends ChestLoot {
+    public static final class ModChestLoot extends VanillaChestLoot {
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(UniformGenerator.between(2, 3))
@@ -173,9 +172,16 @@ public class ModLootTableProvider extends LootTableProvider {
         }
     }
 
-    public static final class ModEntityLoot extends EntityLoot {
+    public static final class ModEntityLoot extends EntityLootSubProvider {
+        protected ModEntityLoot() {
+            super(FeatureFlags.REGISTRY.allFlags());
+        }
+
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        public void generate() {}
+
+        @Override
+        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(modId("entities/loginar"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1))
@@ -197,8 +203,8 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         @Override
-        protected Iterable<EntityType<?>> getKnownEntities() {
-            return LsEntityTypes.REGISTER.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+        protected Stream<EntityType<?>> getKnownEntityTypes() {
+            return LsEntityTypes.REGISTER.getEntries().stream().map(RegistryObject::get);
         }
     }
 }

@@ -7,11 +7,9 @@ import net.minecraftforge.common.data.SoundDefinitionsProvider;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsSounds;
 
-import java.util.ResourceBundle;
-
 public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
     protected ModSoundDefinitionsProvider(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator, LoginarMod.MOD_ID, helper);
+        super(generator.getPackOutput(), LoginarMod.MOD_ID, helper);
     }
 
     @Override
