@@ -1,6 +1,7 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
@@ -47,8 +48,8 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingContainer) {
-        ItemStack baseResult = getBaseRecipe().getResultItem();
+    public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
+        ItemStack baseResult = getBaseRecipe().getResultItem(registryAccess);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
             int gemColor = getGemColor(findGem(craftingContainer));
             return block.makeStack(this.color, gemColor);
@@ -59,8 +60,8 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack getResultItem() {
-        ItemStack baseResult = getBaseRecipe().getResultItem();
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
+        ItemStack baseResult = getBaseRecipe().getResultItem(registryAccess);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock) {
             LoginarUrnBlock block = (LoginarUrnBlock) ((BlockItem) baseResult.getItem()).getBlock();
             return block.makeStack(this.color, UrnData.DEFAULT_GEM_COLOR);

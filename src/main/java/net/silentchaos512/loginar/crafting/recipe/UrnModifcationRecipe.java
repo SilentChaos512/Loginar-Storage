@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
@@ -47,7 +48,7 @@ public class UrnModifcationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         StackList list = StackList.from(inv);
         ItemStack urn = list.uniqueMatch(UrnModifcationRecipe::isUrn).copy();
         UrnData data = UrnData.fromItem(urn);

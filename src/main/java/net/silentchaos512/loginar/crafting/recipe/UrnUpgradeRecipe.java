@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,8 +27,8 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingContainer) {
-        ItemStack ret = this.getBaseRecipe().assemble(craftingContainer);
+    public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
+        ItemStack ret = this.getBaseRecipe().assemble(craftingContainer, registryAccess);
 
         // Find original urn
         ItemStack original = ItemStack.EMPTY;

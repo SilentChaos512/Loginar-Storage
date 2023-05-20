@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class ModItemTagsProvider extends ItemTagsProvider {
     public ModItemTagsProvider(GatherDataEvent event, BlockTagsProvider blocks) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks, LoginarMod.MOD_ID, event.getExistingFileHelper());
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), LoginarMod.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
