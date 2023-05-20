@@ -41,6 +41,8 @@ public final class LsClientModEvents {
         MenuScreens.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
 
         MenuScreens.register(LsMenuTypes.LUNCH_BOX.get(), ContainerItemScreen::new);
+        MenuScreens.register(LsMenuTypes.GEM_BAG.get(), ContainerItemScreen::new);
+        MenuScreens.register(LsMenuTypes.FLOWER_BASKET.get(), ContainerItemScreen::new);
     }
 
     @SubscribeEvent

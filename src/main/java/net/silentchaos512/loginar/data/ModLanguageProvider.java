@@ -28,6 +28,8 @@ public class ModLanguageProvider extends LanguageProvider {
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
         add("container", "lunch_box", "Lunch Box");
+        add("container", "gem_bag", "Gem Bag");
+        add("container", "flower_basket", "Flower Basket");
 
         // Entities
         addEntityType(LsEntityTypes.LOGINAR, "Loginar");
@@ -50,6 +52,10 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
         addItemSub(LsItems.ITEM_SWAPPER_UPGRADE, "desc", "Allows individual items to be swapped out of the urn by pressing a bound key");
         // Container items
+        addItem(LsItems.FLOWER_BASKET, "Flower Basket");
+        addItemSub(LsItems.FLOWER_BASKET, "desc", "Stores and picks up flowers");
+        addItem(LsItems.GEM_BAG, "Gem Bag");
+        addItemSub(LsItems.GEM_BAG, "desc", "Stores and picks up gems");
         addItem(LsItems.LUNCH_BOX, "Lunch Box");
         addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Right-click to eat, sneak + right-click to open.");
 

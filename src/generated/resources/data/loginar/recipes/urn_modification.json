@@ -1,3 +1,4 @@
 {
-  "type": "loginar:urn_modification"
+  "type": "loginar:urn_modification",
+  "category": "misc"
 }

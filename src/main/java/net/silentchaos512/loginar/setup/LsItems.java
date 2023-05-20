@@ -45,6 +45,12 @@ public class LsItems {
     public static final ItemRegistryObject<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
             new LunchBoxItem(props().stacksTo(1).setNoRepair())
     );
+    public static final ItemRegistryObject<GemBagItem> GEM_BAG = register("gem_bag", () ->
+            new GemBagItem(props().stacksTo(1).setNoRepair())
+    );
+    public static final ItemRegistryObject<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
+            new FlowerBasketItem(props().stacksTo(1).setNoRepair())
+    );
 
     // Misc
     public static final ItemRegistryObject<ForgeSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
@@ -79,6 +85,8 @@ public class LsItems {
             event.accept(BACKPACK_UPGRADE.get());
             event.accept(VACUUM_UPGRADE.get());
             event.accept(ITEM_SWAPPER_UPGRADE.get());
+            event.accept(LsItems.GEM_BAG.get());
+            event.accept(LsItems.FLOWER_BASKET.get());
         }
         if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(LOGINAR_SPAWN_EGG.get());

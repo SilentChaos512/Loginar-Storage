@@ -38,6 +38,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
 
         builder(LsItems.LUNCH_BOX, itemGenerated);
+        builder(LsItems.GEM_BAG, itemGenerated);
+        builder(LsItems.FLOWER_BASKET, itemGenerated);
 
         builder(LsItems.LOGINAR_SPAWN_EGG)
                 .parent(getExistingFile(mcLoc("item/template_spawn_egg")));
