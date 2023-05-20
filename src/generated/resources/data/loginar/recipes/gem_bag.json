@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "/": {
+      "tag": "forge:nuggets/gold"
+    },
+    "g": {
+      "tag": "forge:gems"
+    },
+    "~": {
+      "item": "loginar:loginar_antenna"
+    }
+  },
+  "pattern": [
+    "/~/",
+    "#g#",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:gem_bag"
+  }
+}

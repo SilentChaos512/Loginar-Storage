@@ -30,6 +30,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         );
         tag(LsTags.Items.FLOWER_BASKET_CAN_STORE).addTag(ItemTags.FLOWERS);
         tag(LsTags.Items.GEM_BAG_CAN_STORE).addTag(Tags.Items.GEMS);
+        tag(LsTags.Items.ORE_CRATE_CAN_STORE).addTag(Tags.Items.RAW_MATERIALS).addTag(Tags.Items.ORES);
     }
 
     private void builder(TagKey<Item> tag, ItemLike... items) {

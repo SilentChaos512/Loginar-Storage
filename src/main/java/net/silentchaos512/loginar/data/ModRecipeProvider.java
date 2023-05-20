@@ -164,6 +164,35 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('c', LsItems.LOGINAR_CALAMARI)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
+
+        shapedBuilder(RecipeCategory.MISC, LsItems.GEM_BAG)
+                .pattern("/~/")
+                .pattern("#g#")
+                .pattern("###")
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('/', Tags.Items.NUGGETS_GOLD)
+                .define('#', ItemTags.WOOL)
+                .define('g', Tags.Items.GEMS)
+                .save(consumer);
+
+        shapedBuilder(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
+                .pattern("/~/")
+                .pattern("#g#")
+                .pattern("###")
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('/', Tags.Items.NUGGETS_GOLD)
+                .define('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
+                .define('g', ItemTags.FLOWERS)
+                .save(consumer);
+
+        shapedBuilder(RecipeCategory.MISC, LsItems.ORE_CRATE)
+                .pattern("ooo")
+                .pattern("#~#")
+                .pattern("###")
+                .define('o', Tags.Items.RAW_MATERIALS)
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('#', ItemTags.PLANKS)
+                .save(consumer);
     }
 
     private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {

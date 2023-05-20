@@ -3,8 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.19.4-1.1.0] - 2023-05-20
+## [1.19.4-1.2.0] - 2023-05-20
 - Ported to Minecraft 1.19.4
+### Added
+- Gem bag, flower basket, and ore crate. These store and collect specific types of items specified by tags (`loginar:gem_bag_can_store`, `loginar:flower_basket_can_store`, and `loginar:ore_crate_can_store`). If you are familiar with the gem bag and flower basket in Silent's Gems, these work the same way.
 
 ## [1.19.3-1.1.0] - 2023-03-26
 - Ported to Minecraft 1.19.3

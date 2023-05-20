@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "o": {
+      "tag": "forge:raw_materials"
+    },
+    "~": {
+      "item": "loginar:loginar_antenna"
+    }
+  },
+  "pattern": [
+    "ooo",
+    "#~#",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:ore_crate"
+  }
+}

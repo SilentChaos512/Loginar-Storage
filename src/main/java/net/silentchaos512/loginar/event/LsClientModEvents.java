@@ -43,6 +43,7 @@ public final class LsClientModEvents {
         MenuScreens.register(LsMenuTypes.LUNCH_BOX.get(), ContainerItemScreen::new);
         MenuScreens.register(LsMenuTypes.GEM_BAG.get(), ContainerItemScreen::new);
         MenuScreens.register(LsMenuTypes.FLOWER_BASKET.get(), ContainerItemScreen::new);
+        MenuScreens.register(LsMenuTypes.ORE_CRATE.get(), ContainerItemScreen::new);
     }
 
     @SubscribeEvent

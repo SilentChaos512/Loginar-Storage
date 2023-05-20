@@ -14,6 +14,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
 import net.silentchaos512.loginar.item.FlowerBasketItem;
 import net.silentchaos512.loginar.item.GemBagItem;
 import net.silentchaos512.loginar.item.LunchBoxItem;
+import net.silentchaos512.loginar.item.OreCrateItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
 
 public class LsMenuTypes {
@@ -35,6 +36,8 @@ public class LsMenuTypes {
             new ContainerItemMenu(windowId, inv, LsMenuTypes.GEM_BAG.get(), GemBagItem.class)));
     public static final RegistryObject<MenuType<ContainerItemMenu>> FLOWER_BASKET = register("flower_basket", ((windowId, inv, data) ->
             new ContainerItemMenu(windowId, inv, LsMenuTypes.FLOWER_BASKET.get(), FlowerBasketItem.class)));
+    public static final RegistryObject<MenuType<ContainerItemMenu>> ORE_CRATE = register("ore_crate", ((windowId, inv, data) ->
+            new ContainerItemMenu(windowId, inv, LsMenuTypes.ORE_CRATE.get(), OreCrateItem.class)));
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, IContainerFactory<T> factory) {
         return REGISTER.register(name, () -> IForgeMenuType.create(factory));

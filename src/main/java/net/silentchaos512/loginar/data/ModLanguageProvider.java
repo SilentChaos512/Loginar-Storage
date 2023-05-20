@@ -30,6 +30,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container", "lunch_box", "Lunch Box");
         add("container", "gem_bag", "Gem Bag");
         add("container", "flower_basket", "Flower Basket");
+        add("container", "ore_crate", "Ore Crate");
 
         // Entities
         addEntityType(LsEntityTypes.LOGINAR, "Loginar");
@@ -58,6 +59,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.GEM_BAG, "desc", "Stores and picks up gems");
         addItem(LsItems.LUNCH_BOX, "Lunch Box");
         addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Right-click to eat, sneak + right-click to open.");
+        addItem(LsItems.ORE_CRATE, "Ore Crate");
+        addItemSub(LsItems.ORE_CRATE, "desc", "Stores and picks up raw ores");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");

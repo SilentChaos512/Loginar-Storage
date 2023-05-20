@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:sugar_cane"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ],
+    "/": {
+      "tag": "forge:nuggets/gold"
+    },
+    "g": {
+      "tag": "minecraft:flowers"
+    },
+    "~": {
+      "item": "loginar:loginar_antenna"
+    }
+  },
+  "pattern": [
+    "/~/",
+    "#g#",
+    "###"
+  ],
+  "result": {
+    "item": "loginar:flower_basket"
+  }
+}
