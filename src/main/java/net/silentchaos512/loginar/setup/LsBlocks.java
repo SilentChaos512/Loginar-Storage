@@ -4,7 +4,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -65,10 +65,11 @@ public class LsBlocks {
 
     @NotNull
     private static BlockBehaviour.Properties urnProps() {
-        return BlockBehaviour.Properties.of(Material.STONE)
+        return BlockBehaviour.Properties.of()
                 .strength(2f)
                 .noOcclusion()
                 .isSuffocating((state, level, pos) -> false)
-                .isViewBlocking((state, level, pos) -> false);
+                .isViewBlocking((state, level, pos) -> false)
+                .pushReaction(PushReaction.DESTROY);
     }
 }

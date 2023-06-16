@@ -38,8 +38,8 @@ public class ContainerItemEvents {
         }
 
         if (itemOnGround.getCount() != initialCount) {
-            float pitch = ((player.level.random.nextFloat() - player.level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
-            player.level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
+            float pitch = ((player.level().random.nextFloat() - player.level().random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
+            player.level().playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
                     SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, pitch);
         }
     }

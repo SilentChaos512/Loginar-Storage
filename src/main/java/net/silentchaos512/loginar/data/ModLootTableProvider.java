@@ -46,8 +46,10 @@ public class ModLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
-        map.forEach((id, table) -> LootTables.validate(validationtracker, id, table));
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
+        map.forEach((name, loo) -> {
+            loo.validate(validationcontext.setParams(loo.getParamSet()).enterElement("{" + name + "}", new LootDataId<>(LootDataType.TABLE, name)));
+        });
     }
 
     @Override

@@ -3,7 +3,7 @@ package net.silentchaos512.loginar.setup;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
@@ -67,8 +67,8 @@ public class LsItems {
         return new Item.Properties();
     }
 
-    public static void onBuildContentsOfCreativeTabs(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+    public static void onBuildContentsOfCreativeTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             event.accept(LsBlocks.TINY_LOGINAR_URN.get());
             event.accept(LsBlocks.SMALL_LOGINAR_URN.get());
             event.accept(LsBlocks.MEDIUM_LOGINAR_URN.get());
@@ -76,15 +76,15 @@ public class LsItems {
             event.accept(LsBlocks.HUGE_LOGINAR_URN.get());
             event.accept(LsBlocks.SUPER_LOGINAR_URN.get());
         }
-        if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS) {
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(LUNCH_BOX.get());
             event.accept(LOGINAR_TENTACLE.get());
             event.accept(LOGINAR_CALAMARI.get());
         }
-        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(LOGINAR_ANTENNA.get());
         }
-        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(BACKPACK_UPGRADE.get());
             event.accept(VACUUM_UPGRADE.get());
             event.accept(ITEM_SWAPPER_UPGRADE.get());
@@ -92,7 +92,7 @@ public class LsItems {
             event.accept(FLOWER_BASKET.get());
             event.accept(ORE_CRATE.get());
         }
-        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(LOGINAR_SPAWN_EGG.get());
         }
     }

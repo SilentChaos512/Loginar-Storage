@@ -85,17 +85,17 @@ public class LoginarFireballAttackGoal extends Goal {
                     if (this.attackStep > 1) {
                         double d4 = Math.sqrt(Math.sqrt(distanceSqr)) * 0.5D;
                         if (!this.loginar.isSilent()) {
-                            this.loginar.level.levelEvent((Player)null, 1018, this.loginar.blockPosition(), 0);
+                            this.loginar.level().levelEvent((Player)null, 1018, this.loginar.blockPosition(), 0);
                         }
 
                         for(int i = 0; i < 1; ++i) {
-                            SmallFireball smallfireball = new SmallFireball(this.loginar.level, this.loginar, this.loginar.getRandom().triangle(d1, 2.297D * d4), d2, this.loginar.getRandom().triangle(d3, 2.297D * d4));
+                            SmallFireball smallfireball = new SmallFireball(this.loginar.level(), this.loginar, this.loginar.getRandom().triangle(d1, 2.297D * d4), d2, this.loginar.getRandom().triangle(d3, 2.297D * d4));
                             smallfireball.setPos(smallfireball.getX(), this.loginar.getY(0.5D) + 0.5D, smallfireball.getZ());
-                            this.loginar.level.addFreshEntity(smallfireball);
+                            this.loginar.level().addFreshEntity(smallfireball);
                         }
                     }
                 } else if (this.attackTime == 20 && this.attackStep == 1) {
-                    loginar.level.playSound(null, loginar, LsSounds.LOGINAR_ATTACK.get(), SoundSource.HOSTILE, 1f, 1f);
+                    loginar.level().playSound(null, loginar, LsSounds.LOGINAR_ATTACK.get(), SoundSource.HOSTILE, 1f, 1f);
                 }
 
                 this.loginar.getLookControl().setLookAt(targetEntity, 10.0F, 10.0F);

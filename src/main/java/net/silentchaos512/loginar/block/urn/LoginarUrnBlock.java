@@ -26,8 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -156,12 +155,12 @@ public class LoginarUrnBlock extends BaseEntityBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
         BlockEntity blockentity = context.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (blockentity instanceof LoginarUrnBlockEntity urn) {
-            context = context.withDynamicDrop(CONTENTS, (p_56218_, p_56219_) -> {
+            context = context.withDynamicDrop(CONTENTS, consumer -> {
                 for (int i = 0; i < urn.getContainerSize(); ++i) {
-                    p_56219_.accept(urn.getItem(i));
+                    consumer.accept(urn.getItem(i));
                 }
 
             });
@@ -238,12 +237,6 @@ public class LoginarUrnBlock extends BaseEntityBlock {
                 }
             }
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public PushReaction getPistonPushReaction(BlockState p_56265_) {
-        return PushReaction.DESTROY;
     }
 
     @SuppressWarnings("deprecation")
