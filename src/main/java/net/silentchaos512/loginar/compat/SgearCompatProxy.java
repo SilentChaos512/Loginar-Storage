@@ -4,7 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
-import net.silentchaos512.gear.init.SgTags;
+import net.silentchaos512.gear.setup.SgTags;
 import net.silentchaos512.utils.Color;
 
 final class SgearCompatProxy {
