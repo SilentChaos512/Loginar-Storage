@@ -11,9 +11,9 @@ authors="SilentChaos512, giok3r"
     modId="loginar"
     version="${file.jarVersion}"
     displayName="Loginar Storage"
-#    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Loginar-Storage/1.19.x/update.json"
+    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Loginar-Storage/1.20.x/update.json"
     description='''
-    TODO
+    Adds new storage blocks and items, as well as alien squid dudes that may or may not attack you...
     '''
 
 [[dependencies.loginar]]
