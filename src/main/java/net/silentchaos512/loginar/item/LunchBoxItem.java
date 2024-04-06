@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
 import net.silentchaos512.loginar.setup.LsMenuTypes;

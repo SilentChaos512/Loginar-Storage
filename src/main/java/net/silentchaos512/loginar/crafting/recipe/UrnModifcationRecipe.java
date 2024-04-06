@@ -1,7 +1,6 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +8,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
@@ -20,8 +19,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class UrnModifcationRecipe extends CustomRecipe {
-    public UrnModifcationRecipe(ResourceLocation id, CraftingBookCategory bookCategory) {
-        super(id, bookCategory);
+    public UrnModifcationRecipe(CraftingBookCategory pCategory) {
+        super(pCategory);
     }
 
     @Override

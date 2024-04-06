@@ -9,7 +9,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.LsItems;
 
 public class LoginarUrnBlockItem extends BlockItem {
@@ -32,7 +31,7 @@ public class LoginarUrnBlockItem extends BlockItem {
     }
 
     private void openContainer(ServerPlayer player, ItemStack stack) {
-        NetworkHooks.openScreen(player,
+        player.openMenu(
                 new SimpleMenuProvider(
                         (id, inv, z) -> new LoginarUrnBackpackMenu(id, inv, stack),
                         stack.getHoverName()

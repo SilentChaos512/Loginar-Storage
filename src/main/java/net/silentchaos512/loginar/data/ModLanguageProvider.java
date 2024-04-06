@@ -3,7 +3,7 @@ package net.silentchaos512.loginar.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsBlocks;

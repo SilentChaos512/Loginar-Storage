@@ -2,65 +2,64 @@ package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.lib.registry.ItemRegistryObject;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.*;
 
 import java.util.function.Supplier;
 
 public class LsItems {
-    public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, LoginarMod.MOD_ID);
+    public static final DeferredRegister.Items REGISTER = DeferredRegister.createItems(LoginarMod.MOD_ID);
 
     // Loginar drops
-    public static final ItemRegistryObject<LoginarAntennaItem> LOGINAR_ANTENNA = register("loginar_antenna", () ->
+    public static final DeferredItem<LoginarAntennaItem> LOGINAR_ANTENNA = register("loginar_antenna", () ->
             new LoginarAntennaItem(props())
     );
-    public static final ItemRegistryObject<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
+    public static final DeferredItem<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
             new LoginarTentacleItem(props()
                     .food(LsFoods.LOGINAR_TENTACLE)
             )
     );
-    public static final ItemRegistryObject<Item> LOGINAR_CALAMARI = register("loginar_calamari", () ->
+    public static final DeferredItem<Item> LOGINAR_CALAMARI = register("loginar_calamari", () ->
             new Item(props()
                     .food(LsFoods.LOGINAR_CALAMARI)
             )
     );
 
     // Urn upgrades
-    public static final ItemRegistryObject<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
+    public static final DeferredItem<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
             new UpgradeItem(props())
     );
-    public static final ItemRegistryObject<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
+    public static final DeferredItem<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
             new VacuumUrnUpgrade(props())
     );
-    public static final ItemRegistryObject<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
+    public static final DeferredItem<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
             new UpgradeItem(props())
     );
 
     // Container items
-    public static final ItemRegistryObject<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
+    public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
             new LunchBoxItem(props().stacksTo(1).setNoRepair())
     );
-    public static final ItemRegistryObject<GemBagItem> GEM_BAG = register("gem_bag", () ->
+    public static final DeferredItem<GemBagItem> GEM_BAG = register("gem_bag", () ->
             new GemBagItem(props().stacksTo(1).setNoRepair())
     );
-    public static final ItemRegistryObject<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
+    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
             new FlowerBasketItem(props().stacksTo(1).setNoRepair())
     );
-    public static final ItemRegistryObject<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
+    public static final DeferredItem<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
             new OreCrateItem(props().stacksTo(1).setNoRepair())
     );
 
     // Misc
-    public static final ItemRegistryObject<ForgeSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
-            new ForgeSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
+    public static final DeferredItem<DeferredSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
+            new DeferredSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
 
-    protected static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
-        return new ItemRegistryObject<>(REGISTER.register(name, item));
+    protected static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
+        return REGISTER.register(name, item);
     }
 
     private static Item.Properties props() {

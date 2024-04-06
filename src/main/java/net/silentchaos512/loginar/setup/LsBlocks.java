@@ -5,10 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.silentchaos512.lib.registry.BlockRegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
@@ -21,42 +20,42 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class LsBlocks {
-    public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, LoginarMod.MOD_ID);
+    public static final DeferredRegister.Blocks REGISTER = DeferredRegister.createBlocks(LoginarMod.MOD_ID);
 
-    public static final BlockRegistryObject<LoginarUrnBlock> TINY_LOGINAR_URN = registerUrn(UrnTypes.TINY);
-    public static final BlockRegistryObject<LoginarUrnBlock> SMALL_LOGINAR_URN = registerUrn(UrnTypes.SMALL);
-    public static final BlockRegistryObject<LoginarUrnBlock> MEDIUM_LOGINAR_URN = registerUrn(UrnTypes.MEDIUM);
-    public static final BlockRegistryObject<LoginarUrnBlock> LARGE_LOGINAR_URN = registerUrn(UrnTypes.LARGE);
-    public static final BlockRegistryObject<LoginarUrnBlock> HUGE_LOGINAR_URN = registerUrn(UrnTypes.HUGE);
-    public static final BlockRegistryObject<LoginarUrnBlock> SUPER_LOGINAR_URN = registerUrn(UrnTypes.SUPER);
+    public static final DeferredBlock<LoginarUrnBlock> TINY_LOGINAR_URN = registerUrn(UrnTypes.TINY);
+    public static final DeferredBlock<LoginarUrnBlock> SMALL_LOGINAR_URN = registerUrn(UrnTypes.SMALL);
+    public static final DeferredBlock<LoginarUrnBlock> MEDIUM_LOGINAR_URN = registerUrn(UrnTypes.MEDIUM);
+    public static final DeferredBlock<LoginarUrnBlock> LARGE_LOGINAR_URN = registerUrn(UrnTypes.LARGE);
+    public static final DeferredBlock<LoginarUrnBlock> HUGE_LOGINAR_URN = registerUrn(UrnTypes.HUGE);
+    public static final DeferredBlock<LoginarUrnBlock> SUPER_LOGINAR_URN = registerUrn(UrnTypes.SUPER);
 
     public static Collection<LoginarUrnBlock> getUrns() {
         return REGISTER.getEntries().stream()
-                .map(RegistryObject::get)
+                .map(DeferredHolder::get)
                 .filter(b -> b instanceof LoginarUrnBlock)
                 .map(b -> (LoginarUrnBlock) b)
                 .collect(Collectors.toList());
     }
 
-    private static <T extends Block> BlockRegistryObject<T> registerNoItem(String name, Supplier<T> block) {
-        return new BlockRegistryObject<>(REGISTER.register(name, block));
+    private static <T extends Block> DeferredBlock<T> registerNoItem(String name, Supplier<T> block) {
+        return REGISTER.register(name, block);
     }
 
-    private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block) {
+    private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block) {
         return register(name, block, LsBlocks::defaultItem);
     }
 
-    private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<? extends BlockItem>> item) {
-        BlockRegistryObject<T> ret = registerNoItem(name, block);
+    private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block, Function<DeferredBlock<T>, Supplier<? extends BlockItem>> item) {
+        DeferredBlock<T> ret = registerNoItem(name, block);
         LsItems.register(name, item.apply(ret));
         return ret;
     }
 
-    private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
+    private static <T extends Block> Supplier<BlockItem> defaultItem(DeferredBlock<T> block) {
         return () -> new BlockItem(block.get(), new Item.Properties());
     }
 
-    private static BlockRegistryObject<LoginarUrnBlock> registerUrn(UrnTypes type) {
+    private static DeferredBlock<LoginarUrnBlock> registerUrn(UrnTypes type) {
         return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
                 () -> new LoginarUrnBlock(type, urnProps()),
                 bro -> () -> new LoginarUrnBlockItem(bro.get(), new Item.Properties().stacksTo(1))

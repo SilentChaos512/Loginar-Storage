@@ -3,14 +3,14 @@ package net.silentchaos512.loginar.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.network.LsNetwork;
-import net.silentchaos512.loginar.network.OpenUrnSwapperPacket;
+import net.silentchaos512.loginar.network.CPacketOpenUrnForItemSwap;
 import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
@@ -40,6 +40,6 @@ public class KeyTracker {
     }
 
     private static void handleSwapUrnItemsKeyPress() {
-        LsNetwork.channel.sendToServer(new OpenUrnSwapperPacket());
+        PacketDistributor.SERVER.noArg().send(new CPacketOpenUrnForItemSwap());
     }
 }

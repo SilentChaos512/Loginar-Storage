@@ -1,23 +1,24 @@
 package net.silentchaos512.loginar.compat;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.silentchaos512.gear.api.item.GearType;
-import net.silentchaos512.gear.api.part.PartType;
-import net.silentchaos512.gear.gear.material.MaterialInstance;
-import net.silentchaos512.gear.setup.SgTags;
 import net.silentchaos512.utils.Color;
 
 final class SgearCompatProxy {
+    private static final TagKey<Item> BORT_TAG = ItemTags.create(new ResourceLocation("forge", "gems/bort"));
     private SgearCompatProxy() {}
 
     static int getMainPartColor(ItemStack stack) {
         // Bort exception
-        if (stack.is(SgTags.Items.GEMS_BORT)) {
+        if (stack.is(BORT_TAG)) {
             return 0x96A3D4;
         }
 
         // Check material color
-        MaterialInstance material = MaterialInstance.from(stack);
+        /*MaterialInstance material = MaterialInstance.from(stack);
         if (material != null) {
             int color = material.getPrimaryColor(GearType.ALL, PartType.MAIN);
             if ((color & 0xFFFFFF) == 0xFFFFFF) {
@@ -30,7 +31,7 @@ final class SgearCompatProxy {
                 }
             }
             return color;
-        }
+        }*/
         return Color.VALUE_WHITE;
     }
 }

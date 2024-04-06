@@ -1,5 +1,7 @@
 package net.silentchaos512.loginar.block.urn;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -7,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -32,7 +34,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import net.silentchaos512.loginar.setup.LsSounds;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
@@ -40,8 +41,14 @@ import net.silentchaos512.utils.Color;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LoginarUrnBlock extends BaseEntityBlock {
+    public static final MapCodec<LoginarUrnBlock> CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(UrnTypes.CODEC.optionalFieldOf("urn_type").forGetter(block -> Optional.of(block.type)), propertiesCodec())
+                    .apply(builder, (urnType, properties) -> new LoginarUrnBlock(urnType.orElse(UrnTypes.MEDIUM), properties))
+    );
+
     public static final ResourceLocation CONTENTS = new ResourceLocation("contents");
 
     private final UrnTypes type;
@@ -68,6 +75,11 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
@@ -75,9 +87,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     public static int getBlockColor(BlockState state, @Nullable BlockGetter level, @Nullable BlockPos pos, int tintIndex) {
         if (level != null && pos != null) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof LoginarUrnBlockEntity) {
-                LoginarUrnBlockEntity urn = (LoginarUrnBlockEntity) blockEntity;
-
+            if (blockEntity instanceof LoginarUrnBlockEntity urn) {
                 if (tintIndex == 0) {
                     // Main body (clay)
                     return urn.getClayColor();
@@ -118,7 +128,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         } else {
             BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof LoginarUrnBlockEntity urn) {
-                NetworkHooks.openScreen((ServerPlayer) player, urn, buf -> buf.writeByte(this.type.inventorySize()));
+                player.openMenu(urn, buf -> buf.writeByte(this.type.inventorySize()));
 //                player.awardStat(Stats.OPEN_SHULKER_BOX);
                 PiglinAi.angerNearbyPiglins(player, true);
 
@@ -132,7 +142,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof LoginarUrnBlockEntity urn) {
             if (!level.isClientSide && player.isCreative() && !urn.isEmpty()) {
@@ -150,7 +160,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
             }
         }
 
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @SuppressWarnings("deprecation")
@@ -252,7 +262,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         ItemStack itemstack = super.getCloneItemStack(state, target, level, pos, player);
         level.getBlockEntity(pos, this.type.blockEntity().get()).ifPresent(urn -> {
             urn.saveToItem(itemstack);

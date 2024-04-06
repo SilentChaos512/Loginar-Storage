@@ -19,8 +19,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.silentchaos512.loginar.api.TickingUrnUpgrade;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
@@ -161,10 +159,5 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         if (tags != null) {
             this.data = UrnData.readNbt(tags);
         }
-    }
-
-    @Override
-    protected IItemHandler createUnSidedHandler() {
-        return new SidedInvWrapper(this, Direction.UP);
     }
 }

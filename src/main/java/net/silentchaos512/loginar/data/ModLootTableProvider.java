@@ -23,7 +23,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
@@ -100,7 +100,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return LsBlocks.REGISTER.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+            return LsBlocks.REGISTER.getEntries().stream().map(DeferredHolder::get).collect(Collectors.toList());
         }
     }
 
@@ -206,7 +206,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
         @Override
         protected Stream<EntityType<?>> getKnownEntityTypes() {
-            return LsEntityTypes.REGISTER.getEntries().stream().map(RegistryObject::get);
+            return LsEntityTypes.REGISTER.getEntries().stream().map(DeferredHolder::get);
         }
     }
 }

@@ -33,9 +33,9 @@ public class LoginarUrnBackpackScreen extends AbstractContainerScreen<LoginarUrn
     }
 
     @Override
-    public void render(GuiGraphics graphics, int p_98419_, int p_98420_, float p_98421_) {
-        this.renderBackground(graphics);
-        super.render(graphics, p_98419_, p_98420_, p_98421_);
-        this.renderTooltip(graphics, p_98419_, p_98420_);
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBackground(graphics, pMouseX, pMouseY, pPartialTick);
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(graphics, pMouseX, pMouseY);
     }
 }

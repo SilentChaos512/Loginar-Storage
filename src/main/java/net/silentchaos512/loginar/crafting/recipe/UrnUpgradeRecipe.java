@@ -4,16 +4,17 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
+import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 
 public class UrnUpgradeRecipe extends UrnBaseRecipe {
-    public UrnUpgradeRecipe(ShapedRecipe recipe) {
-        super(recipe);
+    public UrnUpgradeRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult) {
+        super(pGroup, pCategory, pPattern, pResult, UrnData.DEFAULT_CLAY_COLOR);
     }
 
     @Override
@@ -22,13 +23,8 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer craftingContainer, Level level) {
-        return this.getBaseRecipe().matches(craftingContainer, level);
-    }
-
-    @Override
     public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
-        ItemStack ret = this.getBaseRecipe().assemble(craftingContainer, registryAccess);
+        ItemStack ret = super.assemble(craftingContainer, registryAccess);
 
         // Find original urn
         ItemStack original = ItemStack.EMPTY;
@@ -41,7 +37,7 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
         }
 
         if (original.isEmpty()) {
-            LoginarMod.LOGGER.error("Urn upgrade recipe {} has no urn in the ingredients", this.getId());
+            LoginarMod.LOGGER.error("Urn upgrade recipe {} has no urn in the ingredients", this);
             return ItemStack.EMPTY;
         }
 

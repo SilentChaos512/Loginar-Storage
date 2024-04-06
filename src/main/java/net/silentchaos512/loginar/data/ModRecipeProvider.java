@@ -1,25 +1,28 @@
 package net.silentchaos512.loginar.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
+import net.silentchaos512.lib.data.recipe.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.loginar.crafting.recipe.UrnModifcationRecipe;
+import net.silentchaos512.loginar.crafting.recipe.UrnBaseRecipe;
+import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
-import net.silentchaos512.loginar.setup.LsRecipeSerializers;
-import net.silentchaos512.utils.Color;
 
-import java.util.function.Consumer;
+import java.util.Objects;
 
 public class ModRecipeProvider extends LibRecipeProvider {
     public ModRecipeProvider(DataGenerator generatorIn) {
@@ -27,7 +30,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput consumer) {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(consumer, "loginar_calamari_smelting");
@@ -40,7 +43,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         // Loginar Urn recipes
 
-        registerCustomRecipe(consumer, LsRecipeSerializers.URN_MODIFICATION.get());
+        registerCustomRecipe(consumer, UrnModifcationRecipe::new, LoginarMod.getId("urn_modification"));
 
         baseUrn(consumer, Blocks.TERRACOTTA, UrnData.DEFAULT_CLAY_COLOR);
         baseUrn(consumer, Blocks.WHITE_TERRACOTTA, 0xD1B1A1);
@@ -60,7 +63,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
         baseUrn(consumer, Blocks.RED_TERRACOTTA, 0x8E3C2E);
         baseUrn(consumer, Blocks.BLACK_TERRACOTTA, 0x251610);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.SMALL_LOGINAR_URN)
+        upgradedUrn(LsBlocks.SMALL_LOGINAR_URN)
                 .pattern("#a#")
                 .pattern("#*#")
                 .pattern("#b#")
@@ -71,7 +74,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsBlocks.TINY_LOGINAR_URN))
                 .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.MEDIUM_LOGINAR_URN)
+        upgradedUrn(LsBlocks.MEDIUM_LOGINAR_URN)
                 .pattern("/g/")
                 .pattern("q*q")
                 .pattern("###")
@@ -83,7 +86,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
                 .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.LARGE_LOGINAR_URN)
+        upgradedUrn(LsBlocks.LARGE_LOGINAR_URN)
                 .pattern("cnw")
                 .pattern("o*o")
                 .pattern("###")
@@ -96,7 +99,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
                 .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.HUGE_LOGINAR_URN)
+        upgradedUrn(LsBlocks.HUGE_LOGINAR_URN)
                 .pattern("csc")
                 .pattern("e*e")
                 .pattern("###")
@@ -108,7 +111,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
                 .save(consumer);
 
-        shapedBuilder(LsRecipeSerializers.URN_UPGRADE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.SUPER_LOGINAR_URN)
+        upgradedUrn(LsBlocks.SUPER_LOGINAR_URN)
                 .pattern("wsw")
                 .pattern("p*p")
                 .pattern("###")
@@ -121,7 +124,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .save(consumer);
 
         // Upgrade recipes
-        shapedBuilder(RecipeCategory.MISC, LsItems.BACKPACK_UPGRADE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.BACKPACK_UPGRADE)
                 .pattern(" e ")
                 .pattern(" l ")
                 .pattern("lal")
@@ -131,7 +134,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
-        shapedBuilder(RecipeCategory.MISC, LsItems.ITEM_SWAPPER_UPGRADE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.ITEM_SWAPPER_UPGRADE)
                 .pattern(" w ")
                 .pattern("i i")
                 .pattern("waw")
@@ -141,7 +144,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
-        shapedBuilder(RecipeCategory.MISC, LsItems.VACUUM_UPGRADE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.VACUUM_UPGRADE)
                 .pattern(" i ")
                 .pattern("rhr")
                 .pattern("iai")
@@ -154,7 +157,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         // Container items
 
-        shapedBuilder(RecipeCategory.FOOD, LsItems.LUNCH_BOX)
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, LsItems.LUNCH_BOX)
                 .pattern(" / ")
                 .pattern("#a#")
                 .pattern("#c#")
@@ -165,7 +168,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
-        shapedBuilder(RecipeCategory.MISC, LsItems.GEM_BAG)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.GEM_BAG)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
@@ -175,7 +178,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('g', Tags.Items.GEMS)
                 .save(consumer);
 
-        shapedBuilder(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
@@ -185,7 +188,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('g', ItemTags.FLOWERS)
                 .save(consumer);
 
-        shapedBuilder(RecipeCategory.MISC, LsItems.ORE_CRATE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.ORE_CRATE)
                 .pattern("ooo")
                 .pattern("#~#")
                 .pattern("###")
@@ -195,7 +198,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .save(consumer);
     }
 
-    private void baseUrn(Consumer<FinishedRecipe> consumer, ItemLike clay, int clayColor) {
+    private void baseUrn(RecipeOutput consumer, ItemLike clay, int clayColor) {
         String blockName = NameUtils.fromItem(clay).getPath();
         int i = blockName.lastIndexOf('_');
         String colorName = "";
@@ -203,8 +206,8 @@ public class ModRecipeProvider extends LibRecipeProvider {
             colorName = blockName.substring(0, i + 1);
         }
 
-        shapedBuilder(LsRecipeSerializers.URN_BASE.get(), RecipeCategory.BUILDING_BLOCKS, LsBlocks.TINY_LOGINAR_URN)
-                .addExtraData(json -> json.addProperty("clay_color", Color.format(clayColor)))
+        new UrnRecipeBuilder(clayColor)
+                .group("loginar:tiny_urns")
                 .pattern("#~#")
                 .pattern("#0#")
                 .pattern("###")
@@ -213,5 +216,47 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('0', Tags.Items.GEMS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer, modId(colorName + "tiny_loginar_urn"));
+    }
+
+    private UrnUpgradeRecipeBuilder upgradedUrn(ItemLike upgradedUrn) {
+        return new UrnUpgradeRecipeBuilder(upgradedUrn);
+    }
+
+    private static class UrnRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnBaseRecipe> {
+        private final int clayColor;
+
+        public UrnRecipeBuilder(int clayColor) {
+            super(RecipeCategory.BUILDING_BLOCKS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
+            this.clayColor = clayColor;
+        }
+
+        @Override
+        public UrnBaseRecipe createRecipe(ResourceLocation id) {
+            ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
+            return new UrnBaseRecipe(
+                    Objects.requireNonNullElse(this.group, ""),
+                    RecipeBuilder.determineBookCategory(this.category),
+                    pattern,
+                    this.result,
+                    clayColor
+            );
+        }
+    }
+
+    private static class UrnUpgradeRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnUpgradeRecipe> {
+        public UrnUpgradeRecipeBuilder(ItemLike upgradedUrn) {
+            super(RecipeCategory.BUILDING_BLOCKS, new ItemStack(upgradedUrn));
+        }
+
+        @Override
+        public UrnUpgradeRecipe createRecipe(ResourceLocation id) {
+            ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
+            return new UrnUpgradeRecipe(
+                    Objects.requireNonNullElse(this.group, ""),
+                    RecipeBuilder.determineBookCategory(this.category),
+                    pattern,
+                    this.result
+            );
+        }
     }
 }

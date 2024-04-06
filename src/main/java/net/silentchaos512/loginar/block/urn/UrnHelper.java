@@ -1,13 +1,15 @@
 package net.silentchaos512.loginar.block.urn;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.silentchaos512.lib.util.NameUtils;
+import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.LsTags;
 import net.silentchaos512.loginar.setup.UrnTypes;
 
@@ -20,13 +22,18 @@ public final class UrnHelper {
         return stack.is(LsTags.Items.URNS);
     }
 
+    public static boolean isSwappableItem(ItemStack stack) {
+        // TODO: Blacklist for other items, like shulker boxes
+        return !isUrn(stack);
+    }
+
     public static boolean isUpgrade(ItemStack stack) {
         return stack.is(LsTags.Items.URN_UPGRADES);
     }
 
     public static boolean hasUpgrade(ItemStack urn, ItemLike upgrade) {
         // Efficiently check for a matching item ID
-        ResourceLocation upgradeId = NameUtils.fromItem(upgrade);
+        ResourceLocation upgradeId = BuiltInRegistries.ITEM.getKey(upgrade.asItem());
         CompoundTag tags = getData(urn);
         ListTag listTag = tags.getList("Upgrades", Tag.TAG_COMPOUND);
 
@@ -81,6 +88,29 @@ public final class UrnHelper {
 
     public static CompoundTag getData(ItemStack stack) {
         return stack.getOrCreateTagElement(UrnData.NBT_ROOT);
+    }
+
+    public static ItemStack selectSwapperUrnToOpen(ServerPlayer player) {
+        // Offhand first
+        if (isSwapperUrn(player.getOffhandItem())) {
+            return player.getOffhandItem();
+        }
+
+        // TODO: Curios support?
+
+        // Other items last
+        NonNullList<ItemStack> items = player.getInventory().items;
+        for (ItemStack stack : items) {
+            if (isSwapperUrn(stack)) {
+                return stack;
+            }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    private static boolean isSwapperUrn(ItemStack stack) {
+        return UrnHelper.isUrn(stack) && UrnHelper.hasUpgrade(stack, LsItems.ITEM_SWAPPER_UPGRADE);
     }
 
     public static void loadAllItems(CompoundTag tag, String tagKey, NonNullList<ItemStack> items) {
