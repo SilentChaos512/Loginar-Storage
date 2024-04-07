@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.silentchaos512.utils.Color;
+import net.silentchaos512.lib.util.Color;
 
 public final class TextUtil {
     private TextUtil() {throw new IllegalAccessError("Utility class");}

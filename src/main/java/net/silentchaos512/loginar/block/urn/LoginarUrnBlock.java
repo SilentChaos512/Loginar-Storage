@@ -34,10 +34,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.setup.LsSounds;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
-import net.silentchaos512.utils.Color;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

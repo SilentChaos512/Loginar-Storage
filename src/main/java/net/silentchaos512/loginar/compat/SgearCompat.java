@@ -2,7 +2,7 @@ package net.silentchaos512.loginar.compat;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
-import net.silentchaos512.utils.Color;
+import net.silentchaos512.lib.util.Color;
 
 public final class SgearCompat {
     private static Boolean modLoaded = null;

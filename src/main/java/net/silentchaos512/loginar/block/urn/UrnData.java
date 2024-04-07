@@ -7,7 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.silentchaos512.loginar.setup.UrnTypes;
-import net.silentchaos512.utils.EnumUtils;
+import net.silentchaos512.lib.util.EnumUtils;
 
 public class UrnData {
     private final UrnTypes urnType;

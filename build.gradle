@@ -98,10 +98,6 @@ repositories {
         credentials gpr_creds
     }
     maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
-        credentials gpr_creds
-    }
-    maven {
         // location of the maven that hosts JEI files since January 2023
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
@@ -116,7 +112,6 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    implementation("net.silentchaos512:silent-utils:1.+")
     implementation("net.silentchaos512:silent-lib:${project.silentlib_version}")
 
     // Silent Gear

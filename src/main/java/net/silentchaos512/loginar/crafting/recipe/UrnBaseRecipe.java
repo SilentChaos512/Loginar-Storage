@@ -16,12 +16,12 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.compat.SgearCompat;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
-import net.silentchaos512.utils.Color;
 
 import java.util.Map;
 
@@ -35,9 +35,9 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
             Tags.Items.GEMS_QUARTZ, 0xDDD4C6
     );
 
-    private final int clayColor;
+    private final Color clayColor;
 
-    public UrnBaseRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult, int clayColor) {
+    public UrnBaseRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult, Color clayColor) {
         super(pGroup, pCategory, pPattern, pResult, false);
         this.clayColor = clayColor;
     }
@@ -52,7 +52,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         ItemStack baseResult = super.getResultItem(registryAccess);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
             int gemColor = getGemColor(findGem(craftingContainer));
-            return block.makeStack(this.clayColor, gemColor);
+            return block.makeStack(this.clayColor.getColor(), gemColor);
         } else {
             LoginarMod.LOGGER.error("Result of urn base recipe {} is not an urn", this);
             return ItemStack.EMPTY;
@@ -63,7 +63,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     public ItemStack getResultItem(RegistryAccess registryAccess) {
         ItemStack baseResult = super.getResultItem(registryAccess);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
-            return block.makeStack(this.clayColor, UrnData.DEFAULT_GEM_COLOR);
+            return block.makeStack(this.clayColor.getColor(), UrnData.DEFAULT_GEM_COLOR);
         }
         return baseResult;
     }
@@ -105,7 +105,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
                                 CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(r -> r.category),
                                 ShapedRecipePattern.MAP_CODEC.forGetter(r -> r.pattern),
                                 ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("result").forGetter(r -> r.result),
-                                ExtraCodecs.strictOptionalField(Codec.INT, "clay_color", UrnData.DEFAULT_CLAY_COLOR).forGetter(r -> r.clayColor)
+                                ExtraCodecs.strictOptionalField(Color.CODEC, "clay_color", new Color(UrnData.DEFAULT_CLAY_COLOR)).forGetter(r -> r.clayColor)
                         )
                         .apply(builder, UrnBaseRecipe::new)
         );
@@ -121,7 +121,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
             CraftingBookCategory craftingbookcategory = pBuffer.readEnum(CraftingBookCategory.class);
             ShapedRecipePattern shapedrecipepattern = ShapedRecipePattern.fromNetwork(pBuffer);
             ItemStack itemstack = pBuffer.readItem();
-            int clayColor = pBuffer.readVarInt();
+            Color clayColor = Color.read(pBuffer);
             return new UrnBaseRecipe(s, craftingbookcategory, shapedrecipepattern, itemstack, clayColor);
         }
 
@@ -131,7 +131,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
             pBuffer.writeEnum(pRecipe.category);
             pRecipe.pattern.toNetwork(pBuffer);
             pBuffer.writeItem(pRecipe.result);
-            pBuffer.writeVarInt(pRecipe.clayColor);
+            pRecipe.clayColor.write(pBuffer);
         }
     }
 }

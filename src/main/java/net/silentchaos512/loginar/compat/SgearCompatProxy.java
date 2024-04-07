@@ -5,7 +5,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.silentchaos512.utils.Color;
+import net.silentchaos512.lib.util.Color;
 
 final class SgearCompatProxy {
     private static final TagKey<Item> BORT_TAG = ItemTags.create(new ResourceLocation("forge", "gems/bort"));

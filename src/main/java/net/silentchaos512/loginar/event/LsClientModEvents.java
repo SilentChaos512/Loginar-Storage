@@ -1,6 +1,5 @@
 package net.silentchaos512.loginar.event;
 
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -8,6 +7,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBackpackScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnScreen;
@@ -27,23 +27,22 @@ public final class LsClientModEvents {
 
     @SubscribeEvent
     public static void onFmlClientSetup(FMLClientSetupEvent event) {
-        registerMenuScreens();
-
         ItemProperties.register(LsItems.LOGINAR_ANTENNA.get(), Const.IS_LOGINAR_CHUNK, (stack, level, entity, par4) -> {
             // TODO: Return 1 for loginar spawn chunks, 0 otherwise (can only calculate on the server...)
             return LoginarMod.RANDOM.nextInt(20) == 0 ? 1 : 0;
         });
     }
 
-    private static void registerMenuScreens() {
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN.get(), LoginarUrnScreen::new);
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), LoginarUrnBackpackScreen::new);
-        MenuScreens.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
+    @SubscribeEvent
+    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(LsMenuTypes.LOGINAR_URN.get(), LoginarUrnScreen::new);
+        event.register(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), LoginarUrnBackpackScreen::new);
+        event.register(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), LoginarUrnSwapperScreen::new);
 
-        MenuScreens.register(LsMenuTypes.LUNCH_BOX.get(), ContainerItemScreen::new);
-        MenuScreens.register(LsMenuTypes.GEM_BAG.get(), ContainerItemScreen::new);
-        MenuScreens.register(LsMenuTypes.FLOWER_BASKET.get(), ContainerItemScreen::new);
-        MenuScreens.register(LsMenuTypes.ORE_CRATE.get(), ContainerItemScreen::new);
+        event.register(LsMenuTypes.LUNCH_BOX.get(), ContainerItemScreen::new);
+        event.register(LsMenuTypes.GEM_BAG.get(), ContainerItemScreen::new);
+        event.register(LsMenuTypes.FLOWER_BASKET.get(), ContainerItemScreen::new);
+        event.register(LsMenuTypes.ORE_CRATE.get(), ContainerItemScreen::new);
     }
 
     @SubscribeEvent

@@ -13,11 +13,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.data.recipe.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.UrnData;
-import net.silentchaos512.loginar.crafting.recipe.UrnModifcationRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnBaseRecipe;
+import net.silentchaos512.loginar.crafting.recipe.UrnModifcationRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
@@ -238,7 +239,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                     RecipeBuilder.determineBookCategory(this.category),
                     pattern,
                     this.result,
-                    clayColor
+                    new Color(clayColor)
             );
         }
     }

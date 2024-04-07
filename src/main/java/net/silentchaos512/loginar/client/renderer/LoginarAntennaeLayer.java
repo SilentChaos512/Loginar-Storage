@@ -9,8 +9,8 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.utils.Color;
 
 // The glowy ball portion on the end of the loginar entity model's antennae
 public class LoginarAntennaeLayer<T extends Entity, M extends EntityModel<T>> extends EyesLayer<T, M> {

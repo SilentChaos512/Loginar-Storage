@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.UrnData;
@@ -14,7 +15,7 @@ import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 
 public class UrnUpgradeRecipe extends UrnBaseRecipe {
     public UrnUpgradeRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult) {
-        super(pGroup, pCategory, pPattern, pResult, UrnData.DEFAULT_CLAY_COLOR);
+        super(pGroup, pCategory, pPattern, pResult, new Color(UrnData.DEFAULT_CLAY_COLOR));
     }
 
     @Override

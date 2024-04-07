@@ -6,9 +6,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
-import net.silentchaos512.utils.Color;
 
 // TODO: Make it so JEI doesn't show on the side...
 public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnSwapperMenu> {
