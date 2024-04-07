@@ -24,9 +24,9 @@ type="required"
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
-#[[dependencies.${mod_id}]]
-#modId="silentlib"
-#mandatory=true
-#versionRange="${silentlib_version_range}"
-#ordering="NONE"
-#side="BOTH"
+[[dependencies.${mod_id}]]
+modId="silentlib"
+type="required"
+versionRange="${silentlib_version_range}"
+ordering="NONE"
+side="BOTH"
