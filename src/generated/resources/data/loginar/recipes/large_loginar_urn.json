@@ -1,5 +1,6 @@
 {
   "type": "loginar:urn_upgrade",
+  "category": "building",
   "key": {
     "#": {
       "item": "minecraft:crying_obsidian"
@@ -27,5 +28,6 @@
   ],
   "result": {
     "item": "loginar:large_loginar_urn"
-  }
+  },
+  "show_notification": false
 }

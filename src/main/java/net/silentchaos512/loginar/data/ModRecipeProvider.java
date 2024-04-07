@@ -177,6 +177,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('/', Tags.Items.NUGGETS_GOLD)
                 .define('#', ItemTags.WOOL)
                 .define('g', Tags.Items.GEMS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
@@ -187,6 +188,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('/', Tags.Items.NUGGETS_GOLD)
                 .define('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
                 .define('g', ItemTags.FLOWERS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.ORE_CRATE)
@@ -196,6 +198,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('o', Tags.Items.RAW_MATERIALS)
                 .define('~', LsItems.LOGINAR_ANTENNA)
                 .define('#', ItemTags.PLANKS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
     }
 

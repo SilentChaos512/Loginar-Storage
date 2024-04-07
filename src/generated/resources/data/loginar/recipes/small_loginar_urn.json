@@ -1,5 +1,6 @@
 {
   "type": "loginar:urn_upgrade",
+  "category": "building",
   "key": {
     "#": {
       "tag": "forge:ingots/copper"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "loginar:small_loginar_urn"
-  }
+  },
+  "show_notification": false
 }

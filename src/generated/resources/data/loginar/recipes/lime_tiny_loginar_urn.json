@@ -1,6 +1,8 @@
 {
   "type": "loginar:urn_base",
-  "clay_color": "#677534",
+  "category": "building",
+  "clay_color": "#FF677534",
+  "group": "loginar:tiny_urns",
   "key": {
     "#": {
       "item": "minecraft:lime_terracotta"

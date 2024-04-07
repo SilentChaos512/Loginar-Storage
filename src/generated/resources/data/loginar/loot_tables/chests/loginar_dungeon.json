@@ -211,5 +211,6 @@
         "min": 1.0
       }
     }
-  ]
+  ],
+  "random_sequence": "loginar:chests/loginar_dungeon"
 }

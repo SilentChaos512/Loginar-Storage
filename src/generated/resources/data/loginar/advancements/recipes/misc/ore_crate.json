@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "loginar:lunch_box"
+        "recipe": "loginar:ore_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "loginar:lunch_box"
+      "loginar:ore_crate"
     ]
   }
 }

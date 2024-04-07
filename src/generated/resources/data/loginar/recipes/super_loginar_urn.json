@@ -1,5 +1,6 @@
 {
   "type": "loginar:urn_upgrade",
+  "category": "building",
   "key": {
     "#": {
       "item": "minecraft:prismarine"
@@ -24,5 +25,6 @@
   ],
   "result": {
     "item": "loginar:super_loginar_urn"
-  }
+  },
+  "show_notification": false
 }

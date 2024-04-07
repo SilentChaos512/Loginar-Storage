@@ -73,5 +73,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "loginar:blocks/medium_loginar_urn"
 }
