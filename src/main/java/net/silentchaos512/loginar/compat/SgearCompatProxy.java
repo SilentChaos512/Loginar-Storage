@@ -5,6 +5,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.silentchaos512.gear.api.item.GearType;
+import net.silentchaos512.gear.api.part.PartType;
+import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.lib.util.Color;
 
 final class SgearCompatProxy {
@@ -18,7 +21,7 @@ final class SgearCompatProxy {
         }
 
         // Check material color
-        /*MaterialInstance material = MaterialInstance.from(stack);
+        MaterialInstance material = MaterialInstance.from(stack);
         if (material != null) {
             int color = material.getPrimaryColor(GearType.ALL, PartType.MAIN);
             if ((color & 0xFFFFFF) == 0xFFFFFF) {
@@ -31,7 +34,7 @@ final class SgearCompatProxy {
                 }
             }
             return color;
-        }*/
+        }
         return Color.VALUE_WHITE;
     }
 }
