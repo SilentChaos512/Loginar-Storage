@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.lib.util.Color;
 
 final class SgearCompatProxy {
-    private static final TagKey<Item> BORT_TAG = ItemTags.create(new ResourceLocation("forge", "gems/bort"));
+    private static final TagKey<Item> BORT_TAG = ItemTags.create(new ResourceLocation("c", "gems/bort"));
     private SgearCompatProxy() {}
 
     static int getMainPartColor(ItemStack stack) {

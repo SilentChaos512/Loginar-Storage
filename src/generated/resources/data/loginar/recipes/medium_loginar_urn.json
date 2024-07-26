@@ -9,13 +9,13 @@
       "item": "loginar:small_loginar_urn"
     },
     "/": {
-      "tag": "forge:rods/blaze"
+      "tag": "c:rods/blaze"
     },
     "g": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "q": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     }
   },
   "pattern": [
@@ -24,7 +24,8 @@
     "###"
   ],
   "result": {
-    "item": "loginar:medium_loginar_urn"
+    "count": 1,
+    "id": "loginar:medium_loginar_urn"
   },
   "show_notification": false
 }

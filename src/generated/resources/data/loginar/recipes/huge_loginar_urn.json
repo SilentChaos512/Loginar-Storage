@@ -12,7 +12,7 @@
       "item": "minecraft:chorus_flower"
     },
     "e": {
-      "tag": "forge:gems/emerald"
+      "tag": "c:gems/emerald"
     },
     "s": {
       "item": "minecraft:shulker_shell"
@@ -24,7 +24,8 @@
     "###"
   ],
   "result": {
-    "item": "loginar:huge_loginar_urn"
+    "count": 1,
+    "id": "loginar:huge_loginar_urn"
   },
   "show_notification": false
 }

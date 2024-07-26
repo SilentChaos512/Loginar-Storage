@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "loginar:loginar_tentacle"
-            ]
+            "items": "loginar:loginar_tentacle"
           }
         ]
       },

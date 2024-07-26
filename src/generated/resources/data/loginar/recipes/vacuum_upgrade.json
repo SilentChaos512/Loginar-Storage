@@ -9,10 +9,10 @@
       "item": "minecraft:hopper"
     },
     "i": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "r": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "pattern": [
@@ -21,6 +21,7 @@
     "iai"
   ],
   "result": {
-    "item": "loginar:vacuum_upgrade"
+    "count": 1,
+    "id": "loginar:vacuum_upgrade"
   }
 }

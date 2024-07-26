@@ -13,59 +13,15 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
-            },
-            {
-              "function": "minecraft:copy_nbt",
-              "ops": [
-                {
-                  "op": "replace",
-                  "source": "Lock",
-                  "target": "BlockEntityTag.Lock"
-                },
-                {
-                  "op": "replace",
-                  "source": "LootTable",
-                  "target": "BlockEntityTag.LootTable"
-                },
-                {
-                  "op": "replace",
-                  "source": "LootTableSeed",
-                  "target": "BlockEntityTag.LootTableSeed"
-                },
-                {
-                  "op": "replace",
-                  "source": "Lidded",
-                  "target": "BlockEntityTag.Lidded"
-                },
-                {
-                  "op": "replace",
-                  "source": "ClayColor",
-                  "target": "BlockEntityTag.ClayColor"
-                },
-                {
-                  "op": "replace",
-                  "source": "GemColor",
-                  "target": "BlockEntityTag.GemColor"
-                },
-                {
-                  "op": "replace",
-                  "source": "Upgrades",
-                  "target": "BlockEntityTag.Upgrades"
-                }
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:custom_name",
+                "minecraft:container",
+                "minecraft:lock",
+                "minecraft:container_loot",
+                "loginar:urn_data"
               ],
               "source": "block_entity"
-            },
-            {
-              "type": "loginar:small_loginar_urn",
-              "entries": [
-                {
-                  "type": "minecraft:dynamic",
-                  "name": "minecraft:contents"
-                }
-              ],
-              "function": "minecraft:set_contents"
             }
           ],
           "name": "loginar:small_loginar_urn"

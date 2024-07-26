@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "loginar:large_loginar_urn"
-            ]
+            "items": "loginar:large_loginar_urn"
           }
         ]
       },

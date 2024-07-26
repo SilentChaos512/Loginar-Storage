@@ -8,7 +8,7 @@
       "item": "minecraft:lime_terracotta"
     },
     "0": {
-      "tag": "forge:gems"
+      "tag": "c:gems"
     },
     "~": {
       "item": "loginar:loginar_antenna"
@@ -20,6 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "loginar:tiny_loginar_urn"
+    "count": 1,
+    "id": "loginar:tiny_loginar_urn"
   }
 }

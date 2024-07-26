@@ -6,10 +6,10 @@
       "tag": "minecraft:wool"
     },
     "/": {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     },
     "g": {
-      "tag": "forge:gems"
+      "tag": "c:gems"
     },
     "~": {
       "item": "loginar:loginar_antenna"
@@ -21,6 +21,7 @@
     "###"
   ],
   "result": {
-    "item": "loginar:gem_bag"
+    "count": 1,
+    "id": "loginar:gem_bag"
   }
 }

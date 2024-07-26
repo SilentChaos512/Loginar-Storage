@@ -3,13 +3,13 @@
   "category": "building",
   "key": {
     "#": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "*": {
       "item": "loginar:tiny_loginar_urn"
     },
     "a": {
-      "tag": "forge:gems/amethyst"
+      "tag": "c:gems/amethyst"
     },
     "b": {
       "item": "minecraft:glow_berries"
@@ -21,7 +21,8 @@
     "#b#"
   ],
   "result": {
-    "item": "loginar:small_loginar_urn"
+    "count": 1,
+    "id": "loginar:small_loginar_urn"
   },
   "show_notification": false
 }

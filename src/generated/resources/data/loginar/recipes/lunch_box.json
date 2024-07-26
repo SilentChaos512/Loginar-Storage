@@ -6,7 +6,7 @@
       "item": "minecraft:red_terracotta"
     },
     "/": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "a": {
       "item": "loginar:loginar_antenna"
@@ -21,6 +21,7 @@
     "#c#"
   ],
   "result": {
-    "item": "loginar:lunch_box"
+    "count": 1,
+    "id": "loginar:lunch_box"
   }
 }

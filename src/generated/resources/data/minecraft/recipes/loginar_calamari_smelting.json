@@ -6,5 +6,8 @@
   "ingredient": {
     "item": "loginar:loginar_tentacle"
   },
-  "result": "loginar:loginar_calamari"
+  "result": {
+    "count": 1,
+    "id": "loginar:loginar_calamari"
+  }
 }

@@ -12,7 +12,7 @@
       "item": "minecraft:crimson_fungus"
     },
     "n": {
-      "tag": "forge:ingots/netherite"
+      "tag": "c:ingots/netherite"
     },
     "o": {
       "item": "minecraft:ender_eye"
@@ -27,7 +27,8 @@
     "###"
   ],
   "result": {
-    "item": "loginar:large_loginar_urn"
+    "count": 1,
+    "id": "loginar:large_loginar_urn"
   },
   "show_notification": false
 }

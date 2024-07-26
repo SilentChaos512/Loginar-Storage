@@ -11,7 +11,7 @@
       }
     ],
     "/": {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     },
     "g": {
       "tag": "minecraft:flowers"
@@ -26,6 +26,7 @@
     "###"
   ],
   "result": {
-    "item": "loginar:flower_basket"
+    "count": 1,
+    "id": "loginar:flower_basket"
   }
 }

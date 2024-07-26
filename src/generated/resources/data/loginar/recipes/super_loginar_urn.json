@@ -9,7 +9,7 @@
       "item": "loginar:huge_loginar_urn"
     },
     "p": {
-      "tag": "forge:gems/prismarine"
+      "tag": "c:gems/prismarine"
     },
     "s": {
       "item": "minecraft:sculk"
@@ -24,7 +24,8 @@
     "###"
   ],
   "result": {
-    "item": "loginar:super_loginar_urn"
+    "count": 1,
+    "id": "loginar:super_loginar_urn"
   },
   "show_notification": false
 }

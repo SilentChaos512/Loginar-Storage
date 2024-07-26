@@ -1,6 +1,6 @@
 {
   "values": [
-    "#forge:raw_materials",
-    "#forge:ores"
+    "#c:raw_materials",
+    "#c:ores"
   ]
 }
