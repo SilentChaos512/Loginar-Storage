@@ -27,6 +27,7 @@ public final class LsTags {
         public static final TagKey<Item> ORE_CRATE_CAN_STORE = mod("ore_crate_can_store");
         public static final TagKey<Item> URN_UPGRADES = mod("urn_upgrades");
         public static final TagKey<Item> URNS = mod("urns");
+        public static final TagKey<Item> URNS_CANNOT_STORE = mod("urns_cannot_store");
 
         private static TagKey<Item> forge(String path) {
             return ItemTags.create(new ResourceLocation("forge", path));

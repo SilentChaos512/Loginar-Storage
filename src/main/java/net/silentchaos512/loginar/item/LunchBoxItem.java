@@ -32,7 +32,7 @@ public class LunchBoxItem extends ContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.isEdible();
+        return stack.getFoodProperties(null) != null;
     }
 
     @Override
@@ -82,15 +82,10 @@ public class LunchBoxItem extends ContainerItem {
         }
 
         ItemStack food = inventory.getStackInSlot(slot);
-        if (!food.isEmpty() && food.isEdible()) {
+        if (!food.isEmpty() && food.getFoodProperties(entity) != null) {
             return food.getFoodProperties(entity);
         }
         return super.getFoodProperties(stack, entity);
-    }
-
-    @Override
-    public boolean isEdible() {
-        return true;
     }
 
     @Override
@@ -137,7 +132,7 @@ public class LunchBoxItem extends ContainerItem {
     public int getUseDuration(ItemStack stack) {
         FoodProperties foodProperties = getFoodProperties(stack, null);
         if (foodProperties != null) {
-            return foodProperties.isFastFood() ? 16 : 32;
+            return foodProperties.eatDurationTicks();
         }
         return 0;
     }

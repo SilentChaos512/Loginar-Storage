@@ -1,6 +1,6 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +11,11 @@ import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
+import net.silentchaos512.loginar.setup.UrnTypes;
+
+import java.util.Objects;
 
 public class UrnUpgradeRecipe extends UrnBaseRecipe {
     public UrnUpgradeRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult) {
@@ -24,7 +28,7 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingContainer, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingContainer craftingContainer, HolderLookup.Provider registryAccess) {
         ItemStack ret = super.assemble(craftingContainer, registryAccess);
 
         // Find original urn
@@ -42,8 +46,17 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
             return ItemStack.EMPTY;
         }
 
-        // Copy NBT to new urn
-        ret.setTag(original.getTag());
+        // Copy data to new urn, but with the correct new type
+        ret.applyComponents(original.getComponents());
+        var originalData = original.getOrDefault(LsDataComponents.URN_DATA, UrnData.getDefault(ret));
+        var newData = new UrnData(
+                Objects.requireNonNull(UrnTypes.fromItem(ret)),
+                originalData.clayColor(),
+                originalData.gemColor(),
+                originalData.items(),
+                originalData.upgrades()
+        );
+        ret.set(LsDataComponents.URN_DATA, newData);
 
         return ret;
     }

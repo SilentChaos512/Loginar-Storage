@@ -5,21 +5,21 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.silentchaos512.loginar.LoginarMod;
 
-@Mod.EventBusSubscriber(modid = LoginarMod.MOD_ID)
+@EventBusSubscriber(modid = LoginarMod.MOD_ID)
 public class ContainerItemEvents {
     @SubscribeEvent
-    public static void onItemPickup(EntityItemPickupEvent event) {
-        ItemStack itemOnGround = event.getItem().getItem();
+    public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+        ItemStack itemOnGround = event.getItemEntity().getItem();
         int initialCount = itemOnGround.getCount();
-        Player player = event.getEntity();
+        Player player = event.getPlayer();
 
         for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
             ItemStack stack = player.getInventory().getItem(i);
@@ -27,11 +27,11 @@ public class ContainerItemEvents {
                 IItemHandler itemHandler = ((IContainerItem) stack.getItem()).getInventory(stack);
                 itemOnGround = ItemHandlerHelper.insertItem(itemHandler, itemOnGround, false);
                 ((IContainerItem) stack.getItem()).saveInventory(stack, itemHandler, player);
-                event.getItem().getItem().setCount(itemOnGround.getCount());
+                event.getItemEntity().getItem().setCount(itemOnGround.getCount());
 
                 if (itemOnGround.isEmpty()) {
-                    event.setResult(Event.Result.ALLOW);
-                    event.getItem().remove(Entity.RemovalReason.DISCARDED);
+                    event.setCanPickup(TriState.TRUE);
+                    event.getItemEntity().remove(Entity.RemovalReason.DISCARDED);
                     break;
                 }
             }

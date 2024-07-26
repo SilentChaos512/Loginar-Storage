@@ -1,6 +1,6 @@
 package net.silentchaos512.loginar.block.urn;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,8 +21,8 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
     private final IItemHandler itemHandler;
     private final int containerRows;
 
-    public LoginarUrnSwapperMenu(int windowId, Inventory inv, FriendlyByteBuf data) {
-        this(windowId, inv, data.readItem());
+    public LoginarUrnSwapperMenu(int windowId, Inventory inv, RegistryFriendlyByteBuf buf) {
+        this(windowId, inv, ItemStack.STREAM_CODEC.decode(buf));
     }
 
     public LoginarUrnSwapperMenu(int windowId, Inventory inv, ItemStack itemIn) {
@@ -51,7 +51,7 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
             ItemStack item = slot.getItem();
 
             LoginarMod.LOGGER.info("Attempting to swap urn item with hand: {}", item);
-            PacketDistributor.SERVER.noArg().send(new CPacketSwapItemFromUrn(slotIndex));
+            PacketDistributor.sendToServer(new CPacketSwapItemFromUrn(slotIndex));
             player.closeContainer();
         }
     }

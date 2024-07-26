@@ -1,13 +1,13 @@
 package net.silentchaos512.loginar.item.container;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 
 public interface IContainerItem {
-    String NBT_INVENTORY = "Inventory";
-
     int getInventorySize(ItemStack stack);
 
     boolean canStore(ItemStack stack);
@@ -19,14 +19,12 @@ public interface IContainerItem {
     }
 
     default IItemHandler getInventory(ItemStack stack) {
-        ItemStackHandler stackHandler = new ItemStackHandler(getInventorySize(stack));
-        stackHandler.deserializeNBT(stack.getOrCreateTag().getCompound(NBT_INVENTORY));
-        return stackHandler;
+        return new ItemStackHandler(stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, NonNullList.create()));
     }
 
     default void saveInventory(ItemStack stack, IItemHandler itemHandler, Player player) {
         if (itemHandler instanceof ItemStackHandler) {
-            stack.getOrCreateTag().put(NBT_INVENTORY, ((ItemStackHandler) itemHandler).serializeNBT());
+//            stack.getOrCreateTag().put(NBT_INVENTORY, ((ItemStackHandler) itemHandler).serializeNBT());
         }
     }
 }

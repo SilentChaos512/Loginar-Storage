@@ -5,7 +5,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -13,7 +13,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.network.CPacketOpenUrnForItemSwap;
 import org.lwjgl.glfw.GLFW;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class KeyTracker {
     public static final KeyMapping SWAP_URN_ITEMS = createKeyBinding("swapUrnItems", GLFW.GLFW_KEY_X);
 
@@ -40,6 +40,6 @@ public class KeyTracker {
     }
 
     private static void handleSwapUrnItemsKeyPress() {
-        PacketDistributor.SERVER.noArg().send(new CPacketOpenUrnForItemSwap());
+        PacketDistributor.sendToServer(new CPacketOpenUrnForItemSwap());
     }
 }

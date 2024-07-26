@@ -1,6 +1,6 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +12,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.loginar.setup.LsTags;
 
@@ -47,7 +48,7 @@ public class UrnModifcationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingContainer inv, HolderLookup.Provider registryAccess) {
         StackList list = StackList.from(inv);
         ItemStack urn = list.uniqueMatch(UrnModifcationRecipe::isUrn).copy();
         UrnData data = UrnData.fromItem(urn);
@@ -63,7 +64,7 @@ public class UrnModifcationRecipe extends CustomRecipe {
             applyDyes(urn, dyes);
         }
 
-        data.writeNbtToItem(urn);
+        urn.set(LsDataComponents.URN_DATA, data);
 
         return urn;
     }

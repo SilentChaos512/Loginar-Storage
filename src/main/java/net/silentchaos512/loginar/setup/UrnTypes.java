@@ -1,5 +1,9 @@
 package net.silentchaos512.loginar.setup;
 
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -77,7 +81,11 @@ public enum UrnTypes implements StringRepresentable {
             )
     );
 
-    public static final StringRepresentable.EnumCodec<UrnTypes> CODEC = StringRepresentable.fromEnum(UrnTypes::values);
+    public static final Codec<UrnTypes> CODEC = StringRepresentable.fromEnum(UrnTypes::values);
+    public static final StreamCodec<ByteBuf, UrnTypes> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(
+            UrnTypes::byName,
+            UrnTypes::getSerializedName
+    );
 
     private final String name;
     private final int inventorySize;
@@ -86,18 +94,30 @@ public enum UrnTypes implements StringRepresentable {
     private final Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity;
     private final VoxelShape blockShape;
 
-    UrnTypes(String name,
+    UrnTypes(
+            String name,
              int inventoryRowCount,
              int upgradeSlots,
              Supplier<DeferredBlock<LoginarUrnBlock>> block,
              Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity,
-             VoxelShape blockShape) {
+             VoxelShape blockShape
+    ) {
         this.name = name;
         this.inventorySize = 9 * inventoryRowCount;
         this.upgradeSlots = upgradeSlots;
         this.block = block;
         this.blockEntity = blockEntity;
         this.blockShape = blockShape;
+    }
+
+    @Nullable
+    public static UrnTypes byName(String str) {
+        for (UrnTypes type : UrnTypes.values()) {
+            if (type.name.equalsIgnoreCase(str)) {
+                return type;
+            }
+        }
+        return null;
     }
 
     public int inventorySize() {

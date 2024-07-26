@@ -36,7 +36,7 @@ public class LoginarUrnBlockItem extends BlockItem {
                         (id, inv, z) -> new LoginarUrnBackpackMenu(id, inv, stack),
                         stack.getHoverName()
                 ),
-                buf -> buf.writeItem(stack)
+                buf -> ItemStack.STREAM_CODEC.encode(buf, stack)
         );
     }
 }

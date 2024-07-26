@@ -2,6 +2,7 @@ package net.silentchaos512.loginar.block.urn;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -101,8 +102,8 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
 
         int clayColor = UrnData.DEFAULT_CLAY_COLOR;
         if (tag.contains(UrnData.NBT_CLAY_COLOR)) {
@@ -117,23 +118,23 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         this.data = new UrnData(this.type, clayColor, gemColor);
 
         if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, "Items", this.data.items());
+            UrnHelper.loadAllItems(tag, registries, "Items", this.data.items());
         }
 
         if (tag.contains("Upgrades", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, "Upgrades", this.data.upgrades());
+            UrnHelper.loadAllItems(tag, registries, "Upgrades", this.data.upgrades());
         }
 
         this.hasChanged = true;
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (!this.trySaveLootTable(tag)) {
-            UrnHelper.saveAllItems(tag, "Items", this.data.items(), false);
+            UrnHelper.saveAllItems(tag, registries, "Items", this.data.items(), false);
         }
-        UrnHelper.saveAllItems(tag, "Upgrades", this.data.upgrades(), false);
+        UrnHelper.saveAllItems(tag, registries, "Upgrades", this.data.upgrades(), false);
 
         tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
         tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());
@@ -146,15 +147,15 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tags = super.getUpdateTag();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tags = super.getUpdateTag(registries);
         this.data.writeNbt(tags);
         return tags;
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
         CompoundTag tags = pkt.getTag();
         if (tags != null) {
             this.data = UrnData.readNbt(tags);

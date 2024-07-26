@@ -4,8 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.silentchaos512.loginar.network.LsNetwork;
 import net.silentchaos512.loginar.setup.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,18 +26,13 @@ public final class LoginarMod {
 
         LsBlockEntityTypes.REGISTER.register(modEventBus);
         LsBlocks.REGISTER.register(modEventBus);
+        LsDataComponents.REGISTRAR.register(modEventBus);
         LsEntityTypes.REGISTER.register(modEventBus);
         LsItems.REGISTER.register(modEventBus);
         modEventBus.addListener(LsItems::onBuildContentsOfCreativeTabs);
         LsMenuTypes.REGISTER.register(modEventBus);
         LsRecipeSerializers.REGISTER.register(modEventBus);
         LsSounds.REGISTER.register(modEventBus);
-
-        modEventBus.addListener(this::registerPayloadHandler);
-    }
-
-    private void registerPayloadHandler(RegisterPayloadHandlerEvent event) {
-        LsNetwork.register(event.registrar(MOD_ID));
     }
 
     public static ResourceLocation getId(String path) {

@@ -1,55 +1,62 @@
 package net.silentchaos512.loginar.data;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.WritableRegistry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.packs.VanillaChestLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.storage.loot.*;
-import net.minecraft.world.level.storage.loot.entries.DynamicLoot;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.*;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
-import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
-import net.silentchaos512.loginar.setup.LsBlocks;
-import net.silentchaos512.loginar.setup.LsEntityTypes;
-import net.silentchaos512.loginar.setup.LsItems;
-import net.silentchaos512.loginar.setup.UrnTypes;
+import net.silentchaos512.loginar.setup.*;
 import net.silentchaos512.loginar.util.Const;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ModLootTableProvider extends LootTableProvider {
-    public ModLootTableProvider(DataGenerator gen) {
-        super(gen.getPackOutput(), Collections.emptySet(), VanillaLootTableProvider.create(gen.getPackOutput()).getTables());
+    public ModLootTableProvider(GatherDataEvent event) {
+        super(
+                event.getGenerator().getPackOutput(),
+                Collections.emptySet(),
+                VanillaLootTableProvider.create(event.getGenerator().getPackOutput(), event.getLookupProvider()).getTables(),
+                event.getLookupProvider()
+        );
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
-        map.forEach((name, loo) -> {
-            loo.validate(validationcontext.setParams(loo.getParamSet()).enterElement("{" + name + "}", new LootDataId<>(LootDataType.TABLE, name)));
-        });
+    protected void validate(WritableRegistry<LootTable> writableregistry, ValidationContext validationcontext, ProblemReporter.Collector problemreporter$collector) {
     }
 
     @Override
@@ -61,7 +68,7 @@ public class ModLootTableProvider extends LootTableProvider {
         );
     }
 
-    private static final ResourceLocation modId(String path) {
+    private static ResourceLocation modId(String path) {
         return LoginarMod.getId(path);
     }
 
@@ -76,26 +83,30 @@ public class ModLootTableProvider extends LootTableProvider {
             for (UrnTypes type : UrnTypes.values()) {
                 LoginarUrnBlock block = type.block().get();
                 BlockEntityType<LoginarUrnBlockEntity> blockEntity = type.blockEntity().get();
-                add(block, LootTable.lootTable()
-                        .withPool(applyExplosionCondition(block, LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
-                                .add(LootItem.lootTableItem(block)
-                                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-                                        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
-                                                .copy("Lock", "BlockEntityTag.Lock")
-                                                .copy("LootTable", "BlockEntityTag.LootTable")
-                                                .copy("LootTableSeed", "BlockEntityTag.LootTableSeed")
-                                                .copy("Lidded", "BlockEntityTag.Lidded")
-                                                .copy("ClayColor", "BlockEntityTag.ClayColor")
-                                                .copy("GemColor", "BlockEntityTag.GemColor")
-                                                .copy("Upgrades", "BlockEntityTag.Upgrades"))
-                                        .apply(SetContainerContents.setContents(blockEntity)
-                                                .withEntry(DynamicLoot.dynamicEntry(LoginarUrnBlock.CONTENTS))
-                                        )
-                                )
-                        ))
-                );
+                add(block, createLoginarUrnDrop(block, blockEntity));
             }
+        }
+
+        private LootTable.Builder createLoginarUrnDrop(LoginarUrnBlock block, BlockEntityType<LoginarUrnBlockEntity> blockEntity) {
+            return LootTable.lootTable()
+                    .withPool(
+                            applyExplosionCondition(
+                                    block,
+                                    LootPool.lootPool()
+                                            .setRolls(ConstantValue.exactly(1))
+                                            .add(
+                                                    LootItem.lootTableItem(block)
+                                                            .apply(
+                                                                    CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                                                            .include(DataComponents.CUSTOM_NAME)
+                                                                            .include(DataComponents.CONTAINER)
+                                                                            .include(DataComponents.LOCK)
+                                                                            .include(DataComponents.CONTAINER_LOOT)
+                                                                            .include(LsDataComponents.URN_DATA.get())
+                                                            )
+                                            )
+                            )
+                    );
         }
 
         @Override
@@ -106,8 +117,8 @@ public class ModLootTableProvider extends LootTableProvider {
 
     public static final class ModChestLoot extends VanillaChestLoot {
         @Override
-        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-            consumer.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
+        public void generate(HolderLookup.Provider registries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> generator) {
+            generator.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(UniformGenerator.between(2, 3))
                             .add(LootItem.lootTableItem(LsItems.LOGINAR_ANTENNA)
@@ -180,11 +191,12 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         @Override
-        public void generate() {}
+        public void generate() {
+        }
 
         @Override
-        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-            consumer.accept(modId("entities/loginar"), LootTable.lootTable()
+        public void generate(HolderLookup.Provider registries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> generator) {
+            generator.accept(Const.ENTITIES_LOGINAR, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(LsItems.LOGINAR_ANTENNA)

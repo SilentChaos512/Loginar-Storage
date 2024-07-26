@@ -1,6 +1,5 @@
 package net.silentchaos512.loginar.data;
 
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -11,6 +10,7 @@ import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.silentchaos512.lib.data.recipe.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.Color;
@@ -26,8 +26,8 @@ import net.silentchaos512.loginar.setup.LsItems;
 import java.util.Objects;
 
 public class ModRecipeProvider extends LibRecipeProvider {
-    public ModRecipeProvider(DataGenerator generatorIn) {
-        super(generatorIn, LoginarMod.MOD_ID);
+    public ModRecipeProvider(GatherDataEvent event) {
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), LoginarMod.MOD_ID);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .pattern("lal")
                 .define('a', LsItems.LOGINAR_ANTENNA)
                 .define('e', Tags.Items.ENDER_PEARLS)
-                .define('l', Tags.Items.LEATHER)
+                .define('l', Tags.Items.LEATHERS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 

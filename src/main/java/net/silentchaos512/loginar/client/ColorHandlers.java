@@ -2,12 +2,12 @@ package net.silentchaos512.loginar.client;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.setup.LsBlocks;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ColorHandlers {
     private ColorHandlers() {}
 

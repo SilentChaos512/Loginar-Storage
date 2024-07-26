@@ -3,7 +3,7 @@ package net.silentchaos512.loginar.event;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -21,7 +21,7 @@ import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 import net.silentchaos512.loginar.util.Const;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class LsClientModEvents {
     private LsClientModEvents() {}
 

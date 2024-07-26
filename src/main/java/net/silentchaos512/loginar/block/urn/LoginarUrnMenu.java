@@ -87,7 +87,7 @@ public class LoginarUrnMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return UrnHelper.canUrnStoreItem(stack);
+            return UrnHelper.canUrnStore(stack);
         }
     }
 }

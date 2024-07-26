@@ -1,15 +1,40 @@
 package net.silentchaos512.loginar.block.urn;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.lib.util.EnumUtils;
+import net.silentchaos512.loginar.setup.LsDataComponents;
+import net.silentchaos512.loginar.setup.UrnTypes;
+
+import java.util.List;
+import java.util.Objects;
 
 public class UrnData {
+    public static final Codec<UrnData> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                    UrnTypes.CODEC.fieldOf("type").forGetter(d -> d.urnType),
+                    Codec.INT.fieldOf("clay_color").forGetter(d -> d.clayColor),
+                    Codec.INT.fieldOf("gem_color").forGetter(d -> d.gemColor),
+                    Codec.list(ItemStack.CODEC).fieldOf("items").forGetter(d -> d.items),
+                    Codec.list(ItemStack.CODEC).fieldOf("upgrades").forGetter(d -> d.upgrades)
+            ).apply(instance, UrnData::new)
+    );
+    public static final StreamCodec<RegistryFriendlyByteBuf, UrnData> STREAM_CODEC = StreamCodec.composite(
+            UrnTypes.STREAM_CODEC, d -> d.urnType,
+            ByteBufCodecs.INT, d -> d.clayColor,
+            ByteBufCodecs.INT, d -> d.gemColor,
+            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.items,
+            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.upgrades,
+            UrnData::new
+    );
+
     private final UrnTypes urnType;
     private final int clayColor;
     private final int gemColor;
@@ -33,29 +58,39 @@ public class UrnData {
         this.upgrades = NonNullList.withSize(urnType.upgradeSlots(), ItemStack.EMPTY);
     }
 
+    public UrnData(UrnTypes urnType, int clayColor, int gemColor, List<ItemStack> items, List<ItemStack> upgrades) {
+        this(urnType, clayColor, gemColor);
+        for (int i = 0; i < items.size() && i < this.items.size(); ++i) {
+            this.items.set(i, items.get(i));
+        }
+        for (int i = 0; i < upgrades.size() && i < this.upgrades.size(); ++i) {
+            this.upgrades.set(i, upgrades.get(i));
+        }
+    }
+
+    public static UrnData getDefault(ItemStack stack) {
+        return new UrnData(Objects.requireNonNull(UrnTypes.fromItem(stack)), DEFAULT_CLAY_COLOR, DEFAULT_GEM_COLOR);
+    }
+
     public static UrnData fromItem(ItemStack stack) {
         if (!UrnHelper.isUrn(stack)) {
             throw new IllegalArgumentException("item is not a loginar urn: " + stack);
         }
 
-        // Obtain all the block data
-        LoginarUrnBlock block = (LoginarUrnBlock) ((BlockItem) stack.getItem()).getBlock();
-        if (!stack.getOrCreateTag().contains("BlockEntityTag")) {
-            return new UrnData(UrnTypes.MEDIUM, DEFAULT_CLAY_COLOR, DEFAULT_GEM_COLOR);
+        // Get data from item data component
+        var urnData = stack.get(LsDataComponents.URN_DATA);
+        if (urnData != null) {
+            return urnData;
         }
-        CompoundTag blockData = stack.getOrCreateTag().getCompound("BlockEntityTag");
 
-        UrnData ret = new UrnData(
+        // Missing data, build a new default object and save it
+        LoginarUrnBlock block = (LoginarUrnBlock) ((BlockItem) stack.getItem()).getBlock();
+        var ret = new UrnData(
                 block.getType(),
-                blockData.getInt(NBT_CLAY_COLOR),
-                blockData.getInt(NBT_GEM_COLOR)
+                DEFAULT_CLAY_COLOR,
+                DEFAULT_GEM_COLOR
         );
-        if (blockData.contains(NBT_ITEMS, Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(blockData, UrnData.NBT_ITEMS, ret.items);
-        }
-        if (blockData.contains(NBT_UPGRADES, Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(blockData, UrnData.NBT_UPGRADES, ret.upgrades);
-        }
+        stack.set(LsDataComponents.URN_DATA, ret);
         return ret;
     }
 
@@ -71,12 +106,6 @@ public class UrnData {
         tags.putInt("Type", urnType.ordinal());
         tags.putInt(NBT_CLAY_COLOR, clayColor);
         tags.putInt(NBT_GEM_COLOR, gemColor);
-    }
-
-    public void writeNbtToItem(ItemStack stack) {
-        CompoundTag tags = UrnHelper.getData(stack);
-        UrnHelper.saveAllItems(tags, NBT_ITEMS, items, false);
-        UrnHelper.saveAllItems(tags, NBT_UPGRADES, upgrades, false);
     }
 
     public UrnTypes urnType() {
@@ -113,13 +142,13 @@ public class UrnData {
     }
 
     public boolean tryAddItemToInventory(ItemStack stack) {
-        if (!UrnHelper.canUrnStoreItem(stack)) {
+        if (!UrnHelper.canUrnStore(stack)) {
             return false;
         }
 
         for (int slot = 0; slot < this.items.size(); ++slot) {
             ItemStack stackInSlot = this.items.get(slot);
-            if (!stackInSlot.isEmpty() && !ItemHandlerHelper.canItemStacksStack(stack, stackInSlot)) {
+            if (!stackInSlot.isEmpty() && !ItemStack.isSameItemSameComponents(stack, stackInSlot)) {
                 continue;
             }
 

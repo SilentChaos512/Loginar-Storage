@@ -1,14 +1,16 @@
 package net.silentchaos512.loginar.block.urn;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -22,8 +24,8 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
     private final int containerRows;
     int urnSlot = -1;
 
-    public LoginarUrnBackpackMenu(int windowId, Inventory inv, FriendlyByteBuf data) {
-        this(windowId, inv, data.readItem());
+    public LoginarUrnBackpackMenu(int windowId, Inventory inv, RegistryFriendlyByteBuf data) {
+        this(windowId, inv, ItemStack.STREAM_CODEC.decode(data));
     }
 
     public LoginarUrnBackpackMenu(int windowId, Inventory inv, ItemStack itemIn) {
@@ -62,9 +64,12 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player);
-        // FIXME: Does not save changes
-        CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT();
-        this.item.getOrCreateTag().getCompound("BlockEntityTag").put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));
+        // FIXME: Does not save changes (do we need to send a packet?)
+        CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT(player.level().registryAccess());
+        var customData = this.item.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(new CompoundTag()));
+        var compoundTag = customData.copyTag();
+        compoundTag.put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));
+        this.item.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(compoundTag));
     }
 
     @Override
@@ -131,7 +136,7 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
 
             Slot hotbarSlot = getSlot(hotbarId);
             if (slotId <= itemHandler.getSlots() - 1) {
-                return !UrnHelper.isUrn(slot.getItem()) && !UrnHelper.isUrn(hotbarSlot.getItem());
+                return UrnHelper.canUrnStore(slot.getItem()) && UrnHelper.canUrnStore(hotbarSlot.getItem());
             }
         }
 
