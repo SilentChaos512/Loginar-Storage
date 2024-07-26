@@ -22,7 +22,7 @@ public final class UrnHelper {
     }
 
     public static boolean canUrnStore(ItemStack stack) {
-        return !isUrn(stack) && !stack.is(LsTags.Items.URNS_CANNOT_STORE);
+        return !isUrn(stack) && !stack.is(LsTags.Items.URNS_CANNOT_STORE) && stack.getItem().canFitInsideContainerItems();
     }
 
     public static boolean isUpgrade(ItemStack stack) {

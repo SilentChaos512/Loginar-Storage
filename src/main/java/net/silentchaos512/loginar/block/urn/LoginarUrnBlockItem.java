@@ -39,4 +39,10 @@ public class LoginarUrnBlockItem extends BlockItem {
                 buf -> ItemStack.STREAM_CODEC.encode(buf, stack)
         );
     }
+
+    @Override
+    public boolean canFitInsideContainerItems() {
+        // Cannot be stored in shulker boxes
+        return false;
+    }
 }

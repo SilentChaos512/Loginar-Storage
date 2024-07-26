@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.20.6-1.4.0] - 2024-07-26
 - Ported to Minecraft 1.20.6 (Neoforge)
 ### Added
-- A tag for items that cannot be stored by urns (includes shulker boxes by default)
+- A tag for items that cannot be stored inside urns (empty by default)
+### Changed
+- Urns can no longer store shulker boxes and vice versa
 
 ## [1.20.4-1.3.0] - 2024-06-18
 - Ported to Minecraft 1.20.4

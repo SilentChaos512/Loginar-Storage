@@ -5,7 +5,6 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -24,26 +23,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider p_256380_) {
         copy(LsTags.Blocks.URNS, LsTags.Items.URNS);
-        tag(LsTags.Items.URNS_CANNOT_STORE)
-                .add(
-                        Items.SHULKER_BOX,
-                        Items.WHITE_SHULKER_BOX,
-                        Items.ORANGE_SHULKER_BOX,
-                        Items.MAGENTA_SHULKER_BOX,
-                        Items.LIGHT_BLUE_SHULKER_BOX,
-                        Items.YELLOW_SHULKER_BOX,
-                        Items.LIME_SHULKER_BOX,
-                        Items.PINK_SHULKER_BOX,
-                        Items.GRAY_SHULKER_BOX,
-                        Items.LIGHT_GRAY_SHULKER_BOX,
-                        Items.CYAN_SHULKER_BOX,
-                        Items.PURPLE_SHULKER_BOX,
-                        Items.BLUE_SHULKER_BOX,
-                        Items.BROWN_SHULKER_BOX,
-                        Items.GREEN_SHULKER_BOX,
-                        Items.RED_SHULKER_BOX,
-                        Items.BLACK_SHULKER_BOX
-                );
+        builder(LsTags.Items.URNS_CANNOT_STORE); // Empty
         builder(LsTags.Items.URN_UPGRADES,
                 LsItems.BACKPACK_UPGRADE,
                 LsItems.VACUUM_UPGRADE,
