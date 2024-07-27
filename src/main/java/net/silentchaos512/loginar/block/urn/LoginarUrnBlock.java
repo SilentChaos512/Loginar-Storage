@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
@@ -114,8 +114,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
 
     public ItemStack makeStack(int clayColor, int gemColor) {
         ItemStack stack = new ItemStack(this);
-        UrnHelper.setClayColor(stack, clayColor);
-        UrnHelper.setGemColor(stack, gemColor);
+        stack.set(LsDataComponents.URN_DATA, new UrnData(this.type, clayColor, gemColor));
         return stack;
     }
 
@@ -147,10 +146,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         if (blockentity instanceof LoginarUrnBlockEntity urn) {
             if (!level.isClientSide && player.isCreative() && !urn.isEmpty()) {
                 ItemStack itemstack = new ItemStack(this);
-                blockentity.saveToItem(itemstack, level.registryAccess());
-                if (urn.hasCustomName()) {
-                    itemstack.set(DataComponents.CUSTOM_NAME, urn.getCustomName());
-                }
+                itemstack.applyComponents(urn.collectComponents());
 
                 ItemEntity itementity = new ItemEntity(level, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, itemstack);
                 itementity.setDefaultPickUpDelay();
@@ -191,6 +187,15 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        var data = stack.get(LsDataComponents.URN_DATA);
+        if (data == null) return;
+
+        var urn = level.getBlockEntity(pos, this.type.blockEntity().get()).orElseThrow();
+        urn.refreshData(data);
+    }
+
+    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flags) {
         super.appendHoverText(stack, tooltipContext, tooltip, flags);
         var customData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
@@ -205,16 +210,34 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         var urnData = stack.get(LsDataComponents.URN_DATA);
         if (urnData == null) return;
 
-        // Upgrades
+        tooltipUrnData(tooltip, urnData);
+        tooltipUpgradesList(stack, tooltip, urnData);
+        tooltipItemsList(tooltip, urnData);
+    }
+
+    private static void tooltipUrnData(List<Component> tooltip, UrnData urnData) {
+        tooltip.add(Component.literal("Type: ").append(urnData.urnType().toString()));
+        var clayColor = urnData.clayColor();
+        var clayColorText = Component.literal("Clay Color: ")
+                .append(TextUtil.withColor(Component.literal(Color.format(clayColor)), clayColor));
+        tooltip.add(clayColorText);
+        var gemColor = urnData.gemColor();
+        var gemColorText = Component.literal("Gem Color: ")
+                .append(TextUtil.withColor(Component.literal(Color.format(gemColor)), gemColor));
+        tooltip.add(gemColorText);
+    }
+
+    private static void tooltipUpgradesList(ItemStack stack, List<Component> tooltip, UrnData urnData) {
         tooltip.add(TextUtil.misc("urn.upgrades", UrnHelper.getUpgradeCount(stack), UrnHelper.getMaxUpgradeCount(stack)));
         for (ItemStack upgrade : urnData.upgrades()) {
             if (!upgrade.isEmpty()) {
                 tooltip.add(Component.literal("- ").append(upgrade.getHoverName()).withStyle(ChatFormatting.DARK_GRAY));
             }
         }
+    }
 
-        // Item list
-        NonNullList<ItemStack> items = urnData.items();
+    private static void tooltipItemsList(List<Component> tooltip, UrnData urnData) {
+        List<ItemStack> items = urnData.items();
         int i = 0;
         int j = 0;
 
@@ -249,9 +272,9 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         ItemStack itemstack = super.getCloneItemStack(state, target, level, pos, player);
-        level.getBlockEntity(pos, this.type.blockEntity().get()).ifPresent(urn -> {
-            urn.saveToItem(itemstack, level.registryAccess());
-        });
+        level.getBlockEntity(pos, this.type.blockEntity().get()).ifPresent(urn ->
+                itemstack.set(LsDataComponents.URN_DATA, urn.getUrnData())
+        );
         return itemstack;
     }
 }

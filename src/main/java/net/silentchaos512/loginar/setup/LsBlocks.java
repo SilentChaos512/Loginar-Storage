@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
+import net.silentchaos512.loginar.block.urn.UrnData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -58,7 +59,11 @@ public class LsBlocks {
     private static DeferredBlock<LoginarUrnBlock> registerUrn(UrnTypes type) {
         return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
                 () -> new LoginarUrnBlock(type, urnProps()),
-                bro -> () -> new LoginarUrnBlockItem(bro.get(), new Item.Properties().stacksTo(1))
+                block -> () -> new LoginarUrnBlockItem(block.get(),
+                        new Item.Properties()
+                                .stacksTo(1)
+                                .component(LsDataComponents.URN_DATA, UrnData.getDefault(type))
+                )
         );
     }
 

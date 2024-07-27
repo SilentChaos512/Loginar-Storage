@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.silentchaos512.loginar.block.urn.UrnData;
 
+import java.util.Optional;
+
 public interface TickingUrnUpgrade {
-    void tick(UrnData urnData, Level level, BlockPos pos);
+    Optional<UrnData> tick(UrnData urnData, Level level, BlockPos pos);
 }

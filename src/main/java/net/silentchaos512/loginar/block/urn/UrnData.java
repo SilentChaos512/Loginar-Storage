@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.block.urn;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
@@ -7,39 +8,40 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.lib.util.EnumUtils;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.UrnTypes;
 
+import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class UrnData {
+public record UrnData(
+        UrnTypes urnType,
+        int clayColor,
+        int gemColor,
+        List<ItemStack> items,
+        List<ItemStack> upgrades
+) {
     public static final Codec<UrnData> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     UrnTypes.CODEC.fieldOf("type").forGetter(d -> d.urnType),
                     Codec.INT.fieldOf("clay_color").forGetter(d -> d.clayColor),
                     Codec.INT.fieldOf("gem_color").forGetter(d -> d.gemColor),
-                    Codec.list(ItemStack.CODEC).fieldOf("items").forGetter(d -> d.items),
-                    Codec.list(ItemStack.CODEC).fieldOf("upgrades").forGetter(d -> d.upgrades)
+                    Codec.list(ItemStack.OPTIONAL_CODEC).fieldOf("items").forGetter(d -> d.items),
+                    Codec.list(ItemStack.OPTIONAL_CODEC).fieldOf("upgrades").forGetter(d -> d.upgrades)
             ).apply(instance, UrnData::new)
     );
     public static final StreamCodec<RegistryFriendlyByteBuf, UrnData> STREAM_CODEC = StreamCodec.composite(
             UrnTypes.STREAM_CODEC, d -> d.urnType,
             ByteBufCodecs.INT, d -> d.clayColor,
             ByteBufCodecs.INT, d -> d.gemColor,
-            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.items,
-            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.upgrades,
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.items,
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list()), d -> d.upgrades,
             UrnData::new
     );
-
-    private final UrnTypes urnType;
-    private final int clayColor;
-    private final int gemColor;
-    private NonNullList<ItemStack> items;
-    private NonNullList<ItemStack> upgrades;
 
     public static final String NBT_ROOT = "BlockEntityTag";
     public static final String NBT_CLAY_COLOR = "ClayColor";
@@ -51,25 +53,39 @@ public class UrnData {
     public static final int DEFAULT_GEM_COLOR = 0x33EBCB;
 
     public UrnData(UrnTypes urnType, int clayColor, int gemColor) {
-        this.urnType = urnType;
-        this.clayColor = clayColor;
-        this.gemColor = gemColor;
-        this.items = NonNullList.withSize(urnType.inventorySize(), ItemStack.EMPTY);
-        this.upgrades = NonNullList.withSize(urnType.upgradeSlots(), ItemStack.EMPTY);
+        this(urnType, clayColor, gemColor, Collections.emptyList(), Collections.emptyList());
     }
 
     public UrnData(UrnTypes urnType, int clayColor, int gemColor, List<ItemStack> items, List<ItemStack> upgrades) {
-        this(urnType, clayColor, gemColor);
-        for (int i = 0; i < items.size() && i < this.items.size(); ++i) {
-            this.items.set(i, items.get(i));
+        this.urnType = urnType;
+        this.clayColor = clayColor;
+        this.gemColor = gemColor;
+        this.items = ImmutableList.copyOf(items);
+        this.upgrades = ImmutableList.copyOf(upgrades);
+    }
+
+    public NonNullList<ItemStack> copyItems() {
+        return createMutableCopyOfList(this.items, this.urnType.inventorySize());
+    }
+
+    public NonNullList<ItemStack> copyUpgrades() {
+        return createMutableCopyOfList(this.upgrades, this.urnType.upgradeSlots());
+    }
+
+    public NonNullList<ItemStack> createMutableCopyOfList(List<ItemStack> list, int size) {
+        NonNullList<ItemStack> ret = NonNullList.withSize(size, ItemStack.EMPTY);
+        for (int i = 0; i < list.size() && i < size; ++i) {
+            ret.set(i, list.get(i));
         }
-        for (int i = 0; i < upgrades.size() && i < this.upgrades.size(); ++i) {
-            this.upgrades.set(i, upgrades.get(i));
-        }
+        return ret;
     }
 
     public static UrnData getDefault(ItemStack stack) {
-        return new UrnData(Objects.requireNonNull(UrnTypes.fromItem(stack)), DEFAULT_CLAY_COLOR, DEFAULT_GEM_COLOR);
+        return getDefault(Objects.requireNonNull(UrnTypes.fromItem(stack)));
+    }
+
+    public static UrnData getDefault(UrnTypes type) {
+        return new UrnData(type, DEFAULT_CLAY_COLOR, DEFAULT_GEM_COLOR);
     }
 
     public static UrnData fromItem(ItemStack stack) {
@@ -84,12 +100,7 @@ public class UrnData {
         }
 
         // Missing data, build a new default object and save it
-        LoginarUrnBlock block = (LoginarUrnBlock) ((BlockItem) stack.getItem()).getBlock();
-        var ret = new UrnData(
-                block.getType(),
-                DEFAULT_CLAY_COLOR,
-                DEFAULT_GEM_COLOR
-        );
+        var ret = getDefault(stack);
         stack.set(LsDataComponents.URN_DATA, ret);
         return ret;
     }
@@ -108,46 +119,56 @@ public class UrnData {
         tags.putInt(NBT_GEM_COLOR, gemColor);
     }
 
-    public UrnTypes urnType() {
-        return urnType;
+    public UrnData withItems(List<ItemStack> list) {
+        return new UrnData(
+                this.urnType,
+                this.clayColor,
+                this.gemColor,
+                list,
+                this.upgrades
+        );
     }
 
-    public int clayColor() {
-        return clayColor;
+    public UrnData withUpgrades(List<ItemStack> list) {
+        return new UrnData(
+                this.urnType,
+                this.clayColor,
+                this.gemColor,
+                this.items,
+                list
+        );
     }
 
-    public int gemColor() {
-        return gemColor;
-    }
+    @Nullable
+    public UrnData withNewUpgrade(ItemStack stack) {
+        List<ItemStack> list = NonNullList.copyOf(this.upgrades);
 
-    public NonNullList<ItemStack> items() {
-        return items;
-    }
-
-    public void setItems(NonNullList<ItemStack> list) {
-        this.items = list;
-    }
-
-    public NonNullList<ItemStack> upgrades() {
-        return upgrades;
-    }
-
-    public void addUpgrade(ItemStack stack) {
-        for (int i = 0; i < upgrades.size(); ++i) {
-            if (upgrades.get(i).isEmpty()) {
-                upgrades.set(i, stack);
-                return;
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i).isEmpty()) {
+                list.set(i, stack);
+                return new UrnData(
+                        this.urnType,
+                        this.clayColor,
+                        this.gemColor,
+                        this.items,
+                        list
+                );
             }
         }
+
+        return null;
     }
 
-    public boolean tryAddItemToInventory(ItemStack stack) {
+    @Nullable
+    public UrnData tryAddItem(ItemStack stack) {
         if (!UrnHelper.canUrnStore(stack)) {
-            return false;
+            return null;
         }
 
-        for (int slot = 0; slot < this.items.size(); ++slot) {
-            ItemStack stackInSlot = this.items.get(slot);
+        List<ItemStack> list = this.copyItems();
+
+        for (int slot = 0; slot < list.size(); ++slot) {
+            ItemStack stackInSlot = list.get(slot);
             if (!stackInSlot.isEmpty() && !ItemStack.isSameItemSameComponents(stack, stackInSlot)) {
                 continue;
             }
@@ -160,15 +181,15 @@ public class UrnData {
                 stackInSlot.setCount(stackInSlot.getCount() + amountCanFit);
                 stack.setCount(stack.getCount() - amountCanFit);
 
-                this.items.set(slot, stackInSlot);
+                list.set(slot, stackInSlot);
             } else {
-                this.items.set(slot, stack.copy());
+                list.set(slot, stack.copy());
                 stack.setCount(0);
             }
 
-            return true;
+            return withItems(list);
         }
 
-        return false;
+        return null;
     }
 }

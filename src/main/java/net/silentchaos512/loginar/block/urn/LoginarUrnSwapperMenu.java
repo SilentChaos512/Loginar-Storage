@@ -29,7 +29,7 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
         super(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), windowId);
         this.item = itemIn;
         this.urnData = UrnData.fromItem(this.item);
-        this.itemHandler = new ItemStackHandler(this.urnData.items());
+        this.itemHandler = new ItemStackHandler(this.urnData.copyItems());
         this.containerRows = this.itemHandler.getSlots() / 9;
 
         // Urn inventory slots

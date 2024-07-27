@@ -7,7 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.crafting.recipe.UrnModifcationRecipe;
+import net.silentchaos512.loginar.crafting.recipe.UrnModificationRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnBaseRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
 
@@ -20,7 +20,7 @@ public class LsRecipeSerializers {
             UrnBaseRecipe.Serializer::new
     );
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<?>> URN_MODIFICATION = register("urn_modification",
-            () -> new SimpleCraftingRecipeSerializer<>(UrnModifcationRecipe::new)
+            () -> new SimpleCraftingRecipeSerializer<>(UrnModificationRecipe::new)
     );
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<UrnUpgradeRecipe>> URN_UPGRADE = register("urn_upgrade",
             () -> new ExtendedShapedRecipe.BasicSerializer<>((group, category, pattern, result, showNotification) -> new UrnUpgradeRecipe(group, category, pattern, result))

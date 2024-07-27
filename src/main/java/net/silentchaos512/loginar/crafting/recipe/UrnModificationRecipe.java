@@ -19,8 +19,8 @@ import net.silentchaos512.loginar.setup.LsTags;
 import java.util.Collection;
 import java.util.Optional;
 
-public class UrnModifcationRecipe extends CustomRecipe {
-    public UrnModifcationRecipe(CraftingBookCategory pCategory) {
+public class UrnModificationRecipe extends CustomRecipe {
+    public UrnModificationRecipe(CraftingBookCategory pCategory) {
         super(pCategory);
     }
 
@@ -32,8 +32,8 @@ public class UrnModifcationRecipe extends CustomRecipe {
     @Override
     public boolean matches(CraftingContainer inv, Level worldIn) {
         StackList list = StackList.from(inv);
-        ItemStack urn = list.uniqueMatch(UrnModifcationRecipe::isUrn);
-        Collection<ItemStack> mods = list.allMatches(UrnModifcationRecipe::isModifierItem);
+        ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn);
+        Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
 
         // For upgrade items, make sure the urn doesn't have it already and has free upgrade slots
@@ -50,9 +50,9 @@ public class UrnModifcationRecipe extends CustomRecipe {
     @Override
     public ItemStack assemble(CraftingContainer inv, HolderLookup.Provider registryAccess) {
         StackList list = StackList.from(inv);
-        ItemStack urn = list.uniqueMatch(UrnModifcationRecipe::isUrn).copy();
+        ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn).copy();
         UrnData data = UrnData.fromItem(urn);
-        Collection<ItemStack> mods = list.allMatches(UrnModifcationRecipe::isModifierItem);
+        Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
 
         // urn is a copy, so modify that directly
@@ -60,8 +60,10 @@ public class UrnModifcationRecipe extends CustomRecipe {
             // No modifier items, toggle between lidded and lidless version
             //UrnHelper.toggleHasLid(urn);
         } else {
-            mods.forEach(mod -> applyModifierItem(urn, data, mod));
-            applyDyes(urn, dyes);
+            for (ItemStack mod : mods) {
+                data = applyModifierItem(data, mod);
+            }
+            data = applyDyes(data, dyes);
         }
 
         urn.set(LsDataComponents.URN_DATA, data);
@@ -77,23 +79,27 @@ public class UrnModifcationRecipe extends CustomRecipe {
         return stack.is(Tags.Items.GEMS) || UrnHelper.isUpgrade(stack);
     }
 
-    private static void applyModifierItem(ItemStack urn, UrnData data, ItemStack mod) {
+    private static UrnData applyModifierItem(UrnData data, ItemStack mod) {
         if (mod.is(Tags.Items.GEMS)) {
             int color = UrnBaseRecipe.getGemColor(mod);
-            UrnHelper.setGemColor(urn, color);
+            return new UrnData(data.urnType(), data.clayColor(), color, data.items(), data.upgrades());
         }
         if (UrnHelper.isUpgrade(mod)) {
-            data.addUpgrade(mod);
+            var newData = data.withNewUpgrade(mod);
+            if (newData != null) {
+                return newData;
+            }
         }
+        return data;
     }
 
     // Largely copied from RecipesArmorDyes
-    private static void applyDyes(ItemStack urn, Collection<ItemStack> dyes) {
+    private static UrnData applyDyes(UrnData data, Collection<ItemStack> dyes) {
         int[] componentSums = new int[3];
         int maxColorSum = 0;
         int colorCount = 0;
 
-        int clayColor = UrnHelper.getClayColor(urn);
+        int clayColor = data.clayColor();
         if (clayColor != UrnData.DEFAULT_CLAY_COLOR) {
             float r = (float) (clayColor >> 16 & 255) / 255.0F;
             float g = (float) (clayColor >> 8 & 255) / 255.0F;
@@ -130,8 +136,10 @@ public class UrnModifcationRecipe extends CustomRecipe {
             b = (int) ((float) b * maxAverage / max);
             int finalColor = (r << 8) + g;
             finalColor = (finalColor << 8) + b;
-            UrnHelper.setClayColor(urn, finalColor);
+            return new UrnData(data.urnType(), finalColor, data.gemColor(), data.items(), data.upgrades());
         }
+
+        return data;
     }
 
     private static Optional<DyeColor> getDyeColor(ItemStack dye) {

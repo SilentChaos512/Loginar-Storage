@@ -113,7 +113,7 @@ public final class UrnHelper {
 
     }
 
-    public static CompoundTag saveAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items, boolean p_18979_) {
+    public static CompoundTag saveAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items, boolean alwaysPutTag) {
         // Taken from ContainerHelper, but can specify the list name
         ListTag listtag = new ListTag();
 
@@ -122,12 +122,11 @@ public final class UrnHelper {
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
                 compoundtag.putByte("Slot", (byte)i);
-                itemstack.save(provider, compoundtag);
-                listtag.add(compoundtag);
+                listtag.add(itemstack.save(provider, compoundtag));
             }
         }
 
-        if (!listtag.isEmpty() || p_18979_) {
+        if (!listtag.isEmpty() || alwaysPutTag) {
             tag.put(tagKey, listtag);
         }
 

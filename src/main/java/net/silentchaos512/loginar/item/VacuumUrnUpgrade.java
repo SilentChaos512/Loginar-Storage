@@ -9,6 +9,8 @@ import net.minecraft.world.phys.Vec3;
 import net.silentchaos512.loginar.api.TickingUrnUpgrade;
 import net.silentchaos512.loginar.block.urn.UrnData;
 
+import java.util.Optional;
+
 public class VacuumUrnUpgrade extends UpgradeItem implements TickingUrnUpgrade {
     private static final int RANGE = 4;
 
@@ -17,8 +19,9 @@ public class VacuumUrnUpgrade extends UpgradeItem implements TickingUrnUpgrade {
     }
 
     @Override
-    public void tick(UrnData urnData, Level level, BlockPos pos) {
+    public Optional<UrnData> tick(final UrnData urnData, Level level, BlockPos pos) {
 //        if (!state.getLidState().isOpen()) return;
+        UrnData replacementData = null;
 
         Vec3 target = new Vec3(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
         AABB axisAlignedBB = new AABB(
@@ -31,7 +34,9 @@ public class VacuumUrnUpgrade extends UpgradeItem implements TickingUrnUpgrade {
             double distanceSq = entity.distanceToSqr(target.x, target.y, target.z);
             if (distanceSq < 0.75) {
                 // Try to add item to urn's inventory
-                if (urnData.tryAddItemToInventory(entity.getItem())) {
+                var newData = urnData.tryAddItem(entity.getItem());
+                if (newData != null) {
+                    replacementData = newData;
                     itemsAbsorbed = true;
                     if (entity.getItem().isEmpty()) {
                         entity.remove(Entity.RemovalReason.DISCARDED);
@@ -52,8 +57,6 @@ public class VacuumUrnUpgrade extends UpgradeItem implements TickingUrnUpgrade {
             }
         }
 
-        /*if (itemsAbsorbed) {
-            urnData.setItemsAbsorbed(true);
-        }*/
+        return Optional.ofNullable(replacementData);
     }
 }

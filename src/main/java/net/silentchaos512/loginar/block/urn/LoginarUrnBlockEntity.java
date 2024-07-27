@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.loginar.api.TickingUrnUpgrade;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +32,7 @@ import java.util.stream.IntStream;
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     private final UrnTypes type;
     private UrnData data;
+    private NonNullList<ItemStack> items;
     private final int[] slots;
     private boolean hasChanged = false;
 
@@ -37,13 +40,14 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         super(type.blockEntity().get(), pos, state);
         this.type = type;
         this.data = new UrnData(this.type, UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
+        this.items = this.data.copyItems();
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, LoginarUrnBlockEntity blockEntity) {
         for (ItemStack upgrade : blockEntity.data.upgrades()) {
-            if (!upgrade.isEmpty() && upgrade.getItem() instanceof TickingUrnUpgrade) {
-                ((TickingUrnUpgrade) upgrade.getItem()).tick(blockEntity.data, level, pos);
+            if (!upgrade.isEmpty() && upgrade.getItem() instanceof TickingUrnUpgrade tickingUrnUpgrade) {
+                tickingUrnUpgrade.tick(blockEntity.data, level, pos).ifPresent(blockEntity::refreshData);
             }
         }
 
@@ -51,6 +55,17 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
             level.sendBlockUpdated(pos, state, state, 3);
             blockEntity.hasChanged = false;
         }
+    }
+
+    public UrnData getUrnData() {
+        // Refresh data before returning
+        this.data = this.data.withItems(this.items);
+        return this.data;
+    }
+
+    void refreshData(UrnData newData) {
+        this.data = newData;
+        this.items = this.data.copyItems();
     }
 
     public int getClayColor() {
@@ -63,12 +78,12 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
 
     @Override
     protected NonNullList<ItemStack> getItems() {
-        return this.data.items();
+        return this.items;
     }
 
     @Override
     protected void setItems(NonNullList<ItemStack> list) {
-        this.data.setItems(list);
+        this.items = list;
     }
 
     @Override
@@ -102,6 +117,14 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
+        super.collectImplicitComponents(pComponents);
+        // Items list in data is likely stale, so it must be updated
+        UrnData updatedData = this.data.withItems(this.items);
+        pComponents.set(LsDataComponents.URN_DATA, updatedData);
+    }
+
+    @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
@@ -115,15 +138,16 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
             gemColor = tag.getInt(UrnData.NBT_GEM_COLOR);
         }
 
-        this.data = new UrnData(this.type, clayColor, gemColor);
-
         if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, registries, "Items", this.data.items());
+            UrnHelper.loadAllItems(tag, registries, "Items", this.items);
         }
 
+        NonNullList<ItemStack> upgrades = NonNullList.create();
         if (tag.contains("Upgrades", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, registries, "Upgrades", this.data.upgrades());
+            UrnHelper.loadAllItems(tag, registries, "Upgrades", upgrades);
         }
+
+        this.data = new UrnData(this.type, clayColor, gemColor, this.items, upgrades);
 
         this.hasChanged = true;
     }
@@ -132,9 +156,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         if (!this.trySaveLootTable(tag)) {
-            UrnHelper.saveAllItems(tag, registries, "Items", this.data.items(), false);
+            UrnHelper.saveAllItems(tag, registries, "Items", this.items, false);
         }
-        UrnHelper.saveAllItems(tag, registries, "Upgrades", this.data.upgrades(), false);
+        UrnHelper.saveAllItems(tag, registries, "Upgrades", this.data.copyUpgrades(), false);
 
         tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
         tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());
@@ -149,7 +173,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tags = super.getUpdateTag(registries);
-        this.data.writeNbt(tags);
+        this.getUrnData().writeNbt(tags);
         return tags;
     }
 

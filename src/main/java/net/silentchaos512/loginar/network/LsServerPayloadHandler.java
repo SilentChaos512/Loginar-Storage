@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.network;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.util.TextUtil;
 
 public class LsServerPayloadHandler {
@@ -66,7 +68,11 @@ public class LsServerPayloadHandler {
                     ItemStack currentHeldItem = serverPlayer.getMainHandItem();
                     ItemStack swapItem = urnData.items().get(data.urnItemSlot());
                     player.setItemInHand(InteractionHand.MAIN_HAND, swapItem);
-                    urnData.items().set(data.urnItemSlot(), currentHeldItem);
+
+                    NonNullList<ItemStack> newItemList = urnData.copyItems();
+                    newItemList.set(data.urnItemSlot(), currentHeldItem);
+                    UrnData newData = urnData.withItems(newItemList);
+                    urn.set(LsDataComponents.URN_DATA, newData);
                 }
             }
         });
