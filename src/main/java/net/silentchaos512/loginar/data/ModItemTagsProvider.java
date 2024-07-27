@@ -29,9 +29,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 LsItems.VACUUM_UPGRADE,
                 LsItems.ITEM_SWAPPER_UPGRADE
         );
-        tag(LsTags.Items.FLOWER_BASKET_CAN_STORE).addTag(ItemTags.FLOWERS);
-        tag(LsTags.Items.GEM_BAG_CAN_STORE).addTag(Tags.Items.GEMS);
-        tag(LsTags.Items.ORE_CRATE_CAN_STORE).addTag(Tags.Items.RAW_MATERIALS).addTag(Tags.Items.ORES);
+        tag(LsTags.Items.FLOWER_BASKET_CAN_STORE)
+                .addTag(ItemTags.FLOWERS);
+        tag(LsTags.Items.GEM_BAG_CAN_STORE)
+                .addTag(Tags.Items.GEMS);
+        tag(LsTags.Items.ORE_CRATE_CAN_STORE)
+                .addTag(Tags.Items.RAW_MATERIALS)
+                .addTag(Tags.Items.RAW_BLOCKS)
+                .addTag(Tags.Items.ORES)
+                .addTag(ItemTags.COALS);
 
         builder(ItemTags.WOLF_FOOD, LsItems.LOGINAR_CALAMARI);
     }

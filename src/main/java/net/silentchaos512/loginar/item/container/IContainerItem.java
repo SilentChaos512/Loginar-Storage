@@ -19,12 +19,16 @@ public interface IContainerItem {
     }
 
     default IItemHandler getInventory(ItemStack stack) {
-        return new ItemStackHandler(stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, NonNullList.create()));
+        return new ItemStackHandler(stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, NonNullList.withSize(getInventorySize(stack), ItemStack.EMPTY)));
     }
 
     default void saveInventory(ItemStack stack, IItemHandler itemHandler, Player player) {
         if (itemHandler instanceof ItemStackHandler) {
-//            stack.getOrCreateTag().put(NBT_INVENTORY, ((ItemStackHandler) itemHandler).serializeNBT());
+            NonNullList<ItemStack> list = NonNullList.withSize(itemHandler.getSlots(), ItemStack.EMPTY);
+            for (int i = 0; i < itemHandler.getSlots(); ++i) {
+                list.set(i, itemHandler.getStackInSlot(i));
+            }
+            stack.set(LsDataComponents.CONTAINED_ITEMS, list);
         }
     }
 }

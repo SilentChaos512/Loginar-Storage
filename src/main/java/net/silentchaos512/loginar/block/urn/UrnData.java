@@ -10,6 +10,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.lib.util.EnumUtils;
+import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.UrnTypes;
 
@@ -62,6 +63,7 @@ public record UrnData(
         this.gemColor = gemColor;
         this.items = ImmutableList.copyOf(items);
         this.upgrades = ImmutableList.copyOf(upgrades);
+        LoginarMod.LOGGER.info(this.upgrades);
     }
 
     public NonNullList<ItemStack> copyItems() {
@@ -141,7 +143,7 @@ public record UrnData(
 
     @Nullable
     public UrnData withNewUpgrade(ItemStack stack) {
-        List<ItemStack> list = NonNullList.copyOf(this.upgrades);
+        List<ItemStack> list = this.copyUpgrades();
 
         for (int i = 0; i < list.size(); ++i) {
             if (list.get(i).isEmpty()) {

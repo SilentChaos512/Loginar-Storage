@@ -15,8 +15,8 @@ public class LsDataComponents {
     public static final Supplier<DataComponentType<NonNullList<ItemStack>>> CONTAINED_ITEMS = REGISTRAR.registerComponentType(
             "contained_items",
             builder -> builder
-                    .persistent(NonNullList.codecOf(ItemStack.CODEC))
-                    .networkSynchronized(ItemStack.LIST_STREAM_CODEC.map(
+                    .persistent(NonNullList.codecOf(ItemStack.OPTIONAL_CODEC))
+                    .networkSynchronized(ItemStack.OPTIONAL_LIST_STREAM_CODEC.map(
                             NonNullList::copyOf,
                             nonnulllist -> nonnulllist
                     ))

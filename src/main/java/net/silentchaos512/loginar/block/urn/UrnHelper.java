@@ -43,7 +43,15 @@ public final class UrnHelper {
 
     public static int getUpgradeCount(ItemStack urn) {
         var data = urn.get(LsDataComponents.URN_DATA);
-        return data != null ? data.upgrades().size() : 0;
+        if (data == null) return 0;
+
+        int count = 0;
+        for (var upgrade : data.upgrades()) {
+            if (!upgrade.isEmpty()) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     public static int getMaxUpgradeCount(ItemStack urn) {

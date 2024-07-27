@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.collection.StackList;
+import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsDataComponents;
@@ -60,6 +61,7 @@ public class UrnModificationRecipe extends CustomRecipe {
             // No modifier items, toggle between lidded and lidless version
             //UrnHelper.toggleHasLid(urn);
         } else {
+            LoginarMod.LOGGER.info("mods: " + mods.size());
             for (ItemStack mod : mods) {
                 data = applyModifierItem(data, mod);
             }

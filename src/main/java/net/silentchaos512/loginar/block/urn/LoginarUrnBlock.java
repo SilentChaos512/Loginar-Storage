@@ -230,9 +230,9 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     private static void tooltipUpgradesList(ItemStack stack, List<Component> tooltip, UrnData urnData) {
         tooltip.add(TextUtil.misc("urn.upgrades", UrnHelper.getUpgradeCount(stack), UrnHelper.getMaxUpgradeCount(stack)));
         for (ItemStack upgrade : urnData.upgrades()) {
-            if (!upgrade.isEmpty()) {
+//            if (!upgrade.isEmpty()) {
                 tooltip.add(Component.literal("- ").append(upgrade.getHoverName()).withStyle(ChatFormatting.DARK_GRAY));
-            }
+//            }
         }
     }
 

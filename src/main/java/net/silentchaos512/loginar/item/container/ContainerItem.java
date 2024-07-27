@@ -2,6 +2,7 @@ package net.silentchaos512.loginar.item.container;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.Util;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.connection.ConnectionType;
 import net.silentchaos512.lib.util.NameUtils;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.util.TextUtil;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public abstract class ContainerItem extends Item implements IContainerItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable(Util.makeDescriptionId("item", NameUtils.fromItem(this)) + ".desc"));
+        var items = stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, NonNullList.withSize(getInventorySize(stack), ItemStack.EMPTY));
+        tooltip.add(Component.literal("items: " + items.size()));
     }
 
     @Override
