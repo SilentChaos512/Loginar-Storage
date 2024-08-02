@@ -34,13 +34,13 @@ public class ModRecipeProvider extends LibRecipeProvider {
     protected void buildRecipes(RecipeOutput consumer) {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, "loginar_calamari_smelting");
+                .save(consumer, LoginarMod.getId("loginar_calamari_smelting"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 100)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, "loginar_calamari_smoking");
+                .save(consumer, LoginarMod.getId("loginar_calamari_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 600)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, "loginar_calamari_campfire_cooking");
+                .save(consumer, LoginarMod.getId("loginar_calamari_campfire_cooking"));
 
         // Loginar Urn recipes
 

@@ -22,7 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         registerBlocks();
 
-        ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
+        ModelFile itemGenerated = getExistingFile(ResourceLocation.withDefaultNamespace("item/generated"));
 
         builder(LsItems.LOGINAR_ANTENNA, itemGenerated)
                 .override()

@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.phys.Vec3;
 import net.silentchaos512.loginar.entity.LoginarEntity;
 import net.silentchaos512.loginar.setup.LsSounds;
 
@@ -85,11 +86,19 @@ public class LoginarFireballAttackGoal extends Goal {
                     if (this.attackStep > 1) {
                         double d4 = Math.sqrt(Math.sqrt(distanceSqr)) * 0.5D;
                         if (!this.loginar.isSilent()) {
-                            this.loginar.level().levelEvent((Player)null, 1018, this.loginar.blockPosition(), 0);
+                            this.loginar.level().levelEvent((Player) null, 1018, this.loginar.blockPosition(), 0);
                         }
 
-                        for(int i = 0; i < 1; ++i) {
-                            SmallFireball smallfireball = new SmallFireball(this.loginar.level(), this.loginar, this.loginar.getRandom().triangle(d1, 2.297D * d4), d2, this.loginar.getRandom().triangle(d3, 2.297D * d4));
+                        for (int i = 0; i < 1; ++i) {
+                            SmallFireball smallfireball = new SmallFireball(
+                                    this.loginar.level(),
+                                    this.loginar,
+                                    new Vec3(
+                                            this.loginar.getRandom().triangle(d1, 2.297D * d4),
+                                            d2,
+                                            this.loginar.getRandom().triangle(d3, 2.297D * d4)
+                                    )
+                            );
                             smallfireball.setPos(smallfireball.getX(), this.loginar.getY(0.5D) + 0.5D, smallfireball.getZ());
                             this.loginar.level().addFreshEntity(smallfireball);
                         }

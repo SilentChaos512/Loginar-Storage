@@ -1,10 +1,10 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.silentchaos512.lib.util.Color;
@@ -28,13 +28,13 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingContainer, HolderLookup.Provider registryAccess) {
-        ItemStack ret = super.assemble(craftingContainer, registryAccess);
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registryAccess) {
+        ItemStack ret = super.assemble(input, registryAccess);
 
         // Find original urn
         ItemStack original = ItemStack.EMPTY;
-        for (int i = 0; i < craftingContainer.getContainerSize(); ++i) {
-            ItemStack stack = craftingContainer.getItem(i);
+        for (int i = 0; i < input.size(); ++i) {
+            ItemStack stack = input.getItem(i);
             if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof LoginarUrnBlock) {
                 original = stack;
                 break;

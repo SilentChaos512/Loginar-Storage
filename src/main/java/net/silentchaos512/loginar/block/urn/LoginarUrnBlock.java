@@ -49,7 +49,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
                     .apply(builder, (urnType, properties) -> new LoginarUrnBlock(urnType.orElse(UrnTypes.MEDIUM), properties))
     );
 
-    public static final ResourceLocation CONTENTS = new ResourceLocation("contents");
+    public static final ResourceLocation CONTENTS = ResourceLocation.withDefaultNamespace("contents");
 
     private final UrnTypes type;
 

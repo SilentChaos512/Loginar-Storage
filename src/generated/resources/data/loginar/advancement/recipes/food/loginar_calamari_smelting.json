@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:loginar_calamari_smoking"
+        "recipe": "loginar:loginar_calamari_smelting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:loginar_calamari_smoking"
+      "loginar:loginar_calamari_smelting"
     ]
   }
 }

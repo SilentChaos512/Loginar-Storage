@@ -129,8 +129,8 @@ public class LunchBoxItem extends ContainerItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
-        FoodProperties foodProperties = getFoodProperties(stack, null);
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        FoodProperties foodProperties = getFoodProperties(stack, entity);
         if (foodProperties != null) {
             return foodProperties.eatDurationTicks();
         }

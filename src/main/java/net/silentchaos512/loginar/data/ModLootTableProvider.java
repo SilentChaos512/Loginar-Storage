@@ -7,27 +7,24 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.data.loot.packs.VanillaChestLoot;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ProblemReporter;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -36,14 +33,16 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
-import net.silentchaos512.loginar.setup.*;
+import net.silentchaos512.loginar.setup.LsBlocks;
+import net.silentchaos512.loginar.setup.LsDataComponents;
+import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.setup.UrnTypes;
 import net.silentchaos512.loginar.util.Const;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ModLootTableProvider extends LootTableProvider {
     public ModLootTableProvider(GatherDataEvent event) {
@@ -63,7 +62,7 @@ public class ModLootTableProvider extends LootTableProvider {
     public List<SubProviderEntry> getTables() {
         return ImmutableList.of(
                 new SubProviderEntry(ModBlockLoot::new, LootContextParamSets.BLOCK),
-                new SubProviderEntry(ModChestLoot::new, LootContextParamSets.CHEST),
+                new SubProviderEntry(provider -> new ModChestLoot(), LootContextParamSets.CHEST),
                 new SubProviderEntry(ModEntityLoot::new, LootContextParamSets.ENTITY)
         );
     }
@@ -73,8 +72,8 @@ public class ModLootTableProvider extends LootTableProvider {
     }
 
     public static final class ModBlockLoot extends BlockLootSubProvider {
-        protected ModBlockLoot() {
-            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        private ModBlockLoot(HolderLookup.Provider provider) {
+            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags(), provider);
         }
 
         @Override
@@ -115,10 +114,10 @@ public class ModLootTableProvider extends LootTableProvider {
         }
     }
 
-    public static final class ModChestLoot extends VanillaChestLoot {
+    public static final class ModChestLoot implements LootTableSubProvider {
         @Override
-        public void generate(HolderLookup.Provider registries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> generator) {
-            generator.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> biConsumer) {
+            biConsumer.accept(Const.CHESTS_LOGINAR_DUNGEON, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(UniformGenerator.between(2, 3))
                             .add(LootItem.lootTableItem(LsItems.LOGINAR_ANTENNA)
@@ -186,8 +185,8 @@ public class ModLootTableProvider extends LootTableProvider {
     }
 
     public static final class ModEntityLoot extends EntityLootSubProvider {
-        protected ModEntityLoot() {
-            super(FeatureFlags.REGISTRY.allFlags());
+        public ModEntityLoot(HolderLookup.Provider registries) {
+            super(FeatureFlags.REGISTRY.allFlags(), registries);
         }
 
         @Override
@@ -195,30 +194,24 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         @Override
-        public void generate(HolderLookup.Provider registries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> generator) {
-            generator.accept(Const.ENTITIES_LOGINAR, LootTable.lootTable()
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> biConsumer) {
+            biConsumer.accept(Const.ENTITIES_LOGINAR, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(LsItems.LOGINAR_ANTENNA)
                                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
-                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
+                                    .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))
                                     .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             )
                     )
                     .withPool(LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1.0F))
                             .add(LootItem.lootTableItem(LsItems.LOGINAR_TENTACLE)
-                                    .apply(SmeltItemFunction.smelted()
-                                            .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))
-                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
+                                    .apply(SmeltItemFunction.smelted().when(this.shouldSmeltLoot()))
+                                    .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))
                             )
                     )
             );
-        }
-
-        @Override
-        protected Stream<EntityType<?>> getKnownEntityTypes() {
-            return LsEntityTypes.REGISTER.getEntries().stream().map(DeferredHolder::get);
         }
     }
 }

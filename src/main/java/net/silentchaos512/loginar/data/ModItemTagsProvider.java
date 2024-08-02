@@ -35,7 +35,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.GEMS);
         tag(LsTags.Items.ORE_CRATE_CAN_STORE)
                 .addTag(Tags.Items.RAW_MATERIALS)
-                .addTag(Tags.Items.RAW_BLOCKS)
                 .addTag(Tags.Items.ORES)
                 .addTag(ItemTags.COALS);
 

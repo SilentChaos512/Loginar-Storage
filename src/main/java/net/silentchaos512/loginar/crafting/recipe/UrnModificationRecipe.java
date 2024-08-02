@@ -1,10 +1,10 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -16,6 +16,7 @@ import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.loginar.setup.LsTags;
+import net.silentchaos512.loginar.util.ItemStackUtil;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -31,8 +32,8 @@ public class UrnModificationRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level worldIn) {
-        StackList list = StackList.from(inv);
+    public boolean matches(CraftingInput input, Level level) {
+        StackList list = ItemStackUtil.stackListFrom(input);
         ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn);
         Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
@@ -49,8 +50,8 @@ public class UrnModificationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv, HolderLookup.Provider registryAccess) {
-        StackList list = StackList.from(inv);
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+        StackList list = ItemStackUtil.stackListFrom(input);
         ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn).copy();
         UrnData data = UrnData.fromItem(urn);
         Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
@@ -114,12 +115,12 @@ public class UrnModificationRecipe extends CustomRecipe {
         }
 
         for (ItemStack dye : dyes) {
-            float[] componentValues = getDyeColor(dye)
+            int textureDiffuseColor = getDyeColor(dye)
                     .orElse(DyeColor.WHITE)
-                    .getTextureDiffuseColors();
-            int r = (int) (componentValues[0] * 255.0F);
-            int g = (int) (componentValues[1] * 255.0F);
-            int b = (int) (componentValues[2] * 255.0F);
+                    .getTextureDiffuseColor();
+            int r = (textureDiffuseColor >> 16) & 0xFF;
+            int g = (textureDiffuseColor >> 8) & 0xFF;
+            int b = textureDiffuseColor & 0xFF;
             maxColorSum += Math.max(r, Math.max(g, b));
             componentSums[0] += r;
             componentSums[1] += g;

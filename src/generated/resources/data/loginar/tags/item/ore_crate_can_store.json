@@ -1,6 +1,7 @@
 {
   "values": [
     "#c:raw_materials",
-    "#c:ores"
+    "#c:ores",
+    "#minecraft:coals"
   ]
 }

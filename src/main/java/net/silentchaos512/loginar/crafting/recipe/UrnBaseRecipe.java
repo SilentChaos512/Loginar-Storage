@@ -8,11 +8,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.neoforged.neoforge.common.Tags;
@@ -49,10 +49,10 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingContainer, HolderLookup.Provider registryAccess) {
-        ItemStack baseResult = super.getResultItem(registryAccess);
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+        ItemStack baseResult = super.getResultItem(registries);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
-            int gemColor = getGemColor(findGem(craftingContainer));
+            int gemColor = getGemColor(findGem(input));
             return block.makeStack(this.clayColor.getColor(), gemColor);
         } else {
             LoginarMod.LOGGER.error("Result of urn base recipe {} is not an urn", this);
@@ -69,9 +69,9 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         return baseResult;
     }
 
-    private static ItemStack findGem(CraftingContainer craftingContainer) {
-        for (int i = 0; i < craftingContainer.getContainerSize(); ++i) {
-            ItemStack stack = craftingContainer.getItem(i);
+    private static ItemStack findGem(CraftingInput input) {
+        for (int i = 0; i < input.size(); ++i) {
+            ItemStack stack = input.getItem(i);
             if (stack.is(Tags.Items.GEMS)) {
                 return stack;
             }

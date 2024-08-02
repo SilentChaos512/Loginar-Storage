@@ -5,7 +5,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.silentchaos512.loginar.entity.LoginarEntity;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 
@@ -14,13 +14,13 @@ public final class LsCommonModEvents {
     private LsCommonModEvents() {}
 
     @SubscribeEvent
-    public static void onRegisterSpawnPlacements(SpawnPlacementRegisterEvent event) {
+    public static void onRegisterSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(
                 LsEntityTypes.LOGINAR.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 LoginarEntity::canSpawn,
-                SpawnPlacementRegisterEvent.Operation.REPLACE
+                RegisterSpawnPlacementsEvent.Operation.REPLACE
         );
     }
 
