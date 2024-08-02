@@ -17,6 +17,8 @@ import net.silentchaos512.loginar.LoginarMod;
 public class ContainerItemEvents {
     @SubscribeEvent
     public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+        if (event.getItemEntity().hasPickUpDelay()) return;
+
         ItemStack itemOnGround = event.getItemEntity().getItem();
         int initialCount = itemOnGround.getCount();
         Player player = event.getPlayer();

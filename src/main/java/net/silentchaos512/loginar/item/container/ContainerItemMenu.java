@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerCopySlot;
 
 import javax.annotation.Nonnull;
 import java.util.function.Predicate;
@@ -31,7 +31,7 @@ public class ContainerItemMenu extends AbstractContainerMenu {
         for (int i = 0; i < this.itemHandler.getSlots(); ++i) {
             int x = 8 + 18 * (i % 9);
             int y = 18 + 18 * (i / 9);
-            addSlot(new SlotItemHandler(itemHandler, i, x, y) {
+            addSlot(new ItemHandlerCopySlot(itemHandler, i, x, y) {
                 @Override
                 public boolean mayPlace(@Nonnull ItemStack stack) {
                     return validItems.test(stack);

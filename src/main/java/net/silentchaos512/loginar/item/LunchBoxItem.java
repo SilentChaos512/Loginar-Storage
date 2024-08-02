@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
@@ -113,8 +114,11 @@ public class LunchBoxItem extends ContainerItem {
         stackFinished.setCount(1);
         if (entity instanceof Player && !((Player) entity).getAbilities().instabuild) {
             int foodSlot = getFoodSlot(stack, entity);
-            IItemHandler inventory = getInventory(stack);
+            ComponentItemHandler inventory = getInventory(stack);
             inventory.getStackInSlot(foodSlot).shrink(1);
+            ItemStack foodStack = inventory.getStackInSlot(foodSlot);
+            foodStack.shrink(1);
+            inventory.setStackInSlot(foodSlot, foodStack);
             saveInventory(stack, inventory, (Player) entity);
         }
         return stackFinished;

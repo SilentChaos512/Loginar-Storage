@@ -1,8 +1,7 @@
 package net.silentchaos512.loginar.setup;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.UrnData;
@@ -12,14 +11,11 @@ import java.util.function.Supplier;
 public class LsDataComponents {
     public static final DeferredRegister.DataComponents REGISTRAR = DeferredRegister.createDataComponents(LoginarMod.MOD_ID);
 
-    public static final Supplier<DataComponentType<NonNullList<ItemStack>>> CONTAINED_ITEMS = REGISTRAR.registerComponentType(
+    public static final Supplier<DataComponentType<ItemContainerContents>> CONTAINED_ITEMS = REGISTRAR.registerComponentType(
             "contained_items",
             builder -> builder
-                    .persistent(NonNullList.codecOf(ItemStack.OPTIONAL_CODEC))
-                    .networkSynchronized(ItemStack.OPTIONAL_LIST_STREAM_CODEC.map(
-                            NonNullList::copyOf,
-                            nonnulllist -> nonnulllist
-                    ))
+                    .persistent(ItemContainerContents.CODEC)
+                    .networkSynchronized(ItemContainerContents.STREAM_CODEC)
     );
 
     public static final Supplier<DataComponentType<UrnData>> URN_DATA = REGISTRAR.registerComponentType(
