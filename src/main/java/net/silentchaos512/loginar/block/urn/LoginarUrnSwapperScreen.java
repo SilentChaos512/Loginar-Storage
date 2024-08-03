@@ -1,4 +1,4 @@
-package net.silentchaos512.loginar.client;
+package net.silentchaos512.loginar.block.urn;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
 
 // TODO: Make it so JEI doesn't show on the side...
 public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnSwapperMenu> {

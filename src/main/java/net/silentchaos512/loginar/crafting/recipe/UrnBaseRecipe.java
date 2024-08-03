@@ -20,20 +20,22 @@ import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
-import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.compat.SgearCompat;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class UrnBaseRecipe extends ExtendedShapedRecipe {
-    private static final Map<TagKey<Item>, Integer> GEM_COLORS = ImmutableMap.of(
-            Tags.Items.GEMS_AMETHYST, 0x8D6ACC,
-            Tags.Items.GEMS_DIAMOND, UrnData.DEFAULT_GEM_COLOR,
-            Tags.Items.GEMS_EMERALD, 0x17DD62,
-            Tags.Items.GEMS_LAPIS, 0x345EC3,
-            Tags.Items.GEMS_PRISMARINE, 0x91C5B7,
-            Tags.Items.GEMS_QUARTZ, 0xDDD4C6
+    // TODO: Must be a better way to handle this... A registry or something?
+    private static final Map<TagKey<Item>, Color> GEM_COLORS = ImmutableMap.of(
+            Tags.Items.GEMS_AMETHYST, new Color(0x8D6ACC),
+            Tags.Items.GEMS_DIAMOND, UrnHelper.DEFAULT_GEM_COLOR,
+            Tags.Items.GEMS_EMERALD, new Color(0x17DD62),
+            Tags.Items.GEMS_LAPIS, new Color(0x345EC3),
+            Tags.Items.GEMS_PRISMARINE, new Color(0x91C5B7),
+            Tags.Items.GEMS_QUARTZ, new Color(0xDDD4C6)
     );
 
     private final Color clayColor;
@@ -52,8 +54,8 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
         ItemStack baseResult = super.getResultItem(registries);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
-            int gemColor = getGemColor(findGem(input));
-            return block.makeStack(this.clayColor.getColor(), gemColor);
+            Color gemColor = getGemColor(findGem(input));
+            return block.makeStack(this.clayColor, gemColor);
         } else {
             LoginarMod.LOGGER.error("Result of urn base recipe {} is not an urn", this);
             return ItemStack.EMPTY;
@@ -64,7 +66,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         ItemStack baseResult = super.getResultItem(registryAccess);
         if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
-            return block.makeStack(this.clayColor.getColor(), UrnData.DEFAULT_GEM_COLOR);
+            return block.makeStack(this.clayColor, null);
         }
         return baseResult;
     }
@@ -79,10 +81,10 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         return ItemStack.EMPTY;
     }
 
-    static int getGemColor(ItemStack stack) {
-        for (Map.Entry<TagKey<Item>, Integer> entry : GEM_COLORS.entrySet()) {
+    static Color getGemColor(ItemStack stack) {
+        for (Map.Entry<TagKey<Item>, Color> entry : GEM_COLORS.entrySet()) {
             TagKey<Item> tag = entry.getKey();
-            Integer color = entry.getValue();
+            Color color = entry.getValue();
 
             if (stack.is(tag)) {
                 return color;
@@ -90,13 +92,14 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         }
 
         // Try to get a color from Silent Gear
-        int gearMaterialColor = SgearCompat.getMainPartColor(stack);
-        if ((gearMaterialColor & 0xFFFFFF) != 0xFFFFFF) {
-            LoginarMod.LOGGER.debug("Got gem color {} for {} from Silent Gear", Color.format(gearMaterialColor), stack);
-            return gearMaterialColor;
+        Optional<Color> gearMaterialColor = SgearCompat.getMainPartColor(stack);
+        if (gearMaterialColor.isPresent()) {
+            var formattedString = gearMaterialColor.get().format();
+            LoginarMod.LOGGER.debug("Got gem color {} for {} from Silent Gear", formattedString, stack);
+            return gearMaterialColor.get();
         }
 
-        return UrnData.DEFAULT_GEM_COLOR;
+        return UrnHelper.DEFAULT_GEM_COLOR;
     }
 
     public static class Serializer implements RecipeSerializer<UrnBaseRecipe> {
@@ -106,7 +109,7 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
                                 CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(r -> r.category),
                                 ShapedRecipePattern.MAP_CODEC.forGetter(r -> r.pattern),
                                 ItemStack.STRICT_CODEC.fieldOf("result").forGetter(r -> r.result),
-                                Color.CODEC.optionalFieldOf("clay_color", new Color(UrnData.DEFAULT_CLAY_COLOR)).forGetter(r -> r.clayColor)
+                                Color.CODEC.optionalFieldOf("clay_color", UrnHelper.DEFAULT_CLAY_COLOR).forGetter(r -> r.clayColor)
                         )
                         .apply(builder, UrnBaseRecipe::new)
         );

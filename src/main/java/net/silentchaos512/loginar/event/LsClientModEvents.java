@@ -12,7 +12,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBackpackScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnScreen;
 import net.silentchaos512.loginar.client.KeyTracker;
-import net.silentchaos512.loginar.client.LoginarUrnSwapperScreen;
+import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperScreen;
 import net.silentchaos512.loginar.client.model.LoginarModel;
 import net.silentchaos512.loginar.client.renderer.LoginarEntityRenderer;
 import net.silentchaos512.loginar.item.container.ContainerItemScreen;

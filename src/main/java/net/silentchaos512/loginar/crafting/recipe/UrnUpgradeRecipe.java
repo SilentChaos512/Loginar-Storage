@@ -7,19 +7,14 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
-import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
-import net.silentchaos512.loginar.block.urn.UrnData;
-import net.silentchaos512.loginar.setup.LsDataComponents;
+import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
-import net.silentchaos512.loginar.setup.UrnTypes;
-
-import java.util.Objects;
 
 public class UrnUpgradeRecipe extends UrnBaseRecipe {
     public UrnUpgradeRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult) {
-        super(pGroup, pCategory, pPattern, pResult, new Color(UrnData.DEFAULT_CLAY_COLOR));
+        super(pGroup, pCategory, pPattern, pResult, UrnHelper.DEFAULT_CLAY_COLOR);
     }
 
     @Override
@@ -46,17 +41,8 @@ public class UrnUpgradeRecipe extends UrnBaseRecipe {
             return ItemStack.EMPTY;
         }
 
-        // Copy data to new urn, but with the correct new type
+        // Copy data to new urn
         ret.applyComponents(original.getComponents());
-        var originalData = original.getOrDefault(LsDataComponents.URN_DATA, UrnData.getDefault(ret));
-        var newData = new UrnData(
-                Objects.requireNonNull(UrnTypes.fromItem(ret)),
-                originalData.clayColor(),
-                originalData.gemColor(),
-                originalData.items(),
-                originalData.upgrades()
-        );
-        ret.set(LsDataComponents.URN_DATA, newData);
 
         return ret;
     }

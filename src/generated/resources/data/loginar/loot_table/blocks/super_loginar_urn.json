@@ -19,7 +19,10 @@
                 "minecraft:container",
                 "minecraft:lock",
                 "minecraft:container_loot",
-                "loginar:urn_data"
+                "loginar:urn_clay_color",
+                "loginar:urn_gem_color",
+                "loginar:contained_items",
+                "loginar:urn_upgrades"
               ],
               "source": "block_entity"
             }

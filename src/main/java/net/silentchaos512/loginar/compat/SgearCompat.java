@@ -4,6 +4,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.silentchaos512.lib.util.Color;
 
+import java.util.Optional;
+
 public final class SgearCompat {
     private static Boolean modLoaded = null;
 
@@ -16,10 +18,10 @@ public final class SgearCompat {
         return modLoaded;
     }
 
-    public static int getMainPartColor(ItemStack stack) {
+    public static Optional<Color> getMainPartColor(ItemStack stack) {
         if (isLoaded()) {
             return SgearCompatProxy.getMainPartColor(stack);
         }
-        return Color.VALUE_WHITE;
+        return Optional.empty();
     }
 }

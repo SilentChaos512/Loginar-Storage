@@ -6,9 +6,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
-import net.silentchaos512.loginar.block.urn.UrnData;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.util.TextUtil;
@@ -35,8 +35,7 @@ public class LsServerPayloadHandler {
             if (player instanceof ServerPlayer serverPlayer) {
                 ItemStack mainHandItem = serverPlayer.getMainHandItem();
                 if (!UrnHelper.canUrnStore(mainHandItem)) {
-                    // TODO: Update message to support other blacklisted items
-                    serverPlayer.sendSystemMessage(TextUtil.misc("swapper.holdingUrn", mainHandItem.getDisplayName()));
+                    serverPlayer.sendSystemMessage(TextUtil.misc("swapper.cannotStore", mainHandItem.getDisplayName()));
                     return;
                 }
 
@@ -64,15 +63,13 @@ public class LsServerPayloadHandler {
             if (player instanceof ServerPlayer serverPlayer) {
                 ItemStack urn = UrnHelper.selectSwapperUrnToOpen(serverPlayer);
                 if (!urn.isEmpty()) {
-                    UrnData urnData = UrnData.fromItem(urn);
+                    NonNullList<ItemStack> items = UrnHelper.getItemsMutableCopy(urn);
                     ItemStack currentHeldItem = serverPlayer.getMainHandItem();
-                    ItemStack swapItem = urnData.items().get(data.urnItemSlot());
-                    player.setItemInHand(InteractionHand.MAIN_HAND, swapItem);
+                    ItemStack swapItem = items.get(data.urnItemSlot());
 
-                    NonNullList<ItemStack> newItemList = urnData.copyItems();
-                    newItemList.set(data.urnItemSlot(), currentHeldItem);
-                    UrnData newData = urnData.withItems(newItemList);
-                    urn.set(LsDataComponents.URN_DATA, newData);
+                    player.setItemInHand(InteractionHand.MAIN_HAND, swapItem);
+                    items.set(data.urnItemSlot(), currentHeldItem);
+                    urn.set(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.fromItems(items));
                 }
             }
         });

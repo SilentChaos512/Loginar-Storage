@@ -1,20 +1,25 @@
 package net.silentchaos512.loginar.util;
 
-import net.minecraft.world.item.crafting.CraftingInput;
-import net.silentchaos512.lib.collection.StackList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
+
+import java.util.List;
 
 public class ItemStackUtil {
-    /**
-     * TODO: Remove later once Silent Lib updates
-     * @param input
-     * @return
-     */
-    @Deprecated
-    public static StackList stackListFrom(CraftingInput input) {
-        StackList newList = StackList.of();
-        for (int i = 0; i < input.size(); ++i) {
-            newList.add(input.getItem(i));
+    public static NonNullList<ItemStack> createMutableCopyOfList(List<ItemStack> list, int size) {
+        NonNullList<ItemStack> ret = NonNullList.withSize(size, ItemStack.EMPTY);
+        for (int i = 0; i < list.size() && i < size; ++i) {
+            ret.set(i, list.get(i));
         }
-        return newList;
+        return ret;
+    }
+
+    public static NonNullList<ItemStack> createMutableCopyOfList(ItemContainerContents contents, int size) {
+        NonNullList<ItemStack> ret = NonNullList.withSize(size, ItemStack.EMPTY);
+        for (int i = 0; i < contents.getSlots() && i < size; ++i) {
+            ret.set(i, contents.getStackInSlot(i));
+        }
+        return ret;
     }
 }

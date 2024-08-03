@@ -16,7 +16,7 @@ import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.crafting.recipe.UrnBaseRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnModificationRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
@@ -46,7 +46,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         registerCustomRecipe(consumer, UrnModificationRecipe::new, LoginarMod.getId("urn_modification"));
 
-        baseUrn(consumer, Blocks.TERRACOTTA, UrnData.DEFAULT_CLAY_COLOR);
+        baseUrn(consumer, Blocks.TERRACOTTA, UrnHelper.DEFAULT_CLAY_COLOR.getColor());
         baseUrn(consumer, Blocks.WHITE_TERRACOTTA, 0xD1B1A1);
         baseUrn(consumer, Blocks.ORANGE_TERRACOTTA, 0xA05325);
         baseUrn(consumer, Blocks.MAGENTA_TERRACOTTA, 0x95576C);

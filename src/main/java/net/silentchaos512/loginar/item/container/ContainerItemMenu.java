@@ -131,12 +131,6 @@ public class ContainerItemMenu extends AbstractContainerMenu {
         super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
-    @Override
-    public void removed(Player playerIn) {
-        super.removed(playerIn);
-        ((IContainerItem) item.getItem()).saveInventory(item, itemHandler, playerIn);
-    }
-
     public boolean canTake(int slotId, Slot slot, int button, Player player, ClickType clickType) {
         if (slotId == blocked)
             return false;

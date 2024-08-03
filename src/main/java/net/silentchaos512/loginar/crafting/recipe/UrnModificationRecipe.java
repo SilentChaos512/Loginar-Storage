@@ -10,13 +10,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.lib.collection.StackList;
-import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.block.urn.UrnData;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.loginar.setup.LsTags;
-import net.silentchaos512.loginar.util.ItemStackUtil;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -33,7 +31,7 @@ public class UrnModificationRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingInput input, Level level) {
-        StackList list = ItemStackUtil.stackListFrom(input);
+        StackList list = StackList.from(input);
         ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn);
         Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
@@ -51,9 +49,8 @@ public class UrnModificationRecipe extends CustomRecipe {
 
     @Override
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
-        StackList list = ItemStackUtil.stackListFrom(input);
+        StackList list = StackList.from(input);
         ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn).copy();
-        UrnData data = UrnData.fromItem(urn);
         Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);
         Collection<ItemStack> dyes = list.allMatches(s -> getDyeColor(s).isPresent());
 
@@ -62,14 +59,13 @@ public class UrnModificationRecipe extends CustomRecipe {
             // No modifier items, toggle between lidded and lidless version
             //UrnHelper.toggleHasLid(urn);
         } else {
-            LoginarMod.LOGGER.info("mods: " + mods.size());
             for (ItemStack mod : mods) {
-                data = applyModifierItem(data, mod);
+                if (!applyModifierItem(urn, mod)) {
+                    return ItemStack.EMPTY;
+                }
             }
-            data = applyDyes(data, dyes);
+            applyDyes(urn, dyes);
         }
-
-        urn.set(LsDataComponents.URN_DATA, data);
 
         return urn;
     }
@@ -82,28 +78,25 @@ public class UrnModificationRecipe extends CustomRecipe {
         return stack.is(Tags.Items.GEMS) || UrnHelper.isUpgrade(stack);
     }
 
-    private static UrnData applyModifierItem(UrnData data, ItemStack mod) {
+    private static boolean applyModifierItem(ItemStack urn, ItemStack mod) {
         if (mod.is(Tags.Items.GEMS)) {
-            int color = UrnBaseRecipe.getGemColor(mod);
-            return new UrnData(data.urnType(), data.clayColor(), color, data.items(), data.upgrades());
+            UrnHelper.setGemColor(urn, UrnBaseRecipe.getGemColor(mod));
+            return true;
         }
         if (UrnHelper.isUpgrade(mod)) {
-            var newData = data.withNewUpgrade(mod);
-            if (newData != null) {
-                return newData;
-            }
+            return UrnHelper.tryAddUpgrade(urn, mod);
         }
-        return data;
+        return false;
     }
 
     // Largely copied from RecipesArmorDyes
-    private static UrnData applyDyes(UrnData data, Collection<ItemStack> dyes) {
+    private static void applyDyes(ItemStack urn, Collection<ItemStack> dyes) {
         int[] componentSums = new int[3];
         int maxColorSum = 0;
         int colorCount = 0;
 
-        int clayColor = data.clayColor();
-        if (clayColor != UrnData.DEFAULT_CLAY_COLOR) {
+        int clayColor = urn.getOrDefault(LsDataComponents.URN_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR).getColor();
+        if (clayColor != UrnHelper.DEFAULT_CLAY_COLOR.getColor()) {
             float r = (float) (clayColor >> 16 & 255) / 255.0F;
             float g = (float) (clayColor >> 8 & 255) / 255.0F;
             float b = (float) (clayColor & 255) / 255.0F;
@@ -139,10 +132,9 @@ public class UrnModificationRecipe extends CustomRecipe {
             b = (int) ((float) b * maxAverage / max);
             int finalColor = (r << 8) + g;
             finalColor = (finalColor << 8) + b;
-            return new UrnData(data.urnType(), finalColor, data.gemColor(), data.items(), data.upgrades());
-        }
 
-        return data;
+            urn.set(LsDataComponents.URN_CLAY_COLOR, new Color(finalColor));
+        }
     }
 
     private static Optional<DyeColor> getDyeColor(ItemStack dye) {

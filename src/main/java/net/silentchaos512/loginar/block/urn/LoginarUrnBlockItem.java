@@ -8,12 +8,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.setup.UrnTypes;
 
 public class LoginarUrnBlockItem extends BlockItem {
-    public LoginarUrnBlockItem(Block block, Properties properties) {
+    private final UrnTypes urnType;
+
+    public LoginarUrnBlockItem(LoginarUrnBlock block, Properties properties) {
         super(block, properties);
+        this.urnType = block.getType();
+    }
+
+    public UrnTypes getUrnType() {
+        return this.urnType;
     }
 
     @Override

@@ -64,9 +64,11 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");
-        add("misc", "swapper.holdingUrn", "Cannot swap items with an urn");
+        add("misc", "swapper.cannotStore", "Cannot store %s in a loginar urn");
         add("misc", "swapper.noCompatibleUrn", "No urns with swapper upgrades found");
         add("misc", "urn.upgrades", "Upgrades (%s / %s)");
+        add("misc", "urn.clayColor", "Clay Color: %s");
+        add("misc", "urn.gemColor", "Gem Color: %s");
 
         // Subtitles
         add("subtitles.block.loginar.urn.lid", "Loginar urn lid moves");

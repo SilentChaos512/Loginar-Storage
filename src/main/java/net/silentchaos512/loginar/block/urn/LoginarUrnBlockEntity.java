@@ -16,11 +16,13 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.api.TickingUrnUpgrade;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.UrnTypes;
@@ -31,23 +33,41 @@ import java.util.stream.IntStream;
 
 public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     private final UrnTypes type;
-    private UrnData data;
+    private Color clayColor = UrnHelper.DEFAULT_CLAY_COLOR;
+    private Color gemColor = UrnHelper.DEFAULT_GEM_COLOR;
     private NonNullList<ItemStack> items;
+    private NonNullList<ItemStack> upgrades;
     private final int[] slots;
     private boolean hasChanged = false;
 
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
-        this.data = new UrnData(this.type, UrnData.DEFAULT_CLAY_COLOR, UrnData.DEFAULT_GEM_COLOR);
-        this.items = this.data.copyItems();
+        this.items = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
+        this.upgrades = NonNullList.withSize(this.type.upgradeSlots(), ItemStack.EMPTY);
         this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
     }
 
+    void setDataFromPlacedItem(ItemStack placedItem) {
+        this.clayColor = UrnHelper.getClayColor(placedItem);
+        this.gemColor = UrnHelper.getGemColor(placedItem);
+        this.items = UrnHelper.getItemsMutableCopy(placedItem);
+        this.upgrades = UrnHelper.getUpgradesMutableCopy(placedItem);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
+        super.collectImplicitComponents(pComponents);
+        pComponents.set(LsDataComponents.URN_CLAY_COLOR, this.clayColor);
+        pComponents.set(LsDataComponents.URN_GEM_COLOR, this.gemColor);
+        pComponents.set(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.fromItems(this.items));
+        pComponents.set(LsDataComponents.URN_UPGRADES, ItemContainerContents.fromItems(this.upgrades));
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, LoginarUrnBlockEntity blockEntity) {
-        for (ItemStack upgrade : blockEntity.data.upgrades()) {
+        for (ItemStack upgrade : blockEntity.upgrades) {
             if (!upgrade.isEmpty() && upgrade.getItem() instanceof TickingUrnUpgrade tickingUrnUpgrade) {
-                tickingUrnUpgrade.tick(blockEntity.data, level, pos).ifPresent(blockEntity::refreshData);
+                tickingUrnUpgrade.tick(blockEntity, level, pos);
             }
         }
 
@@ -57,28 +77,27 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         }
     }
 
-    public UrnData getUrnData() {
-        // Refresh data before returning
-        this.data = this.data.withItems(this.items);
-        return this.data;
+    public Color getClayColor() {
+        return this.clayColor;
     }
 
-    void refreshData(UrnData newData) {
-        this.data = newData;
-        this.items = this.data.copyItems();
+    public Color getGemColor() {
+        return this.gemColor;
     }
 
-    public int getClayColor() {
-        return this.data.clayColor();
-    }
-
-    public int getGemColor() {
-        return this.data.gemColor();
+    protected NonNullList<ItemStack> getUpgrades() {
+        return this.upgrades;
     }
 
     @Override
     protected NonNullList<ItemStack> getItems() {
         return this.items;
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        this.hasChanged = true;
     }
 
     @Override
@@ -117,37 +136,24 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder pComponents) {
-        super.collectImplicitComponents(pComponents);
-        // Items list in data is likely stale, so it must be updated
-        UrnData updatedData = this.data.withItems(this.items);
-        pComponents.set(LsDataComponents.URN_DATA, updatedData);
-    }
-
-    @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        int clayColor = UrnData.DEFAULT_CLAY_COLOR;
-        if (tag.contains(UrnData.NBT_CLAY_COLOR)) {
-            clayColor = tag.getInt(UrnData.NBT_CLAY_COLOR);
+        if (tag.contains(UrnHelper.NBT_CLAY_COLOR)) {
+            this.clayColor = new Color(tag.getInt(UrnHelper.NBT_CLAY_COLOR));
         }
 
-        int gemColor = UrnData.DEFAULT_GEM_COLOR;
-        if (tag.contains(UrnData.NBT_GEM_COLOR)) {
-            gemColor = tag.getInt(UrnData.NBT_GEM_COLOR);
+        if (tag.contains(UrnHelper.NBT_GEM_COLOR)) {
+            this.gemColor = new Color(tag.getInt(UrnHelper.NBT_GEM_COLOR));
         }
 
-        if (!this.tryLoadLootTable(tag) && tag.contains("Items", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, registries, "Items", this.items);
+        if (!this.tryLoadLootTable(tag) && tag.contains(UrnHelper.NBT_ITEMS, Tag.TAG_LIST)) {
+            UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_ITEMS, this.items);
         }
 
-        NonNullList<ItemStack> upgrades = NonNullList.create();
-        if (tag.contains("Upgrades", Tag.TAG_LIST)) {
-            UrnHelper.loadAllItems(tag, registries, "Upgrades", upgrades);
+        if (tag.contains(UrnHelper.NBT_UPGRADES, Tag.TAG_LIST)) {
+            UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_UPGRADES, this.upgrades);
         }
-
-        this.data = new UrnData(this.type, clayColor, gemColor, this.items, upgrades);
 
         this.hasChanged = true;
     }
@@ -156,12 +162,12 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         if (!this.trySaveLootTable(tag)) {
-            UrnHelper.saveAllItems(tag, registries, "Items", this.items, false);
+            UrnHelper.saveAllItems(tag, registries, UrnHelper.NBT_ITEMS, this.items, false);
         }
-        UrnHelper.saveAllItems(tag, registries, "Upgrades", this.data.copyUpgrades(), false);
+        UrnHelper.saveAllItems(tag, registries, UrnHelper.NBT_UPGRADES, this.upgrades, false);
 
-        tag.putInt(UrnData.NBT_CLAY_COLOR, this.data.clayColor());
-        tag.putInt(UrnData.NBT_GEM_COLOR, this.data.gemColor());
+        tag.putInt(UrnHelper.NBT_CLAY_COLOR, this.clayColor.getColor() & 0xFFFFFF);
+        tag.putInt(UrnHelper.NBT_GEM_COLOR, this.gemColor.getColor() & 0xFFFFFF);
     }
 
     @Nullable
@@ -173,7 +179,8 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tags = super.getUpdateTag(registries);
-        this.getUrnData().writeNbt(tags);
+        tags.putInt(UrnHelper.NBT_CLAY_COLOR, this.clayColor.getColor() & 0xFFFFFF);
+        tags.putInt(UrnHelper.NBT_GEM_COLOR, this.gemColor.getColor() & 0xFFFFFF);
         return tags;
     }
 
@@ -181,8 +188,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         super.onDataPacket(net, pkt, lookupProvider);
         CompoundTag tags = pkt.getTag();
-        if (tags != null) {
-            this.data = UrnData.readNbt(tags);
-        }
+        this.clayColor = new Color(tags.getInt(UrnHelper.NBT_CLAY_COLOR));
+        this.gemColor = new Color(tags.getInt(UrnHelper.NBT_GEM_COLOR));
     }
 }

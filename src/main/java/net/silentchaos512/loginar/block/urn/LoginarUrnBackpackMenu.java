@@ -1,8 +1,5 @@
 package net.silentchaos512.loginar.block.urn;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -10,16 +7,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
+import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerCopySlot;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
-import net.silentchaos512.loginar.setup.LsTags;
 
 public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
     private final ItemStack item;
-    private final UrnData urnData;
     private final IItemHandler itemHandler;
     private final int containerRows;
     int urnSlot = -1;
@@ -31,8 +26,8 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
     public LoginarUrnBackpackMenu(int windowId, Inventory inv, ItemStack itemIn) {
         super(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), windowId);
         this.item = itemIn;
-        this.urnData = UrnData.fromItem(this.item);
-        this.itemHandler = new ItemStackHandler(this.urnData.copyItems());
+        var size = ((LoginarUrnBlockItem) this.item.getItem()).getUrnType().inventorySize();
+        this.itemHandler = new ComponentItemHandler(this.item, LsDataComponents.CONTAINED_ITEMS.get(), size);
         this.containerRows = this.itemHandler.getSlots() / 9;
         int i = (containerRows - 4) * 18;
 
@@ -60,17 +55,6 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
     }
 
     public int getRowCount() {return this.containerRows; }
-
-    @Override
-    public void removed(Player player) {
-        super.removed(player);
-        // FIXME: Does not save changes (do we need to send a packet?)
-        CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT(player.level().registryAccess());
-        var customData = this.item.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(new CompoundTag()));
-        var compoundTag = customData.copyTag();
-        compoundTag.put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));
-        this.item.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(compoundTag));
-    }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
@@ -148,14 +132,14 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
         return true;
     }
 
-    public static class BackpackSlot extends SlotItemHandler {
+    public static class BackpackSlot extends ItemHandlerCopySlot {
         public BackpackSlot(IItemHandler container, int slot, int x, int y) {
             super(container, slot, x, y);
         }
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return !stack.is(LsTags.Items.URNS);
+            return UrnHelper.canUrnStore(stack);
         }
     }
 }

@@ -119,7 +119,6 @@ public class LunchBoxItem extends ContainerItem {
             ItemStack foodStack = inventory.getStackInSlot(foodSlot);
             foodStack.shrink(1);
             inventory.setStackInSlot(foodSlot, foodStack);
-            saveInventory(stack, inventory, (Player) entity);
         }
         return stackFinished;
     }

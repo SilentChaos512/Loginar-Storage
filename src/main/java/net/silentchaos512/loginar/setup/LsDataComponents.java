@@ -3,8 +3,8 @@ package net.silentchaos512.loginar.setup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.block.urn.UrnData;
 
 import java.util.function.Supplier;
 
@@ -17,11 +17,22 @@ public class LsDataComponents {
                     .persistent(ItemContainerContents.CODEC)
                     .networkSynchronized(ItemContainerContents.STREAM_CODEC)
     );
-
-    public static final Supplier<DataComponentType<UrnData>> URN_DATA = REGISTRAR.registerComponentType(
-            "urn_data",
+    public static final Supplier<DataComponentType<ItemContainerContents>> URN_UPGRADES = REGISTRAR.registerComponentType(
+            "urn_upgrades",
             builder -> builder
-                    .persistent(UrnData.CODEC)
-                    .networkSynchronized(UrnData.STREAM_CODEC)
+                    .persistent(ItemContainerContents.CODEC)
+                    .networkSynchronized(ItemContainerContents.STREAM_CODEC)
+    );
+    public static final Supplier<DataComponentType<Color>> URN_CLAY_COLOR = REGISTRAR.registerComponentType(
+            "urn_clay_color",
+            builder -> builder
+                    .persistent(Color.CODEC)
+                    .networkSynchronized(Color.STREAM_CODEC)
+    );
+    public static final Supplier<DataComponentType<Color>> URN_GEM_COLOR = REGISTRAR.registerComponentType(
+            "urn_gem_color",
+            builder -> builder
+                    .persistent(Color.CODEC)
+                    .networkSynchronized(Color.STREAM_CODEC)
     );
 }

@@ -11,7 +11,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
-import net.silentchaos512.loginar.block.urn.UrnData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -62,7 +61,6 @@ public class LsBlocks {
                 block -> () -> new LoginarUrnBlockItem(block.get(),
                         new Item.Properties()
                                 .stacksTo(1)
-                                .component(LsDataComponents.URN_DATA, UrnData.getDefault(type))
                 )
         );
     }

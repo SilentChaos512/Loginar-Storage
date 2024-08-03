@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -142,15 +142,9 @@ public enum UrnTypes implements StringRepresentable {
 
     @Nullable
     public static UrnTypes fromItem(ItemStack stack) {
-        if (stack.getItem() instanceof BlockItem) {
-            Block block = ((BlockItem) stack.getItem()).getBlock();
-            for (UrnTypes type : values()) {
-                if (type.block.get().get().equals(block)) {
-                    return type;
-                }
-            }
+        if (stack.getItem() instanceof LoginarUrnBlockItem loginarUrnBlockItem) {
+            return loginarUrnBlockItem.getUrnType();
         }
-
         return null;
     }
 

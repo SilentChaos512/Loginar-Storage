@@ -28,7 +28,6 @@ public class ContainerItemEvents {
             if (stack.getItem() instanceof IContainerItem && ((IContainerItem) stack.getItem()).canPickup(itemOnGround)) {
                 IItemHandler itemHandler = ((IContainerItem) stack.getItem()).getInventory(stack);
                 itemOnGround = ItemHandlerHelper.insertItem(itemHandler, itemOnGround, false);
-                ((IContainerItem) stack.getItem()).saveInventory(stack, itemHandler, player);
                 event.getItemEntity().getItem().setCount(itemOnGround.getCount());
 
                 if (itemOnGround.isEmpty()) {

@@ -7,14 +7,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.lib.util.Color;
 
+import java.util.Optional;
+
 final class SgearCompatProxy {
     private static final TagKey<Item> BORT_TAG = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "gems/bort"));
     private SgearCompatProxy() {}
 
-    static int getMainPartColor(ItemStack stack) {
-        // Bort exception
+    static Optional<Color> getMainPartColor(ItemStack stack) {
+        // Bort exception -- TODO: This should be in the main color map
         if (stack.is(BORT_TAG)) {
-            return 0x96A3D4;
+            return Optional.of(new Color(0x96A3D4));
         }
 
         // Check material color
@@ -32,6 +34,6 @@ final class SgearCompatProxy {
             }
             return color;
         }*/
-        return Color.VALUE_WHITE;
+        return Optional.empty();
     }
 }

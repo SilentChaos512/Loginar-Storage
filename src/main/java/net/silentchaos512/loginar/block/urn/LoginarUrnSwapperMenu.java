@@ -7,17 +7,18 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerCopySlot;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.network.CPacketSwapItemFromUrn;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
 public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
     private final ItemStack item;
-    private final UrnData urnData;
+    private final int inventorySize;
     private final IItemHandler itemHandler;
     private final int containerRows;
 
@@ -28,8 +29,8 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
     public LoginarUrnSwapperMenu(int windowId, Inventory inv, ItemStack itemIn) {
         super(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), windowId);
         this.item = itemIn;
-        this.urnData = UrnData.fromItem(this.item);
-        this.itemHandler = new ItemStackHandler(this.urnData.copyItems());
+        this.inventorySize = ((LoginarUrnBlockItem) this.item.getItem()).getUrnType().inventorySize();
+        this.itemHandler = new ComponentItemHandler(this.item, LsDataComponents.CONTAINED_ITEMS.get(), this.inventorySize);
         this.containerRows = this.itemHandler.getSlots() / 9;
 
         // Urn inventory slots
@@ -46,7 +47,7 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
 
     @Override
     public void clicked(int slotIndex, int dragType, ClickType clickType, Player player) {
-        if (slotIndex > -1 && slotIndex < this.urnData.urnType().inventorySize()) {
+        if (slotIndex > -1 && slotIndex < this.inventorySize) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack item = slot.getItem();
 
@@ -54,14 +55,6 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
             PacketDistributor.sendToServer(new CPacketSwapItemFromUrn(slotIndex));
             player.closeContainer();
         }
-    }
-
-    @Override
-    public void removed(Player player) {
-        super.removed(player);
-        // FIXME: Does not save changes
-        /*CompoundTag itemHandlerNbt = ((ItemStackHandler) this.itemHandler).serializeNBT();
-        this.item.getOrCreateTag().getCompound("BlockEntityTag").put("Items", itemHandlerNbt.getList("Items", Tag.TAG_COMPOUND));*/
     }
 
     @Override
@@ -74,7 +67,7 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
         return true;
     }
 
-    public static class GhostSlot extends SlotItemHandler {
+    public static class GhostSlot extends ItemHandlerCopySlot {
         public GhostSlot(IItemHandler container, int slot, int x, int y) {
             super(container, slot, x, y);
         }
