@@ -38,6 +38,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.ORES)
                 .addTag(ItemTags.COALS);
 
+        builder(LsTags.Items.GEMS_FIRE_PEARL, LsItems.FIRE_PEARL);
+        tag(Tags.Items.GEMS).addTag(LsTags.Items.GEMS_FIRE_PEARL);
+
         builder(ItemTags.WOLF_FOOD, LsItems.LOGINAR_CALAMARI);
     }
 

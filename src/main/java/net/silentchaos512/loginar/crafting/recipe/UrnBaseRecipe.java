@@ -23,6 +23,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.compat.SgearCompat;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
+import net.silentchaos512.loginar.setup.LsTags;
 
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +36,9 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
             Tags.Items.GEMS_EMERALD, new Color(0x17DD62),
             Tags.Items.GEMS_LAPIS, new Color(0x345EC3),
             Tags.Items.GEMS_PRISMARINE, new Color(0x91C5B7),
-            Tags.Items.GEMS_QUARTZ, new Color(0xDDD4C6)
+            Tags.Items.GEMS_QUARTZ, new Color(0xDDD4C6),
+            LsTags.Items.GEMS_BORT, new Color(0x96A3D4),
+            LsTags.Items.GEMS_FIRE_PEARL, new Color(0xCD462C)
     );
 
     private final Color clayColor;

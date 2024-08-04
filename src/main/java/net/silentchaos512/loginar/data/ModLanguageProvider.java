@@ -45,6 +45,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
+        addItem(LsItems.FIRE_PEARL, "Fire Pearl");
+        addItem(LsItems.FIRE_FLINGER, "Fire Flinger");
         // Urn Upgrades
         addItem(LsItems.BACKPACK_UPGRADE, "Backpack Urn Upgrade");
         addItemSub(LsItems.BACKPACK_UPGRADE, "desc", "Allows the urn to be opened without placing it");

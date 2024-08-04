@@ -13,6 +13,8 @@
   "entity.loginar.loginar": "Loginar",
   "item.loginar.backpack_upgrade": "Backpack Urn Upgrade",
   "item.loginar.backpack_upgrade.desc": "Allows the urn to be opened without placing it",
+  "item.loginar.fire_flinger": "Fire Flinger",
+  "item.loginar.fire_pearl": "Fire Pearl",
   "item.loginar.flower_basket": "Flower Basket",
   "item.loginar.flower_basket.desc": "Stores and picks up flowers",
   "item.loginar.gem_bag": "Gem Bag",

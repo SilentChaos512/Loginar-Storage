@@ -28,6 +28,9 @@ public class LsItems {
                     .food(LsFoods.LOGINAR_CALAMARI)
             )
     );
+    public static final DeferredItem<Item> FIRE_PEARL = register("fire_pearl", () ->
+            new Item(props())
+    );
 
     // Urn upgrades
     public static final DeferredItem<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
@@ -55,6 +58,8 @@ public class LsItems {
     );
 
     // Misc
+    public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register("fire_flinger", () ->
+            new FireFlingerItem(props().durability(64).stacksTo(1)));
     public static final DeferredItem<DeferredSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
             new DeferredSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
 
@@ -82,6 +87,7 @@ public class LsItems {
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(LOGINAR_ANTENNA.get());
+            event.accept(FIRE_PEARL.get());
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(BACKPACK_UPGRADE.get());
@@ -90,6 +96,7 @@ public class LsItems {
             event.accept(GEM_BAG.get());
             event.accept(FLOWER_BASKET.get());
             event.accept(ORE_CRATE.get());
+            event.accept(FIRE_FLINGER.get());
         }
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(LOGINAR_SPAWN_EGG.get());

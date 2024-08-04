@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.setup;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -24,8 +25,15 @@ public final class LsTags {
         public static final TagKey<Item> URNS = mod("urns");
         public static final TagKey<Item> URNS_CANNOT_STORE = mod("urns_cannot_store");
 
+        public static final TagKey<Item> GEMS_BORT = common("gems/bort");
+        public static final TagKey<Item> GEMS_FIRE_PEARL = common("gems/fire_pearl");
+
         private static TagKey<Item> mod(String path) {
             return ItemTags.create(LoginarMod.getId(path));
+        }
+
+        private static TagKey<Item> common(String path) {
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", path));
         }
     }
 }

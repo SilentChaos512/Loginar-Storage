@@ -31,6 +31,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .end();
         builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
         builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
+        builder(LsItems.FIRE_PEARL, itemGenerated);
+        builder(LsItems.FIRE_FLINGER, itemGenerated);
 
         builder(LsItems.BACKPACK_UPGRADE, itemGenerated);
         builder(LsItems.VACUUM_UPGRADE, itemGenerated);

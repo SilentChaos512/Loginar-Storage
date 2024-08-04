@@ -3,10 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.20.6-1.4.0] - 2024-07-26
-- Ported to Minecraft 1.20.6 (Neoforge)
+## [1.21-1.4.0] - 2024-08-04
+- IMPORTANT: **If trying to update a world from an older Minecraft versions, make a backup first!** Try placing any loginar urns on the ground before updating. The block should retain its data, but the item will not.
+- Ported to Minecraft 1.21 (Neoforge)
 ### Added
 - A tag for items that cannot be stored inside urns (empty by default)
+- Fire Pearl, a rare drop from loginars
+- Fire Flinger, an item that throws fireballs
 ### Changed
 - Urns can no longer store shulker boxes and vice versa
 
