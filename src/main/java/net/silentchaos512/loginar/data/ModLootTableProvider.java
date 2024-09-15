@@ -220,7 +220,7 @@ public class ModLootTableProvider extends LootTableProvider {
                                     .setRolls(ConstantValue.exactly(1.0F))
                                     .add(LootItem.lootTableItem(LsItems.FIRE_PEARL))
                                     .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.025F, 0.01F))
+                                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.06F, 0.02F))
                     )
             );
         }

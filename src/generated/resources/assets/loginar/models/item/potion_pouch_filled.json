@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "loginar:item/potion_pouch",
+    "layer1": "loginar:item/potion_pouch_overlay"
+  }
+}

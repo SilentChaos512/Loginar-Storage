@@ -115,10 +115,12 @@ public class LunchBoxItem extends ContainerItem {
         if (entity instanceof Player && !((Player) entity).getAbilities().instabuild) {
             int foodSlot = getFoodSlot(stack, entity);
             ComponentItemHandler inventory = getInventory(stack);
-            inventory.getStackInSlot(foodSlot).shrink(1);
-            ItemStack foodStack = inventory.getStackInSlot(foodSlot);
-            foodStack.shrink(1);
-            inventory.setStackInSlot(foodSlot, foodStack);
+            if (foodSlot >= 0 && foodSlot < inventory.getSlots()) {
+                inventory.getStackInSlot(foodSlot).shrink(1);
+                ItemStack foodStack = inventory.getStackInSlot(foodSlot);
+                foodStack.shrink(1);
+                inventory.setStackInSlot(foodSlot, foodStack);
+            }
         }
         return stackFinished;
     }

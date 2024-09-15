@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.silentchaos512.loginar.LoginarMod;
 
 public final class Const {
+    public static final ResourceLocation FILLED = LoginarMod.getId("filled");
     public static final ResourceLocation IS_LOGINAR_CHUNK = LoginarMod.getId("is_loginar_chunk");
 
     // Loot tables

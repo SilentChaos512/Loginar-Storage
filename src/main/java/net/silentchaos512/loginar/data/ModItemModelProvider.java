@@ -13,6 +13,8 @@ import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.util.Const;
 
+import javax.annotation.Nullable;
+
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator.getPackOutput(), LoginarMod.MOD_ID, existingFileHelper);
@@ -39,6 +41,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
 
         builder(LsItems.LUNCH_BOX, itemGenerated);
+        itemWithEmptyModel(LsItems.POTION_POUCH, itemGenerated, "potion_pouch", "potion_pouch_empty", "potion_pouch_overlay");
         builder(LsItems.GEM_BAG, itemGenerated);
         builder(LsItems.FLOWER_BASKET, itemGenerated);
         builder(LsItems.ORE_CRATE, itemGenerated);
@@ -67,6 +70,23 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder builder(DeferredItem<?> item, ModelFile parent, String texture) {
         return getBuilder(item.getId().getPath()).parent(parent).texture("layer0", texture);
+    }
+
+    private void itemWithEmptyModel(DeferredItem<?> item, ModelFile parent, String filledTexture, String emptyTexture, @Nullable String overlayTexture) {
+        var filledModelBuilder = getBuilder(item.getId().getPath() + "_filled")
+                .parent(parent)
+                .texture("layer0", "item/" + filledTexture);
+        if (overlayTexture != null) {
+            filledModelBuilder.texture("layer1", "item/" + overlayTexture);
+        }
+
+        var baseModelBuilder = getBuilder(item.getId().getPath())
+                .parent(parent)
+                .texture("layer0", "item/" + emptyTexture)
+                .override()
+                .predicate(Const.FILLED, 1)
+                .model(filledModelBuilder)
+                .end();
     }
 
     private void blockItemModel(DeferredBlock<?> block) {

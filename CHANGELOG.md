@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21-1.4.2] - Unreleased
+## Added
+- Added the potion pouch
+### Changed
+- Increased drop rate for fire pearls
+### Fixed
+- Loginar dungeons not spawning
+
+## [1.21-1.4.1] - 2024-08-04
+- IMPORTANT: Please read note for previous version if updating from an earlier Minecraft version!
+### Fixed
+- Loginars not spawning naturally
+
 ## [1.21-1.4.0] - 2024-08-04
 - IMPORTANT: **If trying to update a world from an older Minecraft versions, make a backup first!** Try placing any loginar urns on the ground before updating. The block should retain its data, but the item will not.
 - Ported to Minecraft 1.21 (Neoforge)

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "loginar:loginar_antenna"
+    },
+    {
+      "tag": "c:gems/fire_pearl"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:fire_flinger"
+  }
+}

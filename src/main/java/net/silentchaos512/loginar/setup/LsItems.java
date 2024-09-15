@@ -47,6 +47,9 @@ public class LsItems {
     public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
             new LunchBoxItem(props().stacksTo(1).setNoRepair())
     );
+    public static final DeferredItem<PotionPouchItem> POTION_POUCH = register("potion_pouch", () ->
+            new PotionPouchItem(props().stacksTo(1).setNoRepair())
+    );
     public static final DeferredItem<GemBagItem> GEM_BAG = register("gem_bag", () ->
             new GemBagItem(props().stacksTo(1).setNoRepair())
     );
@@ -82,6 +85,7 @@ public class LsItems {
         }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(LUNCH_BOX.get());
+            event.accept(POTION_POUCH.get());
             event.accept(LOGINAR_TENTACLE.get());
             event.accept(LOGINAR_CALAMARI.get());
         }

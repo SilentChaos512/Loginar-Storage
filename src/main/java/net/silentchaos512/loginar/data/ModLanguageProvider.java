@@ -28,6 +28,7 @@ public class ModLanguageProvider extends LanguageProvider {
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
         add("container", "lunch_box", "Lunch Box");
+        add("container", "potion_pouch", "Potion Pouch");
         add("container", "gem_bag", "Gem Bag");
         add("container", "flower_basket", "Flower Basket");
         add("container", "ore_crate", "Ore Crate");
@@ -60,9 +61,11 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.GEM_BAG, "Gem Bag");
         addItemSub(LsItems.GEM_BAG, "desc", "Stores and picks up gems");
         addItem(LsItems.LUNCH_BOX, "Lunch Box");
-        addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Right-click to eat, sneak + right-click to open.");
+        addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Use to eat, sneak + use to open.");
         addItem(LsItems.ORE_CRATE, "Ore Crate");
         addItemSub(LsItems.ORE_CRATE, "desc", "Stores and picks up raw ores");
+        addItem(LsItems.POTION_POUCH, "Potion Pouch");
+        addItemSub(LsItems.POTION_POUCH, "desc", "Stores potions and lets you drink or throw them. Sneak + use to open.");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");

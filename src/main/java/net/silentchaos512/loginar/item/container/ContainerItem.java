@@ -34,6 +34,18 @@ public abstract class ContainerItem extends Item implements IContainerItem {
 
     protected abstract MenuType<? extends ContainerItemMenu> getMenuType();
 
+    public static boolean containsAnyItems(ItemStack stack) {
+        var contents = stack.get(LsDataComponents.CONTAINED_ITEMS);
+        if (contents != null) {
+            for (int i = 0; i < contents.getSlots(); ++i) {
+                if (!contents.getStackInSlot(i).isEmpty()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         if (!worldIn.isClientSide) {

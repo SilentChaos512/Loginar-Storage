@@ -22,6 +22,7 @@ import net.silentchaos512.loginar.crafting.recipe.UrnModificationRecipe;
 import net.silentchaos512.loginar.crafting.recipe.UrnUpgradeRecipe;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
+import net.silentchaos512.loginar.setup.LsTags;
 
 import java.util.Objects;
 
@@ -169,6 +170,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, LsItems.POTION_POUCH)
+                .pattern("#/#")
+                .pattern("#a#")
+                .pattern(" # ")
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('/', Tags.Items.RODS_BLAZE)
+                .define('#', Tags.Items.LEATHERS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.GEM_BAG)
                 .pattern("/~/")
                 .pattern("#g#")
@@ -199,6 +210,12 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('~', LsItems.LOGINAR_ANTENNA)
                 .define('#', ItemTags.PLANKS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, LsItems.FIRE_FLINGER)
+                .requires(LsItems.LOGINAR_ANTENNA)
+                .requires(LsTags.Items.GEMS_FIRE_PEARL)
+                .unlockedBy("has_item", has(LsItems.FIRE_PEARL))
                 .save(consumer);
     }
 
