@@ -8,6 +8,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperMenu;
 import net.silentchaos512.loginar.block.urn.UrnHelper;
 import net.silentchaos512.loginar.setup.LsDataComponents;
@@ -28,7 +29,7 @@ public class LsServerPayloadHandler {
                 });
     }
 
-    public void handleOpenUrnForItemSwap(CPacketOpenUrnForItemSwap data, IPayloadContext ctx) {
+    public void handleOpenUrnForItemSwap(OpenUrnForItemSwapPayload data, IPayloadContext ctx) {
         // Player pressed the item swap key. Search for an urn with a supported item swapper upgrade and open a menu.
         handleData(ctx, () -> {
             var player = ctx.player();
@@ -56,7 +57,7 @@ public class LsServerPayloadHandler {
         });
     }
 
-    public void handleSwapItemFromUrn(CPacketSwapItemFromUrn data, IPayloadContext ctx) {
+    public void handleSwapItemFromUrn(SwapItemFromUrnPayload data, IPayloadContext ctx) {
         // Player selected an item from the urn item swapper menu. Swap the item with the held item.
         handleData(ctx, () -> {
             var player = ctx.player();
@@ -70,6 +71,18 @@ public class LsServerPayloadHandler {
                     player.setItemInHand(InteractionHand.MAIN_HAND, swapItem);
                     items.set(data.urnItemSlot(), currentHeldItem);
                     urn.set(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.fromItems(items));
+                }
+            }
+        });
+    }
+
+    public void handleOpenBackpackUrn(OpenBackpackUrnPayload data, IPayloadContext ctx) {
+        handleData(ctx, () -> {
+            var player = ctx.player();
+            if (player instanceof ServerPlayer serverPlayer) {
+                ItemStack urn = UrnHelper.selectBackpackUrnToOpen(serverPlayer);
+                if (!urn.isEmpty() && urn.getItem() instanceof LoginarUrnBlockItem blockItem) {
+                    blockItem.openContainer(serverPlayer, urn);
                 }
             }
         });

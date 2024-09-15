@@ -37,7 +37,7 @@ public class LoginarUrnBlockItem extends BlockItem {
         return InteractionResultHolder.pass(stack);
     }
 
-    private void openContainer(ServerPlayer player, ItemStack stack) {
+    public void openContainer(ServerPlayer player, ItemStack stack) {
         player.openMenu(
                 new SimpleMenuProvider(
                         (id, inv, z) -> new LoginarUrnBackpackMenu(id, inv, stack),

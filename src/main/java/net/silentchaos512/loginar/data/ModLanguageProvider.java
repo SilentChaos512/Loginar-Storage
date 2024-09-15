@@ -38,7 +38,8 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Keybindings
         add("key.category." + LoginarMod.MOD_ID, "Loginar Storage");
-        add("key", "swapUrnItems", "Swap Urn Items");
+        add("key", "openBackpack", "Open Backpack Urn");
+        add("key", "swapUrnItems", "Swap Item Into Swapper Urn");
 
         // Items
         addItem(LsItems.LOGINAR_ANTENNA, "Loginar Antenna");

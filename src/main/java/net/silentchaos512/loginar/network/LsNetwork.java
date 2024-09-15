@@ -9,15 +9,20 @@ import net.silentchaos512.loginar.LoginarMod;
 public class LsNetwork {
     @SubscribeEvent
     public static void register(RegisterPayloadHandlersEvent event) {
-        final var registrar = event.registrar("1");
+        final var registrar = event.registrar("2");
         registrar.playToServer(
-                CPacketOpenUrnForItemSwap.TYPE,
-                CPacketOpenUrnForItemSwap.STREAM_CODEC,
+                OpenBackpackUrnPayload.TYPE,
+                OpenBackpackUrnPayload.STREAM_CODEC,
+                (data, ctx) -> LsServerPayloadHandler.getInstance().handleOpenBackpackUrn(data, ctx)
+        );
+        registrar.playToServer(
+                OpenUrnForItemSwapPayload.TYPE,
+                OpenUrnForItemSwapPayload.STREAM_CODEC,
                 (data, ctx) -> LsServerPayloadHandler.getInstance().handleOpenUrnForItemSwap(data, ctx)
         );
         registrar.playToServer(
-                CPacketSwapItemFromUrn.TYPE,
-                CPacketSwapItemFromUrn.STREAM_CODEC,
+                SwapItemFromUrnPayload.TYPE,
+                SwapItemFromUrnPayload.STREAM_CODEC,
                 (data, ctx) -> LsServerPayloadHandler.getInstance().handleSwapItemFromUrn(data, ctx)
         );
     }

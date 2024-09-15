@@ -45,6 +45,7 @@ public final class LsClientModEvents {
 
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(KeyTracker.OPEN_BACKPACK);
         event.register(KeyTracker.SWAP_URN_ITEMS);
     }
 }

@@ -10,11 +10,13 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.network.CPacketOpenUrnForItemSwap;
+import net.silentchaos512.loginar.network.OpenUrnForItemSwapPayload;
+import net.silentchaos512.loginar.network.OpenBackpackUrnPayload;
 import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class KeyTracker {
+    public static final KeyMapping OPEN_BACKPACK = createKeyBinding("openBackpack", GLFW.GLFW_KEY_I);
     public static final KeyMapping SWAP_URN_ITEMS = createKeyBinding("swapUrnItems", GLFW.GLFW_KEY_X);
 
     private static KeyMapping createKeyBinding(String description, int key) {
@@ -34,12 +36,11 @@ public class KeyTracker {
             return;
         }
 
-        if (event.getAction() == GLFW.GLFW_PRESS && event.getKey() == SWAP_URN_ITEMS.getKey().getValue()) {
-            handleSwapUrnItemsKeyPress();
-        }
-    }
-
-    private static void handleSwapUrnItemsKeyPress() {
-        PacketDistributor.sendToServer(new CPacketOpenUrnForItemSwap());
+        if (event.getAction() == GLFW.GLFW_PRESS)
+            if (event.getKey() == OPEN_BACKPACK.getKey().getValue()) {
+                PacketDistributor.sendToServer(new OpenBackpackUrnPayload());
+            } else if (event.getKey() == SWAP_URN_ITEMS.getKey().getValue()) {
+                PacketDistributor.sendToServer(new OpenUrnForItemSwapPayload());
+            }
     }
 }

@@ -180,6 +180,29 @@ public final class UrnHelper {
         return UrnHelper.isUrn(stack) && UrnHelper.hasUpgrade(stack, LsItems.ITEM_SWAPPER_UPGRADE);
     }
 
+    public static ItemStack selectBackpackUrnToOpen(ServerPlayer player) {
+        // Offhand first
+        if (isBackpackUrn(player.getOffhandItem())) {
+            return player.getOffhandItem();
+        }
+
+        // TODO: Curios support?
+
+        // Other items last
+        NonNullList<ItemStack> items = player.getInventory().items;
+        for (ItemStack stack : items) {
+            if (isBackpackUrn(stack)) {
+                return stack;
+            }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    private static boolean isBackpackUrn(ItemStack stack) {
+        return UrnHelper.isUrn(stack) && UrnHelper.hasUpgrade(stack, LsItems.BACKPACK_UPGRADE);
+    }
+
     public static void loadAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items) {
         // Taken from ContainerHelper, but can specify the list name
         ListTag listtag = tag.getList(tagKey, 10);

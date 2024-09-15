@@ -5,11 +5,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.silentchaos512.loginar.LoginarMod;
 
-public record CPacketOpenUrnForItemSwap() implements CustomPacketPayload {
-    public static final Type<CPacketOpenUrnForItemSwap> TYPE = new Type<>(LoginarMod.getId("open_urn_for_swapping"));
+public record OpenUrnForItemSwapPayload() implements CustomPacketPayload {
+    public static final Type<OpenUrnForItemSwapPayload> TYPE = new Type<>(LoginarMod.getId("open_urn_for_swapping"));
 
-    public static final StreamCodec<FriendlyByteBuf, CPacketOpenUrnForItemSwap> STREAM_CODEC = StreamCodec.unit(
-            new CPacketOpenUrnForItemSwap()
+    public static final StreamCodec<FriendlyByteBuf, OpenUrnForItemSwapPayload> STREAM_CODEC = StreamCodec.unit(
+            new OpenUrnForItemSwapPayload()
     );
 
     @Override

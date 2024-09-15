@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.21-1.4.2] - Unreleased
 ## Added
 - Added the potion pouch
+- A keybinding (default I) to open the first backpack urn in the player's inventory
 ### Changed
 - Increased drop rate for fire pearls
 ### Fixed
