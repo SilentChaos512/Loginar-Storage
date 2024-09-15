@@ -3,14 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.21-1.4.2] - Unreleased
+## [1.21-1.4.2] - 2024-09-15
 ## Added
 - The potion pouch. It stores up to 9 potions and can be used to drink or throw them. It has a half-second cooldown after use to prevent accidental throws.
 - A keybinding (default I) to open the first backpack urn in the player's inventory
 ### Changed
 - Increased drop rate for fire pearls
 ### Fixed
-- Loginar dungeons not spawning
+- Loginar dungeons not generating
 - Swapper urn screen not showing item tooltips
 
 ## [1.21-1.4.1] - 2024-08-04
