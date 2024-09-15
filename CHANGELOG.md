@@ -5,12 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.21-1.4.2] - Unreleased
 ## Added
-- Added the potion pouch
+- The potion pouch. It stores up to 9 potions and can be used to drink or throw them. It has a half-second cooldown after use to prevent accidental throws.
 - A keybinding (default I) to open the first backpack urn in the player's inventory
 ### Changed
 - Increased drop rate for fire pearls
 ### Fixed
 - Loginar dungeons not spawning
+- Swapper urn screen not showing item tooltips
 
 ## [1.21-1.4.1] - 2024-08-04
 - IMPORTANT: Please read note for previous version if updating from an earlier Minecraft version!

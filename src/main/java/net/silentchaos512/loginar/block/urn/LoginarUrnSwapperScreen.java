@@ -23,6 +23,12 @@ public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnS
     }
 
     @Override
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics graphics, float p_97788_, int p_97789_, int p_97790_) {
         if (minecraft == null) return;
         RenderSystem.clearColor(1, 1, 1, 1);
