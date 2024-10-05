@@ -229,7 +229,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         for (int i = 0; i < upgrades.getSlots(); ++i) {
             ItemStack upgrade = upgrades.getStackInSlot(i);
             if (!upgrade.isEmpty()) {
-                tooltip.add(Component.literal("- ").append(upgrade.getHoverName()).withStyle(ChatFormatting.DARK_GRAY));
+                tooltip.add(Component.literal("- ").append(upgrade.getHoverName()).withStyle(ChatFormatting.ITALIC));
             }
         }
     }
