@@ -1,0 +1,33 @@
+{
+  "parent": "loginar:large_loginar_urn",
+  "criteria": {
+    "get_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "loginar:huge_loginar_urn"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.loginar.huge_loginar_urn.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "loginar:huge_loginar_urn"
+    },
+    "title": {
+      "translate": "advancement.loginar.huge_loginar_urn.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

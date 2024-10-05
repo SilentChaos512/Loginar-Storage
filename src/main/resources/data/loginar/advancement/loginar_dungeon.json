@@ -1,0 +1,39 @@
+{
+  "parent": "loginar:root",
+  "criteria": {
+    "loginar_dungeon": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "loginar:loginar_dungeon"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.loginar.loginar_dungeon.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:deepslate_bricks"
+    },
+    "title": {
+      "translate": "advancement.loginar.loginar_dungeon.title"
+    }
+  },
+  "requirements": [
+    [
+      "loginar_dungeon"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

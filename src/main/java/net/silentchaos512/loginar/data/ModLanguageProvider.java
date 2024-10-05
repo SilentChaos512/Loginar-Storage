@@ -17,6 +17,17 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        // Advancements
+        advancement("root", "Loginar Storage", "Obtain a loginar antenna");
+        advancement("tiny_loginar_urn", "A New Pocket", "Craft a tiny loginar urn");
+        advancement("small_loginar_urn", "Small and Cute", "Craft a small loginar urn");
+        advancement("medium_loginar_urn", "A Portable Chest", "Craft a medium loginar urn");
+        advancement("large_loginar_urn", "Overachiever", "Craft a large loginar urn");
+        advancement("huge_loginar_urn", "Dragon Sized", "Craft a huge loginar urn");
+        advancement("super_loginar_urn", "Davy Jones' Locker", "Craft a super loginar urn");
+        advancement("loginar_dungeon", "Breaking and Entering", "Find a loginar dungeon");
+        advancement("loginar_calamari", "Squidward, Was That You?", "Eat some loginar calamari");
+
         // Blocks
         addBlock(LsBlocks.TINY_LOGINAR_URN, "Tiny Loginar Urn");
         addBlock(LsBlocks.SMALL_LOGINAR_URN, "Small Loginar Urn");
@@ -92,5 +103,10 @@ public class ModLanguageProvider extends LanguageProvider {
     private void addItemSub(ItemLike item, String suffix, String value) {
         ResourceLocation name = NameUtils.fromItem(item);
         add(String.format("item.%s.%s.%s", name.getNamespace(), name.getPath(), suffix), value);
+    }
+
+    private void advancement(String key, String title, String description) {
+        add("advancement.loginar." + key + ".title", title);
+        add("advancement.loginar." + key + ".description", description);
     }
 }

@@ -1,0 +1,31 @@
+{
+  "parent": "loginar:root",
+  "criteria": {
+    "eat_item": {
+      "conditions": {
+        "item": {
+          "items": "loginar:loginar_calamari"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.loginar.loginar_calamari.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "loginar:loginar_calamari"
+    },
+    "title": {
+      "translate": "advancement.loginar.loginar_calamari.title"
+    }
+  },
+  "requirements": [
+    [
+      "eat_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

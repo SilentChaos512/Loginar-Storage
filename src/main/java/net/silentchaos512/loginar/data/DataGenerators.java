@@ -1,10 +1,14 @@
 package net.silentchaos512.loginar.data;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+
+import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public final class DataGenerators {
@@ -14,6 +18,8 @@ public final class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        PackOutput packOutput = gen.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(event);
         gen.addProvider(true, blockTags);
@@ -26,5 +32,7 @@ public final class DataGenerators {
         gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
         gen.addProvider(true, new ModItemModelProvider(gen, existingFileHelper));
         gen.addProvider(true, new ModSoundDefinitionsProvider(gen, existingFileHelper));
+
+        gen.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider, existingFileHelper));
     }
 }
