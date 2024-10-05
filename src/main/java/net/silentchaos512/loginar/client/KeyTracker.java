@@ -36,7 +36,7 @@ public class KeyTracker {
             return;
         }
 
-        if (event.getAction() == GLFW.GLFW_PRESS)
+        if (event.getAction() == GLFW.GLFW_PRESS && Minecraft.getInstance().screen == null)
             if (event.getKey() == OPEN_BACKPACK.getKey().getValue()) {
                 PacketDistributor.sendToServer(new OpenBackpackUrnPayload());
             } else if (event.getKey() == SWAP_URN_ITEMS.getKey().getValue()) {
