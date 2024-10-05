@@ -39,6 +39,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.BACKPACK_UPGRADE, itemGenerated);
         builder(LsItems.VACUUM_UPGRADE, itemGenerated);
         builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
+        builder(LsItems.SUPPLIER_UPGRADE, itemGenerated);
 
         builder(LsItems.LUNCH_BOX, itemGenerated);
         itemWithEmptyModel(LsItems.POTION_POUCH, itemGenerated, "potion_pouch", "potion_pouch_empty", "potion_pouch_overlay");

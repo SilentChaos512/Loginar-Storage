@@ -51,6 +51,8 @@
   "item.loginar.ore_crate.desc": "Stores and picks up raw ores",
   "item.loginar.potion_pouch": "Potion Pouch",
   "item.loginar.potion_pouch.desc": "Stores potions and lets you drink or throw them. Sneak + use to open.",
+  "item.loginar.supplier_upgrade": "Supplier Urn Upgrade",
+  "item.loginar.supplier_upgrade.desc": "Replenishes consumed items (blocks, tools, etc.) when a stack is used up",
   "item.loginar.vacuum_upgrade": "Vacuum Urn Upgrade",
   "item.loginar.vacuum_upgrade.desc": "Draws in nearby items and stores them",
   "key.category.loginar": "Loginar Storage",

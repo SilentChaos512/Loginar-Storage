@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo_block"
+    },
+    "/": {
+      "tag": "c:ingots/copper"
+    },
+    "a": {
+      "item": "loginar:loginar_antenna"
+    }
+  },
+  "pattern": [
+    " / ",
+    "/a/",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:supplier_upgrade"
+  }
+}

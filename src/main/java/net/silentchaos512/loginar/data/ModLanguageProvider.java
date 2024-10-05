@@ -67,6 +67,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.VACUUM_UPGRADE, "desc", "Draws in nearby items and stores them");
         addItem(LsItems.ITEM_SWAPPER_UPGRADE, "Item Swapper Urn Upgrade");
         addItemSub(LsItems.ITEM_SWAPPER_UPGRADE, "desc", "Allows individual items to be swapped out of the urn by pressing a bound key");
+        addItem(LsItems.SUPPLIER_UPGRADE, "Supplier Urn Upgrade");
+        addItemSub(LsItems.SUPPLIER_UPGRADE, "desc", "Replenishes consumed items (blocks, tools, etc.) when a stack is used up");
         // Container items
         addItem(LsItems.FLOWER_BASKET, "Flower Basket");
         addItemSub(LsItems.FLOWER_BASKET, "desc", "Stores and picks up flowers");

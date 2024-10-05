@@ -157,6 +157,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.SUPPLIER_UPGRADE)
+                .pattern(" / ")
+                .pattern("/a/")
+                .pattern("###")
+                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('#', Blocks.BAMBOO_BLOCK)
+                .define('/', Tags.Items.INGOTS_COPPER)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
+
         // Container items
 
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, LsItems.LUNCH_BOX)

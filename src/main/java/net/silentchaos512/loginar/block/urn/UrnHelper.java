@@ -17,6 +17,7 @@ import net.silentchaos512.loginar.util.ItemStackUtil;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public final class UrnHelper {
     public static final Color DEFAULT_CLAY_COLOR = new Color(0x985F45);
@@ -157,9 +158,9 @@ public final class UrnHelper {
         return false;
     }
 
-    public static ItemStack selectSwapperUrnToOpen(ServerPlayer player) {
+    private static ItemStack findFirstMatchingUrn(ServerPlayer player, Predicate<ItemStack> predicate) {
         // Offhand first
-        if (isSwapperUrn(player.getOffhandItem())) {
+        if (predicate.test(player.getOffhandItem())) {
             return player.getOffhandItem();
         }
 
@@ -168,12 +169,16 @@ public final class UrnHelper {
         // Other items last
         NonNullList<ItemStack> items = player.getInventory().items;
         for (ItemStack stack : items) {
-            if (isSwapperUrn(stack)) {
+            if (predicate.test(stack)) {
                 return stack;
             }
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static ItemStack selectSwapperUrnToOpen(ServerPlayer player) {
+        return findFirstMatchingUrn(player, UrnHelper::isSwapperUrn);
     }
 
     private static boolean isSwapperUrn(ItemStack stack) {
@@ -181,26 +186,30 @@ public final class UrnHelper {
     }
 
     public static ItemStack selectBackpackUrnToOpen(ServerPlayer player) {
-        // Offhand first
-        if (isBackpackUrn(player.getOffhandItem())) {
-            return player.getOffhandItem();
-        }
-
-        // TODO: Curios support?
-
-        // Other items last
-        NonNullList<ItemStack> items = player.getInventory().items;
-        for (ItemStack stack : items) {
-            if (isBackpackUrn(stack)) {
-                return stack;
-            }
-        }
-
-        return ItemStack.EMPTY;
+        return findFirstMatchingUrn(player, UrnHelper::isBackpackUrn);
     }
 
     private static boolean isBackpackUrn(ItemStack stack) {
         return UrnHelper.isUrn(stack) && UrnHelper.hasUpgrade(stack, LsItems.BACKPACK_UPGRADE);
+    }
+
+    public static ItemStack selectSupplierUrn(ServerPlayer player, ItemStack consumedItem) {
+        return findFirstMatchingUrn(player, stack -> isSupplierUrnWithItem(stack, consumedItem));
+    }
+
+    private static boolean isSupplierUrnWithItem(ItemStack stack, ItemStack consumedItem) {
+        return isUrn(stack) && hasUpgrade(stack, LsItems.SUPPLIER_UPGRADE) && containsSimilarItem(stack, consumedItem);
+    }
+
+    private static boolean containsSimilarItem(ItemStack stack, ItemStack consumedItem) {
+        var contents = stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.EMPTY);
+        for (int i = 0; i < contents.getSlots(); ++i) {
+            var stackInSlot = contents.getStackInSlot(i);
+            if (ItemStack.isSameItem(stackInSlot, consumedItem)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void loadAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items) {

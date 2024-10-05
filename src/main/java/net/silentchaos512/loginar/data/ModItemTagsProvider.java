@@ -27,7 +27,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(LsTags.Items.URN_UPGRADES,
                 LsItems.BACKPACK_UPGRADE,
                 LsItems.VACUUM_UPGRADE,
-                LsItems.ITEM_SWAPPER_UPGRADE
+                LsItems.ITEM_SWAPPER_UPGRADE,
+                LsItems.SUPPLIER_UPGRADE
         );
         tag(LsTags.Items.FLOWER_BASKET_CAN_STORE)
                 .addTag(ItemTags.FLOWERS);

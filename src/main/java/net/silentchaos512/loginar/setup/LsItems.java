@@ -42,6 +42,8 @@ public class LsItems {
     public static final DeferredItem<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
             new UpgradeItem(props())
     );
+    public static final DeferredItem<UpgradeItem> SUPPLIER_UPGRADE = register("supplier_upgrade", () ->
+            new UpgradeItem(props()));
 
     // Container items
     public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
@@ -97,6 +99,7 @@ public class LsItems {
             event.accept(BACKPACK_UPGRADE.get());
             event.accept(VACUUM_UPGRADE.get());
             event.accept(ITEM_SWAPPER_UPGRADE.get());
+            event.accept(SUPPLIER_UPGRADE.get());
             event.accept(GEM_BAG.get());
             event.accept(FLOWER_BASKET.get());
             event.accept(ORE_CRATE.get());
