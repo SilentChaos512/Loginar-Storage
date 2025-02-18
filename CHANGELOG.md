@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-1.4.4] - 2025-02-17
+### Added
+- The wood rack. It collects logs and sticks. Much like the other container items, what it stores can be customized with a tag.
+### Changed
+- All container items now have the `loginar:filled` model property, which allows their model to be changed when they are not empty. Only the potion pouch and wood rack use this at this time, but the others will be updated eventually.
+
 ## [1.21-1.4.3] - 2024-10-05
 ### Added
 - Supplier Urn Upgrade. Loginar urns with this upgrade will replace consumed items (such as a tool or stack of blocks). For example, the urn could contain multiple stacks of planks, and it will replace each stack in your hand as you use them up.

@@ -5,6 +5,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -38,6 +39,12 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.RAW_MATERIALS)
                 .addTag(Tags.Items.ORES)
                 .addTag(ItemTags.COALS);
+        tag(LsTags.Items.SEED_BAG_CAN_STORE)
+                .addTag(Tags.Items.SEEDS);
+        tag(LsTags.Items.WOOD_RACK_CAN_STORE)
+                .addTag(ItemTags.LOGS)
+                .addTag(Tags.Items.RODS_WOODEN)
+                .add(Items.BAMBOO);
 
         builder(LsTags.Items.GEMS_FIRE_PEARL, LsItems.FIRE_PEARL);
         tag(Tags.Items.GEMS).addTag(LsTags.Items.GEMS_FIRE_PEARL);

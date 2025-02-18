@@ -5,6 +5,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.setup.LsItems;
@@ -29,11 +30,14 @@ public class LsItemModelProperties {
         });
 
         event.enqueueWork(() -> {
-            ItemProperties.register(
-                    LsItems.POTION_POUCH.get(),
-                    Const.FILLED,
-                    (stack, level, entity, seed) -> ContainerItem.containsAnyItems(stack) ? 1 : 0
-            );
+            LsItems.REGISTER.getEntries().stream()
+                    .filter(holder -> holder.get() instanceof ContainerItem)
+                    .map(DeferredHolder::get)
+                    .forEach(item -> ItemProperties.register(
+                            item,
+                            Const.FILLED,
+                            (stack, level, entity, seed) -> ContainerItem.containsAnyItems(stack) ? 1 : 0
+                    ));
         });
     }
 }

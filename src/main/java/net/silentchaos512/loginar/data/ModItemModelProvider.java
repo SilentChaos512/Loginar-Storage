@@ -46,6 +46,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(LsItems.GEM_BAG, itemGenerated);
         builder(LsItems.FLOWER_BASKET, itemGenerated);
         builder(LsItems.ORE_CRATE, itemGenerated);
+        itemWithEmptyModel(LsItems.WOOD_RACK, itemGenerated, "wood_rack_filled", "wood_rack", null);
 
         builder(LsItems.LOGINAR_SPAWN_EGG)
                 .parent(getExistingFile(mcLoc("item/template_spawn_egg")));

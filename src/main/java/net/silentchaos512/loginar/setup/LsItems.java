@@ -61,6 +61,9 @@ public class LsItems {
     public static final DeferredItem<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
             new OreCrateItem(props().stacksTo(1).setNoRepair())
     );
+    public static final DeferredItem<WoodRackItem> WOOD_RACK = register("wood_rack", () ->
+            new WoodRackItem(props().stacksTo(1).setNoRepair())
+    );
 
     // Misc
     public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register("fire_flinger", () ->
@@ -103,6 +106,7 @@ public class LsItems {
             event.accept(GEM_BAG.get());
             event.accept(FLOWER_BASKET.get());
             event.accept(ORE_CRATE.get());
+            event.accept(WOOD_RACK.get());
             event.accept(FIRE_FLINGER.get());
         }
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

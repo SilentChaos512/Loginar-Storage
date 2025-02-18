@@ -21,6 +21,8 @@ public final class LsTags {
         public static final TagKey<Item> FLOWER_BASKET_CAN_STORE = mod("flower_basket_can_store");
         public static final TagKey<Item> GEM_BAG_CAN_STORE = mod("gem_bag_can_store");
         public static final TagKey<Item> ORE_CRATE_CAN_STORE = mod("ore_crate_can_store");
+        public static final TagKey<Item> SEED_BAG_CAN_STORE = mod("seed_bag_can_store");
+        public static final TagKey<Item> WOOD_RACK_CAN_STORE = mod("wood_rack_can_store");
         public static final TagKey<Item> URN_UPGRADES = mod("urn_upgrades");
         public static final TagKey<Item> URNS = mod("urns");
         public static final TagKey<Item> URNS_CANNOT_STORE = mod("urns_cannot_store");

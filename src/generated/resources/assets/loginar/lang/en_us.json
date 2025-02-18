@@ -55,6 +55,8 @@
   "item.loginar.supplier_upgrade.desc": "Replenishes consumed items (blocks, tools, etc.) when a stack is used up",
   "item.loginar.vacuum_upgrade": "Vacuum Urn Upgrade",
   "item.loginar.vacuum_upgrade.desc": "Draws in nearby items and stores them",
+  "item.loginar.wood_rack": "Wood Rack",
+  "item.loginar.wood_rack.desc": "Stores and picks up logs and sticks",
   "key.category.loginar": "Loginar Storage",
   "key.loginar.openBackpack": "Open Backpack Urn",
   "key.loginar.swapUrnItems": "Swap Item Into Swapper Urn",

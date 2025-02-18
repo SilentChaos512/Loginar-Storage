@@ -80,6 +80,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.ORE_CRATE, "desc", "Stores and picks up raw ores");
         addItem(LsItems.POTION_POUCH, "Potion Pouch");
         addItemSub(LsItems.POTION_POUCH, "desc", "Stores potions and lets you drink or throw them. Sneak + use to open.");
+        addItem(LsItems.WOOD_RACK, "Wood Rack");
+        addItemSub(LsItems.WOOD_RACK, "desc", "Stores and picks up logs and sticks");
 
         // Misc
         add("misc", "not_implemented", "Not Implemented! This feature does not work yet. :(");

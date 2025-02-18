@@ -50,6 +50,10 @@ public class LsMenuTypes {
             "potion_pouch",
             (windowId, inv, data) -> new ContainerItemMenu(windowId, inv, LsMenuTypes.POTION_POUCH.get(), PotionPouchItem.class)
     );
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerItemMenu>> WOOD_RACK = register(
+            "wood_rack",
+            (windowId, inv, data) -> new ContainerItemMenu(windowId, inv, LsMenuTypes.WOOD_RACK.get(), WoodRackItem.class)
+    );
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> register(String name, IContainerFactory<T> factory) {
         return REGISTER.register(name, () -> IMenuTypeExtension.create(factory));

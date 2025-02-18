@@ -222,6 +222,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.WOOD_RACK)
+                .pattern("/ /")
+                .pattern("/~/")
+                .pattern("# #")
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('/', Tags.Items.RODS_WOODEN)
+                .define('#', ItemTags.LOGS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, LsItems.FIRE_FLINGER)
                 .requires(LsItems.LOGINAR_ANTENNA)
                 .requires(LsTags.Items.GEMS_FIRE_PEARL)
