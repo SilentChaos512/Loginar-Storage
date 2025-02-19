@@ -40,7 +40,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.ORES)
                 .addTag(ItemTags.COALS);
         tag(LsTags.Items.SEED_BAG_CAN_STORE)
-                .addTag(Tags.Items.SEEDS);
+                .addTag(Tags.Items.SEEDS)
+                .add(Items.CARROT, Items.POTATO, Items.NETHER_WART);
         tag(LsTags.Items.WOOD_RACK_CAN_STORE)
                 .addTag(ItemTags.LOGS)
                 .addTag(Tags.Items.RODS_WOODEN)

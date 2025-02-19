@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-1.4.5] - 2025-02-22
+### Added
+- The seed bag. It stores seeds, carrots, and potatoes by default. Use a filled seed bag to plant things from the bag.
+
 ## [1.21.1-1.4.4] - 2025-02-17
 ### Added
 - The wood rack. It collects logs and sticks. Much like the other container items, what it stores can be customized with a tag.

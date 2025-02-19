@@ -61,6 +61,9 @@ public class LsItems {
     public static final DeferredItem<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
             new OreCrateItem(props().stacksTo(1).setNoRepair())
     );
+    public static final DeferredItem<SeedBagItem> SEED_BAG = register("seed_bag", () ->
+            new SeedBagItem(props().stacksTo(1).setNoRepair())
+    );
     public static final DeferredItem<WoodRackItem> WOOD_RACK = register("wood_rack", () ->
             new WoodRackItem(props().stacksTo(1).setNoRepair())
     );
@@ -106,6 +109,7 @@ public class LsItems {
             event.accept(GEM_BAG.get());
             event.accept(FLOWER_BASKET.get());
             event.accept(ORE_CRATE.get());
+            event.accept(SEED_BAG.get());
             event.accept(WOOD_RACK.get());
             event.accept(FIRE_FLINGER.get());
         }

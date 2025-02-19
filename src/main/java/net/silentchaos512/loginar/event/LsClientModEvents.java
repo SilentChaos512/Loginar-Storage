@@ -31,6 +31,7 @@ public final class LsClientModEvents {
         event.register(LsMenuTypes.GEM_BAG.get(), ContainerItemScreen::new);
         event.register(LsMenuTypes.FLOWER_BASKET.get(), ContainerItemScreen::new);
         event.register(LsMenuTypes.ORE_CRATE.get(), ContainerItemScreen::new);
+        event.register(LsMenuTypes.SEED_BAG.get(), ContainerItemScreen::new);
         event.register(LsMenuTypes.WOOD_RACK.get(), ContainerItemScreen::new);
     }
 

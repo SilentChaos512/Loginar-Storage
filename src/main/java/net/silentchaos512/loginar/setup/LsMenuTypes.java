@@ -50,6 +50,10 @@ public class LsMenuTypes {
             "potion_pouch",
             (windowId, inv, data) -> new ContainerItemMenu(windowId, inv, LsMenuTypes.POTION_POUCH.get(), PotionPouchItem.class)
     );
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerItemMenu>> SEED_BAG = register(
+            "seed_bag",
+            (windowId, inv, data) -> new ContainerItemMenu(windowId, inv, LsMenuTypes.SEED_BAG.get(), SeedBagItem.class)
+    );
     public static final DeferredHolder<MenuType<?>, MenuType<ContainerItemMenu>> WOOD_RACK = register(
             "wood_rack",
             (windowId, inv, data) -> new ContainerItemMenu(windowId, inv, LsMenuTypes.WOOD_RACK.get(), WoodRackItem.class)

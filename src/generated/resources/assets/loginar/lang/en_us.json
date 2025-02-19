@@ -51,6 +51,8 @@
   "item.loginar.ore_crate.desc": "Stores and picks up raw ores",
   "item.loginar.potion_pouch": "Potion Pouch",
   "item.loginar.potion_pouch.desc": "Stores potions and lets you drink or throw them. Sneak + use to open.",
+  "item.loginar.seed_bag": "Seed bag",
+  "item.loginar.seed_bag.desc": "Stores and picks up seeds. Can be used to plant them as well.",
   "item.loginar.supplier_upgrade": "Supplier Urn Upgrade",
   "item.loginar.supplier_upgrade.desc": "Replenishes consumed items (blocks, tools, etc.) when a stack is used up",
   "item.loginar.vacuum_upgrade": "Vacuum Urn Upgrade",
