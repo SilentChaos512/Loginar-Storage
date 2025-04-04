@@ -20,5 +20,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .getExistingFile(modLoc("block/" + NameUtils.fromBlock(block).getPath()))
             );
         }
+
+        simpleBlock(LsBlocks.LOGINAR_EGG.get(), models()
+                .getExistingFile(modLoc("block/loginar_egg"))
+        );
     }
 }

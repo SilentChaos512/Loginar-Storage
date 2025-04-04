@@ -3,12 +3,15 @@ package net.silentchaos512.loginar.setup;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.block.LoginarEggBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +31,20 @@ public class LsBlocks {
     public static final DeferredBlock<LoginarUrnBlock> LARGE_LOGINAR_URN = registerUrn(UrnTypes.LARGE);
     public static final DeferredBlock<LoginarUrnBlock> HUGE_LOGINAR_URN = registerUrn(UrnTypes.HUGE);
     public static final DeferredBlock<LoginarUrnBlock> SUPER_LOGINAR_URN = registerUrn(UrnTypes.SUPER);
+
+    public static final DeferredBlock<LoginarEggBlock> LOGINAR_EGG = register(
+            "loginar_egg",
+            () -> new LoginarEggBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_CYAN)
+                            .forceSolidOn()
+                            .strength(0.5F)
+                            .sound(SoundType.METAL)
+                            .randomTicks()
+                            .noOcclusion()
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
 
     public static Collection<LoginarUrnBlock> getUrns() {
         return REGISTER.getEntries().stream()

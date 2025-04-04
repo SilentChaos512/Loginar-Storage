@@ -85,6 +85,8 @@ public class ModLootTableProvider extends LootTableProvider {
                 BlockEntityType<LoginarUrnBlockEntity> blockEntity = type.blockEntity().get();
                 add(block, createLoginarUrnDrop(block, blockEntity));
             }
+
+            add(LsBlocks.LOGINAR_EGG.get(), createSilkTouchOnlyTable(LsBlocks.LOGINAR_EGG));
         }
 
         private LootTable.Builder createLoginarUrnDrop(LoginarUrnBlock block, BlockEntityType<LoginarUrnBlockEntity> blockEntity) {
