@@ -8,10 +8,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.entity.Loginar;
 
-public class LoginarModel extends EntityModel<LoginarEntity> {
+public class LoginarModel<T extends LivingEntity & Loginar> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(LoginarMod.getId("loginar"), "main");
 	private final ModelPart body;
@@ -66,7 +67,7 @@ public class LoginarModel extends EntityModel<LoginarEntity> {
 	}
 
 	@Override
-	public void setupAnim(LoginarEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.body.xRot = Mth.cos(limbSwing * 0.662f) * 0.25f * limbSwingAmount;
 		float pi = (float) Math.PI;
 		this.antennaLeft.yRot = -30 * pi / 180 + Mth.cos(ageInTicks / 4 + pi) * 0.15f;
@@ -85,6 +86,14 @@ public class LoginarModel extends EntityModel<LoginarEntity> {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int i1, int i2) {
-		body.render(poseStack, vertexConsumer, i, i1, i2);
+		if (this.young) {
+			poseStack.pushPose();
+			poseStack.scale(0.5f, 0.5f, 0.5f);
+			poseStack.translate(0.0f, 1.5f, 0.0f);
+			body.render(poseStack, vertexConsumer, i, i1, i2);
+			poseStack.popPose();
+		} else {
+            body.render(poseStack, vertexConsumer, i, i1, i2);
+        }
 	}
 }

@@ -20,14 +20,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.silentchaos512.loginar.entity.ai.goal.LoginarFireballAttackGoal;
+import net.silentchaos512.loginar.entity.ai.goal.WildLoginarFireballAttackGoal;
 import net.silentchaos512.loginar.setup.LsSounds;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class LoginarEntity extends Monster {
-    public LoginarEntity(EntityType<? extends Monster> entityType, Level level) {
+public class WildLoginar extends Monster implements Loginar {
+    public WildLoginar(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         this.setPathfindingMalus(PathType.LAVA, 8.0F);
@@ -39,7 +39,7 @@ public class LoginarEntity extends Monster {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 8.0f, 0.7, 1.275));
-        this.goalSelector.addGoal(4, new LoginarFireballAttackGoal(this));
+        this.goalSelector.addGoal(4, new WildLoginarFireballAttackGoal(this));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D, 0.0F));
@@ -89,7 +89,7 @@ public class LoginarEntity extends Monster {
         return LsSounds.LOGINAR_HURT.get();
     }
 
-    public static boolean canSpawn(EntityType<LoginarEntity> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean canSpawn(EntityType<WildLoginar> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return level.getDifficulty() != Difficulty.PEACEFUL
                 && spawnType == MobSpawnType.SPAWNER
                 || (pos.getY() < 9 && isSpawningChunk(level, pos));

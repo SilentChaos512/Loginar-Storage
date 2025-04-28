@@ -72,7 +72,9 @@ public class LsItems {
     public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register("fire_flinger", () ->
             new FireFlingerItem(props().durability(64).stacksTo(1)));
     public static final DeferredItem<DeferredSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
-            new DeferredSpawnEggItem(LsEntityTypes.LOGINAR, 0x59B9FF, 0xFFFFFF, props()));
+            new DeferredSpawnEggItem(LsEntityTypes.LOGINAR, 0xFFFFFF, 0xFFFFFF, props()));
+    public static final DeferredItem<DeferredSpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register("friendly_loginar_spawn_egg", () ->
+            new DeferredSpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR, 0xFFFFFF, 0XFFFFFF, props()));
 
     protected static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
         return REGISTER.register(name, item);
@@ -115,6 +117,7 @@ public class LsItems {
         }
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(LOGINAR_SPAWN_EGG.get());
+            event.accept(FRIENDLY_LOGINAR_SPAWN_EGG.get());
         }
     }
 }

@@ -6,7 +6,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
-import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.entity.FriendlyLoginar;
+import net.silentchaos512.loginar.entity.WildLoginar;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
@@ -19,13 +20,14 @@ public final class LsCommonModEvents {
                 LsEntityTypes.LOGINAR.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                LoginarEntity::canSpawn,
+                WildLoginar::canSpawn,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE
         );
     }
 
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
-        event.put(LsEntityTypes.LOGINAR.get(), LoginarEntity.createAttributes());
+        event.put(LsEntityTypes.LOGINAR.get(), WildLoginar.createAttributes());
+        event.put(LsEntityTypes.FRIENDLY_LOGINAR.get(), FriendlyLoginar.createAttributes());
     }
 }

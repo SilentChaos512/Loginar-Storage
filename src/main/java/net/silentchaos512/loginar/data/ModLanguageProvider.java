@@ -35,6 +35,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(LsBlocks.LARGE_LOGINAR_URN, "Large Loginar Urn");
         addBlock(LsBlocks.HUGE_LOGINAR_URN, "Huge Loginar Urn");
         addBlock(LsBlocks.SUPER_LOGINAR_URN, "Super Loginar Urn");
+        addBlock(LsBlocks.LOGINAR_EGG, "Loginar Egg");
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
@@ -46,6 +47,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Entities
         addEntityType(LsEntityTypes.LOGINAR, "Loginar");
+        addEntityType(LsEntityTypes.FRIENDLY_LOGINAR, "Friendly Loginar");
 
         // Keybindings
         add("key.category." + LoginarMod.MOD_ID, "Loginar Storage");
@@ -58,6 +60,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.LOGINAR_TENTACLE, "Loginar Tentacle");
         addItem(LsItems.LOGINAR_CALAMARI, "Loginar Calamari");
         addItem(LsItems.LOGINAR_SPAWN_EGG, "Loginar Spawn Egg");
+        addItem(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG, "Friendly Loginar Spawn Egg");
         addItem(LsItems.FIRE_PEARL, "Fire Pearl");
         addItem(LsItems.FIRE_FLINGER, "Fire Flinger");
         // Urn Upgrades

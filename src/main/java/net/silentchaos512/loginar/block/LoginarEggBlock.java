@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.entity.FriendlyLoginar;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 
 public class LoginarEggBlock extends Block {
@@ -49,10 +49,9 @@ public class LoginarEggBlock extends Block {
                 level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
 
                 level.levelEvent(2001, pos, Block.getId(state));
-                LoginarEntity babyLoginar = LsEntityTypes.LOGINAR.get().create(level);
+                FriendlyLoginar babyLoginar = LsEntityTypes.FRIENDLY_LOGINAR.get().create(level);
                 if (babyLoginar != null) {
-                    // FIXME: make age-able
-//                    babyLoginar.setAge(-24000);
+                    babyLoginar.setBaby(true);
                     babyLoginar.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0f, 0f);
                     level.addFreshEntity(babyLoginar);
                 }
@@ -61,7 +60,9 @@ public class LoginarEggBlock extends Block {
     }
 
     private boolean shouldUpdateHatchLevel(Level level) {
-        return level.random.nextInt(500) == 0;
+        float time = level.getTimeOfDay(1.0f);
+        if (time < 0.19f && time > 0.15f) return true;
+        return level.random.nextInt(50) == 0;
     }
 
     public boolean onMagma(BlockGetter level, BlockPos pos) {

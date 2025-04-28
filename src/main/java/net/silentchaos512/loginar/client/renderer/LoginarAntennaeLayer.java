@@ -7,16 +7,17 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.entity.LivingEntity;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.client.model.LoginarModel;
-import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.entity.Loginar;
 
 // The glowy ball portion on the end of the loginar entity model's antennae
-public class LoginarAntennaeLayer extends EyesLayer<LoginarEntity, LoginarModel> {
+public class LoginarAntennaeLayer<T extends LivingEntity & Loginar> extends EyesLayer<T, LoginarModel<T>> {
     private static final RenderType LOGINAR_ANTENNAE = RenderType.eyes(LoginarMod.getId("textures/entity/loginar_antennae.png"));
 
-    public LoginarAntennaeLayer(RenderLayerParent<LoginarEntity, LoginarModel> parent) {
+    public LoginarAntennaeLayer(RenderLayerParent<T, LoginarModel<T>> parent) {
         super(parent);
     }
 
@@ -26,7 +27,7 @@ public class LoginarAntennaeLayer extends EyesLayer<LoginarEntity, LoginarModel>
     }
 
     @Override
-    public void render(PoseStack stack, MultiBufferSource multiBufferSource, int par3, LoginarEntity entity, float par5, float par6, float par7, float par8, float par9, float par10) {
+    public void render(PoseStack stack, MultiBufferSource multiBufferSource, int par3, T entity, float par5, float par6, float par7, float par8, float par9, float par10) {
         VertexConsumer vertexconsumer = multiBufferSource.getBuffer(this.renderType());
         // TODO: The color could be changed to any color based on properties of the entity.
         //  Might be a fun easter egg to add in the future?

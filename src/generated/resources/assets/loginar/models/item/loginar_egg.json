@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "loginar:item/loginar_spawn_egg"
+    "layer0": "loginar:item/loginar_egg"
   }
 }

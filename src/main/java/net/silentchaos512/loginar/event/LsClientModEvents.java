@@ -11,7 +11,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperScreen;
 import net.silentchaos512.loginar.client.KeyTracker;
 import net.silentchaos512.loginar.client.model.LoginarModel;
-import net.silentchaos512.loginar.client.renderer.LoginarEntityRenderer;
+import net.silentchaos512.loginar.client.renderer.LoginarRenderer;
 import net.silentchaos512.loginar.item.container.ContainerItemScreen;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
@@ -37,7 +37,8 @@ public final class LsClientModEvents {
 
     @SubscribeEvent
     public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(LsEntityTypes.LOGINAR.get(), LoginarEntityRenderer::new);
+        event.registerEntityRenderer(LsEntityTypes.LOGINAR.get(), LoginarRenderer::new);
+        event.registerEntityRenderer(LsEntityTypes.FRIENDLY_LOGINAR.get(), LoginarRenderer::new);
     }
 
     @SubscribeEvent

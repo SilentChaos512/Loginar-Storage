@@ -7,18 +7,18 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.phys.Vec3;
-import net.silentchaos512.loginar.entity.LoginarEntity;
+import net.silentchaos512.loginar.entity.WildLoginar;
 import net.silentchaos512.loginar.setup.LsSounds;
 
 import java.util.EnumSet;
 
-public class LoginarFireballAttackGoal extends Goal {
-    private final LoginarEntity loginar;
+public class WildLoginarFireballAttackGoal extends Goal {
+    private final WildLoginar loginar;
     private int attackStep;
     private int attackTime;
     private int lastSeen;
 
-    public LoginarFireballAttackGoal(LoginarEntity entity) {
+    public WildLoginarFireballAttackGoal(WildLoginar entity) {
         this.loginar = entity;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }

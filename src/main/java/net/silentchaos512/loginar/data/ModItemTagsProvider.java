@@ -35,6 +35,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(ItemTags.FLOWERS);
         tag(LsTags.Items.GEM_BAG_CAN_STORE)
                 .addTag(Tags.Items.GEMS);
+        // TODO: Make tags for loginar body armor and boots
+        tag(LsTags.Items.LOGINAR_ARMOR_BODY);
+        tag(LsTags.Items.LOGINAR_ARMOR_FEET);
+        tag(LsTags.Items.LOGINAR_ARMOR)
+                .addTag(LsTags.Items.LOGINAR_ARMOR_BODY)
+                .addTag(LsTags.Items.LOGINAR_ARMOR_FEET);
+        tag(LsTags.Items.LOGINAR_FOOD)
+                .addTag(ItemTags.COALS)
+                .add(Items.FIRE_CHARGE);
         tag(LsTags.Items.ORE_CRATE_CAN_STORE)
                 .addTag(Tags.Items.RAW_MATERIALS)
                 .addTag(Tags.Items.ORES)

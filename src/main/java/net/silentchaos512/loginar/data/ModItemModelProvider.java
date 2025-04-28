@@ -24,6 +24,8 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         registerBlocks();
 
+        basicItem(LsBlocks.LOGINAR_EGG.asItem());
+
         ModelFile itemGenerated = getExistingFile(ResourceLocation.withDefaultNamespace("item/generated"));
 
         builder(LsItems.LOGINAR_ANTENNA, itemGenerated)
@@ -49,8 +51,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithEmptyModel(LsItems.SEED_BAG, itemGenerated, "seed_bag_filled", "seed_bag", null);
         itemWithEmptyModel(LsItems.WOOD_RACK, itemGenerated, "wood_rack_filled", "wood_rack", null);
 
-        builder(LsItems.LOGINAR_SPAWN_EGG)
-                .parent(getExistingFile(mcLoc("item/template_spawn_egg")));
+        builder(LsItems.LOGINAR_SPAWN_EGG, itemGenerated);
+        builder(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG, itemGenerated);
     }
 
     private void registerBlocks() {
