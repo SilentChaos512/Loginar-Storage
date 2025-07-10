@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -140,18 +139,18 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         super.loadAdditional(tag, registries);
 
         if (tag.contains(UrnHelper.NBT_CLAY_COLOR)) {
-            this.clayColor = new Color(tag.getInt(UrnHelper.NBT_CLAY_COLOR));
+            this.clayColor = new Color(tag.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
         }
 
         if (tag.contains(UrnHelper.NBT_GEM_COLOR)) {
-            this.gemColor = new Color(tag.getInt(UrnHelper.NBT_GEM_COLOR));
+            this.gemColor = new Color(tag.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
         }
 
-        if (!this.tryLoadLootTable(tag) && tag.contains(UrnHelper.NBT_ITEMS, Tag.TAG_LIST)) {
+        if (!this.tryLoadLootTable(tag) && tag.contains(UrnHelper.NBT_ITEMS)) {
             UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_ITEMS, this.items);
         }
 
-        if (tag.contains(UrnHelper.NBT_UPGRADES, Tag.TAG_LIST)) {
+        if (tag.contains(UrnHelper.NBT_UPGRADES)) {
             UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_UPGRADES, this.upgrades);
         }
 
@@ -188,7 +187,7 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         super.onDataPacket(net, pkt, lookupProvider);
         CompoundTag tags = pkt.getTag();
-        this.clayColor = new Color(tags.getInt(UrnHelper.NBT_CLAY_COLOR));
-        this.gemColor = new Color(tags.getInt(UrnHelper.NBT_GEM_COLOR));
+        this.clayColor = new Color(tags.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
+        this.gemColor = new Color(tags.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
     }
 }

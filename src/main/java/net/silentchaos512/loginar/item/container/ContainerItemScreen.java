@@ -1,8 +1,8 @@
 package net.silentchaos512.loginar.item.container;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,12 +23,10 @@ public class ContainerItemScreen extends AbstractContainerScreen<ContainerItemMe
     @Override
     protected void renderBg(GuiGraphics graphics, float p_97788_, int p_97789_, int p_97790_) {
         if (minecraft == null) return;
-        RenderSystem.clearColor(1, 1, 1, 1);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        graphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.inventoryRows * 18 + 17);
-        graphics.blit(TEXTURE, i, j + this.inventoryRows * 18 + 17, 0, 126, this.imageWidth, 96);
+        graphics.blit(RenderType::guiTextured, TEXTURE, i, j, 0, 0, this.imageWidth, this.inventoryRows * 18 + 17, 256, 256);
+        graphics.blit(RenderType::guiTextured, TEXTURE, i, j + this.inventoryRows * 18 + 17, 0, 126, this.imageWidth, 96, 256, 256);
     }
 
     @Override

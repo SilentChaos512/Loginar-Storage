@@ -2,7 +2,7 @@ package net.silentchaos512.loginar.setup;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -47,34 +47,34 @@ public class LsItems {
 
     // Container items
     public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
-            new LunchBoxItem(props().stacksTo(1).setNoRepair())
+            new LunchBoxItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<PotionPouchItem> POTION_POUCH = register("potion_pouch", () ->
-            new PotionPouchItem(props().stacksTo(1).setNoRepair())
+            new PotionPouchItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<GemBagItem> GEM_BAG = register("gem_bag", () ->
-            new GemBagItem(props().stacksTo(1).setNoRepair())
+            new GemBagItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
-            new FlowerBasketItem(props().stacksTo(1).setNoRepair())
+            new FlowerBasketItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
-            new OreCrateItem(props().stacksTo(1).setNoRepair())
+            new OreCrateItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<SeedBagItem> SEED_BAG = register("seed_bag", () ->
-            new SeedBagItem(props().stacksTo(1).setNoRepair())
+            new SeedBagItem(props().stacksTo(1).setNoCombineRepair())
     );
     public static final DeferredItem<WoodRackItem> WOOD_RACK = register("wood_rack", () ->
-            new WoodRackItem(props().stacksTo(1).setNoRepair())
+            new WoodRackItem(props().stacksTo(1).setNoCombineRepair())
     );
 
     // Misc
     public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register("fire_flinger", () ->
             new FireFlingerItem(props().durability(64).stacksTo(1)));
-    public static final DeferredItem<DeferredSpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
-            new DeferredSpawnEggItem(LsEntityTypes.LOGINAR, 0xFFFFFF, 0xFFFFFF, props()));
-    public static final DeferredItem<DeferredSpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register("friendly_loginar_spawn_egg", () ->
-            new DeferredSpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR, 0xFFFFFF, 0XFFFFFF, props()));
+    public static final DeferredItem<SpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
+            new SpawnEggItem(LsEntityTypes.LOGINAR.get(), props()));
+    public static final DeferredItem<SpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register("friendly_loginar_spawn_egg", () ->
+            new SpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR.get(), props()));
 
     protected static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
         return REGISTER.register(name, item);

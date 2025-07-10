@@ -1,6 +1,7 @@
 package net.silentchaos512.loginar.setup;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,11 +17,11 @@ public class LsEntityTypes {
             EntityType.Builder.of(WildLoginar::new, MobCategory.MONSTER)
                     .sized(0.875f, 1.25f)
                     .fireImmune()
-                    .build(LoginarMod.getId("loginar").toString()));
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE, LoginarMod.getId("loginar"))));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FriendlyLoginar>> FRIENDLY_LOGINAR = REGISTER.register("friendly_loginar", () ->
             EntityType.Builder.of(FriendlyLoginar::new, MobCategory.CREATURE)
                     .sized(0.875f, 1.25f)
                     .fireImmune()
-                    .build(LoginarMod.getId("friendly_loginar").toString()));
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE, LoginarMod.getId("friendly_loginar"))));
 }

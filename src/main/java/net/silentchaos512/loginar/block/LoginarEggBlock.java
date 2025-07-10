@@ -5,7 +5,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -49,10 +51,10 @@ public class LoginarEggBlock extends Block {
                 level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
 
                 level.levelEvent(2001, pos, Block.getId(state));
-                FriendlyLoginar babyLoginar = LsEntityTypes.FRIENDLY_LOGINAR.get().create(level);
+                FriendlyLoginar babyLoginar = LsEntityTypes.FRIENDLY_LOGINAR.get().create(level, EntitySpawnReason.BREEDING);
                 if (babyLoginar != null) {
                     babyLoginar.setBaby(true);
-                    babyLoginar.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0f, 0f);
+                    babyLoginar.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0f);
                     level.addFreshEntity(babyLoginar);
                 }
             }

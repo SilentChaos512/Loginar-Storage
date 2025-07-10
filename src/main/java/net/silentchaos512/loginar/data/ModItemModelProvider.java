@@ -1,106 +1,83 @@
 package net.silentchaos512.loginar.data;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ItemModelOutput;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.minecraft.world.item.Item;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.client.renderer.item.properties.ContainsItems;
+import net.silentchaos512.loginar.client.setup.LsItemTintSources;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
-import net.silentchaos512.loginar.util.Const;
 
-import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
 
-public class ModItemModelProvider extends ItemModelProvider {
-    public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator.getPackOutput(), LoginarMod.MOD_ID, existingFileHelper);
+public class ModItemModelProvider extends ItemModelGenerators {
+    public ModItemModelProvider(ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
+        super(itemModelOutput, modelOutput);
     }
 
     @Override
-    protected void registerModels() {
-        registerBlocks();
+    public void run() {
+        generateFlatItem(LsBlocks.LOGINAR_EGG.asItem(), ModelTemplates.FLAT_ITEM);
 
-        basicItem(LsBlocks.LOGINAR_EGG.asItem());
+        generateFlatItem(LsItems.LOGINAR_ANTENNA.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.LOGINAR_TENTACLE.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.LOGINAR_CALAMARI.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.FIRE_PEARL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.FIRE_FLINGER.get(), ModelTemplates.FLAT_ITEM);
 
-        ModelFile itemGenerated = getExistingFile(ResourceLocation.withDefaultNamespace("item/generated"));
+        generateFlatItem(LsItems.BACKPACK_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.VACUUM_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.ITEM_SWAPPER_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.SUPPLIER_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
 
-        builder(LsItems.LOGINAR_ANTENNA, itemGenerated)
-                .override()
-                .predicate(Const.IS_LOGINAR_CHUNK, 1f)
-                .model(getBuilder("loginar_antenna_lit").parent(itemGenerated).texture("layer0", "item/loginar_antenna_lit"))
-                .end();
-        builder(LsItems.LOGINAR_TENTACLE, itemGenerated);
-        builder(LsItems.LOGINAR_CALAMARI, itemGenerated);
-        builder(LsItems.FIRE_PEARL, itemGenerated);
-        builder(LsItems.FIRE_FLINGER, itemGenerated);
+        generateFlatItem(LsItems.LUNCH_BOX.get(), ModelTemplates.FLAT_ITEM);
+        generatePotionPouch(LsItems.POTION_POUCH.get(), "potion_pouch", "potion_pouch_empty", "potion_pouch_overlay");
+        generateFlatItem(LsItems.GEM_BAG.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.FLOWER_BASKET.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.ORE_CRATE.get(), ModelTemplates.FLAT_ITEM);
+        generatedFilledAndEmptyContainerItem(LsItems.SEED_BAG.get(), "seed_bag_filled", "seed_bag");
+        generatedFilledAndEmptyContainerItem(LsItems.WOOD_RACK.get(), "wood_rack_filled", "wood_rack");
 
-        builder(LsItems.BACKPACK_UPGRADE, itemGenerated);
-        builder(LsItems.VACUUM_UPGRADE, itemGenerated);
-        builder(LsItems.ITEM_SWAPPER_UPGRADE, itemGenerated);
-        builder(LsItems.SUPPLIER_UPGRADE, itemGenerated);
-
-        builder(LsItems.LUNCH_BOX, itemGenerated);
-        itemWithEmptyModel(LsItems.POTION_POUCH, itemGenerated, "potion_pouch", "potion_pouch_empty", "potion_pouch_overlay");
-        builder(LsItems.GEM_BAG, itemGenerated);
-        builder(LsItems.FLOWER_BASKET, itemGenerated);
-        builder(LsItems.ORE_CRATE, itemGenerated);
-        itemWithEmptyModel(LsItems.SEED_BAG, itemGenerated, "seed_bag_filled", "seed_bag", null);
-        itemWithEmptyModel(LsItems.WOOD_RACK, itemGenerated, "wood_rack_filled", "wood_rack", null);
-
-        builder(LsItems.LOGINAR_SPAWN_EGG, itemGenerated);
-        builder(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG, itemGenerated);
+        generateFlatItem(LsItems.LOGINAR_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM);
     }
 
-    private void registerBlocks() {
-        blockItemModel(LsBlocks.TINY_LOGINAR_URN);
-        blockItemModel(LsBlocks.SMALL_LOGINAR_URN);
-        blockItemModel(LsBlocks.MEDIUM_LOGINAR_URN);
-        blockItemModel(LsBlocks.LARGE_LOGINAR_URN);
-        blockItemModel(LsBlocks.HUGE_LOGINAR_URN);
-        blockItemModel(LsBlocks.SUPER_LOGINAR_URN);
+    private void generatedFilledAndEmptyContainerItem(Item item, String filledTexture, String emptyTexture) {
+        var emptyKey = BuiltInRegistries.ITEM.getKey(item);
+        var filledKey = ResourceLocation.fromNamespaceAndPath(emptyKey.getNamespace(), emptyKey.getPath() + "_filled");
+        ModelTemplates.FLAT_ITEM.create(emptyKey, TextureMapping.layer0(LoginarMod.getId(emptyTexture)), this.modelOutput);
+        ModelTemplates.FLAT_ITEM.create(filledKey, TextureMapping.layer0(LoginarMod.getId(filledTexture)), this.modelOutput);
+        var emptyModel = ItemModelUtils.plainModel(emptyKey);
+        var filledModel = ItemModelUtils.plainModel(filledKey);
+        generatedFilledAndEmptyContainerItem(item, filledModel, emptyModel);
     }
 
-    private ItemModelBuilder builder(DeferredItem<?> item) {
-        return getBuilder(item.getId().getPath());
+    private void generatePotionPouch(Item item, String filledTexture, String emptyTexture, String overlayTexture) {
+        var filledKey = BuiltInRegistries.ITEM.getKey(item);
+        var emptyKey = ResourceLocation.fromNamespaceAndPath(filledKey.getNamespace(), filledKey.getPath() + "_empty");
+        ModelTemplates.FLAT_ITEM.create(emptyKey, TextureMapping.layer0(LoginarMod.getId(emptyTexture)), this.modelOutput);
+        ModelTemplates.FLAT_ITEM.create(filledKey, TextureMapping.layered(LoginarMod.getId(filledTexture), LoginarMod.getId(overlayTexture)), this.modelOutput);
+        var emptyModel = ItemModelUtils.plainModel(emptyKey);
+        var filledModel = ItemModelUtils.tintedModel(filledKey, ItemModelUtils.constantTint(-1), LsItemTintSources.nextPotionInPouch());
+        generatedFilledAndEmptyContainerItem(item, filledModel, emptyModel);
     }
 
-    private ItemModelBuilder builder(DeferredItem<?> item, ModelFile parent) {
-        String name = item.getId().getPath();
-        return builder(item, parent, "item/" + name);
-    }
-
-    private ItemModelBuilder builder(DeferredItem<?> item, ModelFile parent, String texture) {
-        return getBuilder(item.getId().getPath()).parent(parent).texture("layer0", texture);
-    }
-
-    private void itemWithEmptyModel(DeferredItem<?> item, ModelFile parent, String filledTexture, String emptyTexture, @Nullable String overlayTexture) {
-        var filledModelBuilder = getBuilder(item.getId().getPath() + "_filled")
-                .parent(parent)
-                .texture("layer0", "item/" + filledTexture);
-        if (overlayTexture != null) {
-            filledModelBuilder.texture("layer1", "item/" + overlayTexture);
-        }
-
-        var baseModelBuilder = getBuilder(item.getId().getPath())
-                .parent(parent)
-                .texture("layer0", "item/" + emptyTexture)
-                .override()
-                .predicate(Const.FILLED, 1)
-                .model(filledModelBuilder)
-                .end();
-    }
-
-    private void blockItemModel(DeferredBlock<?> block) {
-        String name = block.getId().getPath();
-        blockItemModel(block, modLoc("block/" + name));
-    }
-
-    private void blockItemModel(DeferredBlock<?> block, ResourceLocation parent) {
-        String name = block.getId().getPath();
-        withExistingParent(name, parent);
+    private void generatedFilledAndEmptyContainerItem(Item item, ItemModel.Unbaked filledModel, ItemModel.Unbaked emptyModel) {
+        this.itemModelOutput.accept(
+                item,
+                ItemModelUtils.conditional(
+                        ContainsItems.INSTANCE,
+                        filledModel,
+                        emptyModel
+                )
+        );
     }
 }

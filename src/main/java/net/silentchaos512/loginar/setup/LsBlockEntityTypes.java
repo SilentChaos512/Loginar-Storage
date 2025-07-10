@@ -23,11 +23,11 @@ public class LsBlockEntityTypes {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>> HUGE_LOGINAR_URN = registerUrn(UrnTypes.HUGE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>> SUPER_LOGINAR_URN = registerUrn(UrnTypes.SUPER);
 
-    private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, DeferredBlock... blocks) {
+    private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, DeferredBlock<?>... blocks) {
         return REGISTER.register(name, () -> {
             Block[] validBlocks = Arrays.stream(blocks).map(DeferredBlock::get).toArray(Block[]::new);
             //noinspection ConstantConditions - null in build
-            return BlockEntityType.Builder.of(factory, validBlocks).build(null);
+            return new BlockEntityType<>(factory, validBlocks);
         });
     }
 

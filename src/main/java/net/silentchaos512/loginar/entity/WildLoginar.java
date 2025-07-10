@@ -6,8 +6,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -89,9 +89,9 @@ public class WildLoginar extends Monster implements Loginar {
         return LsSounds.LOGINAR_HURT.get();
     }
 
-    public static boolean canSpawn(EntityType<WildLoginar> entityType, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean canSpawn(EntityType<WildLoginar> entityType, ServerLevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return level.getDifficulty() != Difficulty.PEACEFUL
-                && spawnType == MobSpawnType.SPAWNER
+                && spawnReason == EntitySpawnReason.SPAWNER
                 || (pos.getY() < 9 && isSpawningChunk(level, pos));
     }
 

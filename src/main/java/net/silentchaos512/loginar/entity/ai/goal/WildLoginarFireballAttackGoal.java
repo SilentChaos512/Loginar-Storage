@@ -64,7 +64,7 @@ public class WildLoginarFireballAttackGoal extends Goal {
 
                 if (this.attackTime <= 0) {
                     this.attackTime = 20;
-                    this.loginar.doHurtTarget(targetEntity);
+                    this.loginar.doHurtTarget(getServerLevel(this.loginar), targetEntity);
                 }
 
                 this.loginar.getMoveControl().setWantedPosition(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1.0D);

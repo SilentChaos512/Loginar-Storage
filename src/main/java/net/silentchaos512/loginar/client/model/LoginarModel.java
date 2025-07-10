@@ -1,18 +1,28 @@
 package net.silentchaos512.loginar.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.BabyModelTransform;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.entity.Loginar;
+import net.silentchaos512.loginar.client.renderer.state.LoginarRenderState;
 
-public class LoginarModel<T extends LivingEntity & Loginar> extends EntityModel<T> {
+import java.util.Set;
+
+public class LoginarModel<S extends LoginarRenderState> extends EntityModel<S> {
+	public static final MeshTransformer BABY_TRANSFORMER = new BabyModelTransform(
+			true,
+			1.0f,
+			0.0f,
+			0.7f,
+			0.5f,
+			0.0f,
+			Set.of("body", "antennaLeft", "antennaRight")
+	);
+
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(LoginarMod.getId("loginar"), "main");
 	private final ModelPart body;
@@ -26,6 +36,7 @@ public class LoginarModel<T extends LivingEntity & Loginar> extends EntityModel<
 	private final ModelPart antennaRight;
 
 	public LoginarModel(ModelPart root) {
+		super(root);
 		this.body = root.getChild("body");
 		this.tentacleLeftFront = body.getChild("tentacleLeftFront");
 		this.tentacleRightFront = body.getChild("tentacleRightFront");
@@ -37,7 +48,7 @@ public class LoginarModel<T extends LivingEntity & Loginar> extends EntityModel<
 		this.antennaRight = body.getChild("antennaRight");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	public static MeshDefinition createMeshDefinition() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -63,37 +74,32 @@ public class LoginarModel<T extends LivingEntity & Loginar> extends EntityModel<
 		PartDefinition antennaLeft = body.addOrReplaceChild("antennaLeft", CubeListBuilder.create().texOffs(68, -10).mirror().addBox(0.0F, -10.0F, -9.5F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(88, 0).addBox(-1.0F, -7.0F, -10.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -20.0F, -3.5F, 0.0F, -0.5236F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 128, 128);
+		return meshdefinition;
+	}
+
+	public static LayerDefinition createLayerDefinition() {
+		return LayerDefinition.create(LoginarModel.createMeshDefinition(), 128, 128);
+	}
+
+	public static LayerDefinition createBabyLayerDefinition() {
+		return createLayerDefinition().apply(BABY_TRANSFORMER);
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.body.xRot = Mth.cos(limbSwing * 0.662f) * 0.25f * limbSwingAmount;
+	public void setupAnim(S state) {
+		this.body.xRot = Mth.cos(state.walkAnimationPos * 0.662f) * 0.25f * state.walkAnimationSpeed;
 		float pi = (float) Math.PI;
-		this.antennaLeft.yRot = -30 * pi / 180 + Mth.cos(ageInTicks / 4 + pi) * 0.15f;
-		this.antennaRight.yRot = 30 * pi / 180 + Mth.cos(ageInTicks / 4) * 0.15f;
-		this.tentacleRightRear.xRot = getLegRotation(limbSwing, limbSwingAmount, 0f);
-		this.tentacleLeftRear.xRot = getLegRotation(limbSwing, limbSwingAmount, pi);
-		this.tentacleRightMiddle.xRot = getLegRotation(limbSwing, limbSwingAmount, pi);
-		this.tentacleLeftMiddle.xRot = getLegRotation(limbSwing, limbSwingAmount, 0f);
-		this.tentacleRightFront.xRot = getLegRotation(limbSwing, limbSwingAmount, 0f);
-		this.tentacleLeftFront.xRot = getLegRotation(limbSwing, limbSwingAmount, pi);
+		this.antennaLeft.yRot = -30 * pi / 180 + Mth.cos(state.ageInTicks / 4 + pi) * 0.15f;
+		this.antennaRight.yRot = 30 * pi / 180 + Mth.cos(state.ageInTicks / 4) * 0.15f;
+		this.tentacleRightRear.xRot = getLegRotation(state, 0f);
+		this.tentacleLeftRear.xRot = getLegRotation(state, pi);
+		this.tentacleRightMiddle.xRot = getLegRotation(state, pi);
+		this.tentacleLeftMiddle.xRot = getLegRotation(state, 0f);
+		this.tentacleRightFront.xRot = getLegRotation(state, 0f);
+		this.tentacleLeftFront.xRot = getLegRotation(state, pi);
 	}
 
-	private static float getLegRotation(float limbSwing, float limbSwingAmount, float offset) {
-		return Mth.cos(limbSwing * 1.5f + offset) * 0.7f * limbSwingAmount;
-	}
-
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int i1, int i2) {
-		if (this.young) {
-			poseStack.pushPose();
-			poseStack.scale(0.5f, 0.5f, 0.5f);
-			poseStack.translate(0.0f, 1.5f, 0.0f);
-			body.render(poseStack, vertexConsumer, i, i1, i2);
-			poseStack.popPose();
-		} else {
-            body.render(poseStack, vertexConsumer, i, i1, i2);
-        }
+	private float getLegRotation(S state, float offset) {
+		return Mth.cos(state.walkAnimationPos * 1.5f + offset) * 0.7f * state.walkAnimationSpeed;
 	}
 }

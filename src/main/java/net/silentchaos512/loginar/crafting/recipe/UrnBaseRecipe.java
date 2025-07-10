@@ -11,12 +11,12 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.neoforged.neoforge.common.Tags;
-import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
@@ -25,11 +25,12 @@ import net.silentchaos512.loginar.compat.SgearCompat;
 import net.silentchaos512.loginar.setup.LsRecipeSerializers;
 import net.silentchaos512.loginar.setup.LsTags;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UrnBaseRecipe extends ExtendedShapedRecipe {
-    // TODO: Must be a better way to handle this... A registry or something?
+public class UrnBaseRecipe extends ShapedRecipe {
+    // TODO: Must be a better way to handle this... A registry or something? Or a data map?
     private static final Map<TagKey<Item>, Color> GEM_COLORS = ImmutableMap.of(
             Tags.Items.GEMS_AMETHYST, new Color(0x8D6ACC),
             Tags.Items.GEMS_DIAMOND, UrnHelper.DEFAULT_GEM_COLOR,
@@ -42,21 +43,26 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     );
 
     private final Color clayColor;
+    final ItemStack result;
+    final String group;
+    final CraftingBookCategory category;
 
     public UrnBaseRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult, Color clayColor) {
         super(pGroup, pCategory, pPattern, pResult, false);
         this.clayColor = clayColor;
+        this.result = pResult;
+        this.group = pGroup;
+        this.category = pCategory;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends ShapedRecipe> getSerializer() {
         return LsRecipeSerializers.URN.get();
     }
 
     @Override
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
-        ItemStack baseResult = super.getResultItem(registries);
-        if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
+        if (this.result.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
             Color gemColor = getGemColor(findGem(input));
             return block.makeStack(this.clayColor, gemColor);
         } else {
@@ -66,12 +72,20 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        ItemStack baseResult = super.getResultItem(registryAccess);
-        if (baseResult.getItem() instanceof BlockItem && ((BlockItem) baseResult.getItem()).getBlock() instanceof LoginarUrnBlock block) {
-            return block.makeStack(this.clayColor, null);
+    public List<RecipeDisplay> display() {
+        ItemStack displayResult = this.result.copy();
+        if (this.result.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
+            displayResult = block.makeStack(this.clayColor, null);
         }
-        return baseResult;
+        return List.of(
+                new ShapedCraftingRecipeDisplay(
+                        this.pattern.width(),
+                        this.pattern.height(),
+                        this.pattern.ingredients().stream().map(p_380107_ -> p_380107_.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(),
+                        new SlotDisplay.ItemStackSlotDisplay(displayResult),
+                        new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)
+                )
+        );
     }
 
     private static ItemStack findGem(CraftingInput input) {
@@ -132,12 +146,12 @@ public class UrnBaseRecipe extends ExtendedShapedRecipe {
         }
 
         public static UrnBaseRecipe fromNetwork(RegistryFriendlyByteBuf pBuffer) {
-            String s = pBuffer.readUtf();
-            CraftingBookCategory craftingbookcategory = pBuffer.readEnum(CraftingBookCategory.class);
-            ShapedRecipePattern shapedrecipepattern = ShapedRecipePattern.STREAM_CODEC.decode(pBuffer);
-            ItemStack itemstack = ItemStack.STREAM_CODEC.decode(pBuffer);
+            String group = pBuffer.readUtf();
+            CraftingBookCategory category = pBuffer.readEnum(CraftingBookCategory.class);
+            ShapedRecipePattern pattern = ShapedRecipePattern.STREAM_CODEC.decode(pBuffer);
+            ItemStack result = ItemStack.STREAM_CODEC.decode(pBuffer);
             Color clayColor = Color.read(pBuffer);
-            return new UrnBaseRecipe(s, craftingbookcategory, shapedrecipepattern, itemstack, clayColor);
+            return new UrnBaseRecipe(group, category, pattern, result, clayColor);
         }
 
         public static void toNetwork(RegistryFriendlyByteBuf pBuffer, UrnBaseRecipe pRecipe) {

@@ -48,7 +48,7 @@ public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
         // Player hotbar slots
         for(int i1 = 0; i1 < 9; ++i1) {
             Slot slot = this.addSlot(new Slot(inv, i1, 8 + i1 * 18, 161 + i));
-            if (i1 == inv.selected && ItemStack.matches(inv.getSelected(), this.item)) {
+            if (i1 == inv.getSelectedSlot() && ItemStack.matches(inv.getSelectedItem(), this.item)) {
                 this.urnSlot = slot.index;
             }
         }

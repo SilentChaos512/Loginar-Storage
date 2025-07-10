@@ -167,8 +167,7 @@ public final class UrnHelper {
         // TODO: Curios support?
 
         // Other items last
-        NonNullList<ItemStack> items = player.getInventory().items;
-        for (ItemStack stack : items) {
+        for (ItemStack stack : player.getInventory()) {
             if (predicate.test(stack)) {
                 return stack;
             }
@@ -214,11 +213,11 @@ public final class UrnHelper {
 
     public static void loadAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items) {
         // Taken from ContainerHelper, but can specify the list name
-        ListTag listtag = tag.getList(tagKey, 10);
+        ListTag listtag = tag.getListOrEmpty(tagKey);
 
         for (int i = 0; i < listtag.size(); ++i) {
-            CompoundTag compoundtag = listtag.getCompound(i);
-            int j = compoundtag.getByte("Slot") & 255;
+            CompoundTag compoundtag = listtag.getCompoundOrEmpty(i);
+            int j = compoundtag.getByteOr("Slot", (byte) 0) & 255;
             if (j >= 0 && j < items.size()) {
                 items.set(j, ItemStack.parse(provider, compoundtag).orElse(ItemStack.EMPTY));
             }

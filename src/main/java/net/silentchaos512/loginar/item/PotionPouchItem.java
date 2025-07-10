@@ -4,13 +4,16 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.entity.projectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.ThrownLingeringPotion;
+import net.minecraft.world.entity.projectile.ThrownSplashPotion;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -21,7 +24,6 @@ import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
-import org.jetbrains.annotations.NotNull;
 
 public class PotionPouchItem extends ContainerItem {
     public static final int USE_COOLDOWN_TIME = 10;
@@ -88,7 +90,7 @@ public class PotionPouchItem extends ContainerItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (player.isCrouching()) {
             return super.use(level, player, hand);
         }
@@ -97,7 +99,7 @@ public class PotionPouchItem extends ContainerItem {
         ItemStack potion = getNextPotion(stack);
 
         if (potion.isEmpty()) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         } else if (potion.getItem() instanceof ThrowablePotionItem) {
             return throwPotion(level, player, potion, stack);
         } else {
@@ -106,12 +108,22 @@ public class PotionPouchItem extends ContainerItem {
         }
     }
 
-    private @NotNull InteractionResultHolder<ItemStack> throwPotion(Level level, Player player, ItemStack potion, ItemStack stack) {
+    private AbstractThrownPotion createPotion(Level level, Player player, ItemStack potion) {
+        if (potion.getItem() instanceof SplashPotionItem) {
+            return new ThrownSplashPotion(level, player, potion);
+        } else if (potion.getItem() instanceof LingeringPotionItem) {
+            return new ThrownLingeringPotion(level, player, potion);
+        } else {
+            throw new IllegalStateException("Unknown thrown potion type: " + potion);
+        }
+    }
+
+    private InteractionResult throwPotion(Level level, Player player, ItemStack potion, ItemStack stack) {
         if (!level.isClientSide) {
-            ThrownPotion thrownpotion = new ThrownPotion(level, player);
-            thrownpotion.setItem(potion);
-            thrownpotion.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
-            level.addFreshEntity(thrownpotion);
+            AbstractThrownPotion thrownPotion = createPotion(level, player, potion);
+            thrownPotion.setItem(potion);
+            thrownPotion.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
+            level.addFreshEntity(thrownPotion);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
@@ -126,9 +138,9 @@ public class PotionPouchItem extends ContainerItem {
 
         }
 
-        player.getCooldowns().addCooldown(this, USE_COOLDOWN_TIME);
+        player.getCooldowns().addCooldown(stack, USE_COOLDOWN_TIME);
 
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -139,15 +151,15 @@ public class PotionPouchItem extends ContainerItem {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, potionStack);
         }
 
-        if (!level.isClientSide) {
+        if (level instanceof ServerLevel serverLevel) {
             PotionContents potioncontents = potionStack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
-            potioncontents.forEachEffect(p_330883_ -> {
-                if (p_330883_.getEffect().value().isInstantenous()) {
-                    p_330883_.getEffect().value().applyInstantenousEffect(player, player, livingEntity, p_330883_.getAmplifier(), 1.0);
+            potioncontents.forEachEffect(mobEffectInstance -> {
+                if (mobEffectInstance.getEffect().value().isInstantenous()) {
+                    mobEffectInstance.getEffect().value().applyInstantenousEffect(serverLevel, player, player, livingEntity, mobEffectInstance.getAmplifier(), 1.0);
                 } else {
-                    livingEntity.addEffect(p_330883_);
+                    livingEntity.addEffect(mobEffectInstance);
                 }
-            });
+            }, 1.0f);
         }
 
         ItemStack consumedPotion = potionStack;
@@ -159,7 +171,7 @@ public class PotionPouchItem extends ContainerItem {
         if (player != null && !player.hasInfiniteMaterials()) {
             player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
             // Add a cooldown so that a potion can't be accidentally thrown if the next is a throwing potion
-            player.getCooldowns().addCooldown(this, USE_COOLDOWN_TIME);
+            player.getCooldowns().addCooldown(stack, USE_COOLDOWN_TIME);
         }
 
         livingEntity.gameEvent(GameEvent.DRINK);
@@ -172,8 +184,8 @@ public class PotionPouchItem extends ContainerItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.DRINK;
+    public ItemUseAnimation getUseAnimation(ItemStack pStack) {
+        return ItemUseAnimation.DRINK;
     }
 
     @Override

@@ -10,7 +10,6 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBackpackScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnScreen;
 import net.silentchaos512.loginar.block.urn.LoginarUrnSwapperScreen;
 import net.silentchaos512.loginar.client.KeyTracker;
-import net.silentchaos512.loginar.client.model.LoginarModel;
 import net.silentchaos512.loginar.client.renderer.LoginarRenderer;
 import net.silentchaos512.loginar.item.container.ContainerItemScreen;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
@@ -39,11 +38,6 @@ public final class LsClientModEvents {
     public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(LsEntityTypes.LOGINAR.get(), LoginarRenderer::new);
         event.registerEntityRenderer(LsEntityTypes.FRIENDLY_LOGINAR.get(), LoginarRenderer::new);
-    }
-
-    @SubscribeEvent
-    public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(LoginarModel.LAYER_LOCATION, LoginarModel::createBodyLayer);
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package net.silentchaos512.loginar.setup;
 
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.lib.util.Color;
@@ -9,7 +10,7 @@ import net.silentchaos512.loginar.LoginarMod;
 import java.util.function.Supplier;
 
 public class LsDataComponents {
-    public static final DeferredRegister.DataComponents REGISTRAR = DeferredRegister.createDataComponents(LoginarMod.MOD_ID);
+    public static final DeferredRegister.DataComponents REGISTRAR = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, LoginarMod.MOD_ID);
 
     public static final Supplier<DataComponentType<ItemContainerContents>> CONTAINED_ITEMS = REGISTRAR.registerComponentType(
             "contained_items",

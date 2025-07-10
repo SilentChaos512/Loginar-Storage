@@ -1,8 +1,8 @@
 package net.silentchaos512.loginar.block.urn;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -31,11 +31,9 @@ public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnS
     @Override
     protected void renderBg(GuiGraphics graphics, float p_97788_, int p_97789_, int p_97790_) {
         if (minecraft == null) return;
-        RenderSystem.clearColor(1, 1, 1, 1);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, 17 + this.inventoryRows * 20);
+        graphics.blit(RenderType::guiTextured, TEXTURE, x, y, 0, 0, this.imageWidth, 17 + this.inventoryRows * 20, 256, 256);
     }
 
     @Override

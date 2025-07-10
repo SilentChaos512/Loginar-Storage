@@ -14,8 +14,8 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
-import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Ghast;
@@ -75,7 +75,7 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return LsEntityTypes.FRIENDLY_LOGINAR.get().create(pLevel);
+        return LsEntityTypes.FRIENDLY_LOGINAR.get().create(pLevel, EntitySpawnReason.BREEDING);
     }
 
     @Override
@@ -123,14 +123,12 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
     }
 
     @Override
-    public boolean hurt(DamageSource pSource, float pAmount) {
-        if (this.isInvulnerableTo(pSource)) {
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
+        if (this.isInvulnerableTo(level, damageSource)) {
             return false;
         } else {
-            if (!this.level().isClientSide) {
-                this.setOrderedToSit(false);
-            }
-            return super.hurt(pSource, pAmount);
+            this.setOrderedToSit(false);
+            return super.hurtServer(level, damageSource, amount);
         }
     }
 
@@ -140,12 +138,12 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
     }
 
     @Override
-    protected void actuallyHurt(DamageSource pDamageSource, float pDamageAmount) {
-        if (!this.canArmorAbsorb(pDamageSource)) {
-            super.actuallyHurt(pDamageSource, pDamageAmount);
+    protected void actuallyHurt(ServerLevel level, DamageSource damageSource, float amount) {
+        if (!this.canArmorAbsorb(damageSource)) {
+            super.actuallyHurt(level, damageSource, amount);
         } else {
             // TODO: Damage armor instead, or reduce damage with armor?
-            super.actuallyHurt(pDamageSource, pDamageAmount); // TODO: Remove this
+            super.actuallyHurt(level, damageSource, amount); // TODO: Remove this
         }
     }
 
@@ -171,7 +169,7 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
                     this.heal(4.0f);
                     heldItem.consume(1, player);
                     this.gameEvent(GameEvent.EAT);
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                    return InteractionResult.SUCCESS;
                 } else {
                     if (heldItem.getItem() instanceof DyeItem dyeItem) {
                         DyeColor dyeColor = dyeItem.getDyeColor();
@@ -188,7 +186,7 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
                             this.jumping = false;
                             this.navigation.stop();
                             this.setTarget(null);
-                            return InteractionResult.SUCCESS_NO_ITEM_USED;
+                            return InteractionResult.SUCCESS.withoutItem();
                         } else {
                             return result;
                         }

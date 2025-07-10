@@ -25,7 +25,7 @@ public class UrnModificationRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return LsRecipeSerializers.URN_MODIFICATION.get();
     }
 
@@ -139,10 +139,5 @@ public class UrnModificationRecipe extends CustomRecipe {
 
     private static Optional<DyeColor> getDyeColor(ItemStack dye) {
         return Optional.ofNullable(DyeColor.getColor(dye));
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return true;
     }
 }
