@@ -222,6 +222,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.SEED_BAG)
+                .pattern(" ~ ")
+                .pattern("#s#")
+                .pattern(" # ")
+                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('#', ItemTags.WOOL)
+                .define('s', Tags.Items.SEEDS)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.WOOD_RACK)
                 .pattern("/ /")
                 .pattern("/~/")

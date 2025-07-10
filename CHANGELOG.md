@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-1.4.6] - 2025-07-10
+### Added
+- Missing recipe for the seed bag
+- Friendly loginar and loginar egg (incomplete and not yet obtainable in survival mode)
+
 ## [1.21.1-1.4.5] - 2025-02-22
 ### Added
 - The seed bag. It stores seeds, carrots, and potatoes by default. Use a filled seed bag to plant things from the bag.
