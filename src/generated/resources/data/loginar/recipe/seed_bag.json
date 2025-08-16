@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "minecraft:wool"
-    },
-    "s": {
-      "tag": "c:seeds"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "#minecraft:wool",
+    "s": "#c:seeds",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     " ~ ",

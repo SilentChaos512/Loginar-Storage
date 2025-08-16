@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "loginar:loginar_antenna"
-    },
-    {
-      "tag": "c:gems/fire_pearl"
-    }
+    "loginar:loginar_antenna",
+    "#c:gems/fire_pearl"
   ],
   "result": {
     "count": 1,

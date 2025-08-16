@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "loginar:item/seed_bag"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "loginar:item/seed_bag_filled"
+    },
+    "property": "loginar:contains_items"
+  }
+}

@@ -11,13 +11,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.client.model.LoginarModel;
+import net.silentchaos512.loginar.client.renderer.state.LoginarRenderState;
 import net.silentchaos512.loginar.entity.Loginar;
 
 // The glowy ball portion on the end of the loginar entity model's antennae
-public class LoginarAntennaeLayer<T extends LivingEntity & Loginar> extends EyesLayer<T, LoginarModel<T>> {
+public class LoginarAntennaeLayer<T extends LivingEntity & Loginar, S extends LoginarRenderState> extends EyesLayer<S, LoginarModel<S>> {
+    public static final Color NORMAL_COLOR = new Color(0x99FFFF);
     private static final RenderType LOGINAR_ANTENNAE = RenderType.eyes(LoginarMod.getId("textures/entity/loginar_antennae.png"));
 
-    public LoginarAntennaeLayer(RenderLayerParent<T, LoginarModel<T>> parent) {
+    public LoginarAntennaeLayer(RenderLayerParent<S, LoginarModel<S>> parent) {
         super(parent);
     }
 
@@ -27,17 +29,16 @@ public class LoginarAntennaeLayer<T extends LivingEntity & Loginar> extends Eyes
     }
 
     @Override
-    public void render(PoseStack stack, MultiBufferSource multiBufferSource, int par3, T entity, float par5, float par6, float par7, float par8, float par9, float par10) {
+    public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int part3, S state, float par5, float par6) {
         VertexConsumer vertexconsumer = multiBufferSource.getBuffer(this.renderType());
         // TODO: The color could be changed to any color based on properties of the entity.
         //  Might be a fun easter egg to add in the future?
-        Color color = new Color(0x99FFFF);
         this.getParentModel().renderToBuffer(
-                stack,
+                poseStack,
                 vertexconsumer,
                 15728640,
                 OverlayTexture.NO_OVERLAY,
-                color.getColor()
+                NORMAL_COLOR.getColor()
         );
     }
 }

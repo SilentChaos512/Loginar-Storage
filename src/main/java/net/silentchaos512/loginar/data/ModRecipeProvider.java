@@ -1,16 +1,22 @@
 package net.silentchaos512.loginar.data;
 
-import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.silentchaos512.lib.data.recipe.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.Color;
@@ -27,43 +33,43 @@ import net.silentchaos512.loginar.setup.LsTags;
 import java.util.Objects;
 
 public class ModRecipeProvider extends LibRecipeProvider {
-    public ModRecipeProvider(GatherDataEvent event) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), LoginarMod.MOD_ID);
+    public ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
+        super(registries, recipeOutput, LoginarMod.MOD_ID);
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput consumer) {
+    protected void buildRecipes() {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, LoginarMod.getId("loginar_calamari_smelting"));
+                .save(this.output, modId("loginar_calamari_smelting"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 100)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, LoginarMod.getId("loginar_calamari_smoking"));
+                .save(this.output, modId("loginar_calamari_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 600)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
-                .save(consumer, LoginarMod.getId("loginar_calamari_campfire_cooking"));
+                .save(this.output, modId("loginar_calamari_campfire_cooking"));
 
         // Loginar Urn recipes
 
-        registerCustomRecipe(consumer, UrnModificationRecipe::new, LoginarMod.getId("urn_modification"));
+        registerCustomRecipe(this.output, UrnModificationRecipe::new, LoginarMod.getId("urn_modification"));
 
-        baseUrn(consumer, Blocks.TERRACOTTA, UrnHelper.DEFAULT_CLAY_COLOR.getColor());
-        baseUrn(consumer, Blocks.WHITE_TERRACOTTA, 0xD1B1A1);
-        baseUrn(consumer, Blocks.ORANGE_TERRACOTTA, 0xA05325);
-        baseUrn(consumer, Blocks.MAGENTA_TERRACOTTA, 0x95576C);
-        baseUrn(consumer, Blocks.LIGHT_BLUE_TERRACOTTA, 0x706C8A);
-        baseUrn(consumer, Blocks.YELLOW_TERRACOTTA, 0xB98423);
-        baseUrn(consumer, Blocks.LIME_TERRACOTTA, 0x677534);
-        baseUrn(consumer, Blocks.PINK_TERRACOTTA, 0xA04D4E);
-        baseUrn(consumer, Blocks.GRAY_TERRACOTTA, 0x392A24);
-        baseUrn(consumer, Blocks.LIGHT_GRAY_TERRACOTTA, 0x876A61);
-        baseUrn(consumer, Blocks.CYAN_TERRACOTTA, 0x565A5B);
-        baseUrn(consumer, Blocks.PURPLE_TERRACOTTA, 0x764556);
-        baseUrn(consumer, Blocks.BLUE_TERRACOTTA, 0x4A3B5B);
-        baseUrn(consumer, Blocks.BROWN_TERRACOTTA, 0x4D3224);
-        baseUrn(consumer, Blocks.GREEN_TERRACOTTA, 0x4B522A);
-        baseUrn(consumer, Blocks.RED_TERRACOTTA, 0x8E3C2E);
-        baseUrn(consumer, Blocks.BLACK_TERRACOTTA, 0x251610);
+        baseUrn(Blocks.TERRACOTTA, UrnHelper.DEFAULT_CLAY_COLOR.getColor());
+        baseUrn(Blocks.WHITE_TERRACOTTA, 0xD1B1A1);
+        baseUrn(Blocks.ORANGE_TERRACOTTA, 0xA05325);
+        baseUrn(Blocks.MAGENTA_TERRACOTTA, 0x95576C);
+        baseUrn(Blocks.LIGHT_BLUE_TERRACOTTA, 0x706C8A);
+        baseUrn(Blocks.YELLOW_TERRACOTTA, 0xB98423);
+        baseUrn(Blocks.LIME_TERRACOTTA, 0x677534);
+        baseUrn(Blocks.PINK_TERRACOTTA, 0xA04D4E);
+        baseUrn(Blocks.GRAY_TERRACOTTA, 0x392A24);
+        baseUrn(Blocks.LIGHT_GRAY_TERRACOTTA, 0x876A61);
+        baseUrn(Blocks.CYAN_TERRACOTTA, 0x565A5B);
+        baseUrn(Blocks.PURPLE_TERRACOTTA, 0x764556);
+        baseUrn(Blocks.BLUE_TERRACOTTA, 0x4A3B5B);
+        baseUrn(Blocks.BROWN_TERRACOTTA, 0x4D3224);
+        baseUrn(Blocks.GREEN_TERRACOTTA, 0x4B522A);
+        baseUrn(Blocks.RED_TERRACOTTA, 0x8E3C2E);
+        baseUrn(Blocks.BLACK_TERRACOTTA, 0x251610);
 
         upgradedUrn(LsBlocks.SMALL_LOGINAR_URN)
                 .pattern("#a#")
@@ -74,7 +80,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('a', Tags.Items.GEMS_AMETHYST)
                 .define('b', Items.GLOW_BERRIES)
                 .unlockedBy("has_item", has(LsBlocks.TINY_LOGINAR_URN))
-                .save(consumer);
+                .save(this.output);
 
         upgradedUrn(LsBlocks.MEDIUM_LOGINAR_URN)
                 .pattern("/g/")
@@ -86,7 +92,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('q', Tags.Items.GEMS_QUARTZ)
                 .define('#', Blocks.BLACKSTONE)
                 .unlockedBy("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
-                .save(consumer);
+                .save(this.output);
 
         upgradedUrn(LsBlocks.LARGE_LOGINAR_URN)
                 .pattern("cnw")
@@ -99,7 +105,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('w', Items.WARPED_FUNGUS)
                 .define('#', Blocks.CRYING_OBSIDIAN)
                 .unlockedBy("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
-                .save(consumer);
+                .save(this.output);
 
         upgradedUrn(LsBlocks.HUGE_LOGINAR_URN)
                 .pattern("csc")
@@ -111,7 +117,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('e', Tags.Items.GEMS_EMERALD)
                 .define('#', Blocks.PURPUR_BLOCK)
                 .unlockedBy("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
-                .save(consumer);
+                .save(this.output);
 
         upgradedUrn(LsBlocks.SUPER_LOGINAR_URN)
                 .pattern("wsw")
@@ -123,10 +129,10 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('p', Tags.Items.GEMS_PRISMARINE)
                 .define('#', Blocks.PRISMARINE)
                 .unlockedBy("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
-                .save(consumer);
+                .save(this.output);
 
         // Upgrade recipes
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.BACKPACK_UPGRADE)
+        shaped(RecipeCategory.MISC, LsItems.BACKPACK_UPGRADE)
                 .pattern(" e ")
                 .pattern(" l ")
                 .pattern("lal")
@@ -134,9 +140,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('e', Tags.Items.ENDER_PEARLS)
                 .define('l', Tags.Items.LEATHERS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.ITEM_SWAPPER_UPGRADE)
+        shaped(RecipeCategory.MISC, LsItems.ITEM_SWAPPER_UPGRADE)
                 .pattern(" w ")
                 .pattern("i i")
                 .pattern("waw")
@@ -144,9 +150,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('i', Tags.Items.INGOTS_GOLD)
                 .define('w', ItemTags.WOOL)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.VACUUM_UPGRADE)
+        shaped(RecipeCategory.MISC, LsItems.VACUUM_UPGRADE)
                 .pattern(" i ")
                 .pattern("rhr")
                 .pattern("iai")
@@ -155,9 +161,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('i', Tags.Items.INGOTS_COPPER)
                 .define('r', Tags.Items.DUSTS_REDSTONE)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.SUPPLIER_UPGRADE)
+        shaped(RecipeCategory.MISC, LsItems.SUPPLIER_UPGRADE)
                 .pattern(" / ")
                 .pattern("/a/")
                 .pattern("###")
@@ -165,11 +171,11 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('#', Blocks.BAMBOO_BLOCK)
                 .define('/', Tags.Items.INGOTS_COPPER)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
         // Container items
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, LsItems.LUNCH_BOX)
+        shaped(RecipeCategory.FOOD, LsItems.LUNCH_BOX)
                 .pattern(" / ")
                 .pattern("#a#")
                 .pattern("#c#")
@@ -178,9 +184,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('a', LsItems.LOGINAR_ANTENNA)
                 .define('c', LsItems.LOGINAR_CALAMARI)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, LsItems.POTION_POUCH)
+        shaped(RecipeCategory.BREWING, LsItems.POTION_POUCH)
                 .pattern("#/#")
                 .pattern("#a#")
                 .pattern(" # ")
@@ -188,9 +194,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('/', Tags.Items.RODS_BLAZE)
                 .define('#', Tags.Items.LEATHERS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.GEM_BAG)
+        shaped(RecipeCategory.MISC, LsItems.GEM_BAG)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
@@ -199,9 +205,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('#', ItemTags.WOOL)
                 .define('g', Tags.Items.GEMS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
+        shaped(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
@@ -210,9 +216,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
                 .define('g', ItemTags.FLOWERS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.ORE_CRATE)
+        shaped(RecipeCategory.MISC, LsItems.ORE_CRATE)
                 .pattern("ooo")
                 .pattern("#~#")
                 .pattern("###")
@@ -220,9 +226,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('~', LsItems.LOGINAR_ANTENNA)
                 .define('#', ItemTags.PLANKS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.SEED_BAG)
+        shaped(RecipeCategory.MISC, LsItems.SEED_BAG)
                 .pattern(" ~ ")
                 .pattern("#s#")
                 .pattern(" # ")
@@ -230,9 +236,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('#', ItemTags.WOOL)
                 .define('s', Tags.Items.SEEDS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LsItems.WOOD_RACK)
+        shaped(RecipeCategory.MISC, LsItems.WOOD_RACK)
                 .pattern("/ /")
                 .pattern("/~/")
                 .pattern("# #")
@@ -240,16 +246,16 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('/', Tags.Items.RODS_WOODEN)
                 .define('#', ItemTags.LOGS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer);
+                .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, LsItems.FIRE_FLINGER)
+        shapeless(RecipeCategory.MISC, LsItems.FIRE_FLINGER)
                 .requires(LsItems.LOGINAR_ANTENNA)
                 .requires(LsTags.Items.GEMS_FIRE_PEARL)
                 .unlockedBy("has_item", has(LsItems.FIRE_PEARL))
-                .save(consumer);
+                .save(this.output);
     }
 
-    private void baseUrn(RecipeOutput consumer, ItemLike clay, int clayColor) {
+    private void baseUrn(ItemLike clay, int clayColor) {
         String blockName = NameUtils.fromItem(clay).getPath();
         int i = blockName.lastIndexOf('_');
         String colorName = "";
@@ -257,7 +263,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
             colorName = blockName.substring(0, i + 1);
         }
 
-        new UrnRecipeBuilder(clayColor)
+        new UrnRecipeBuilder(this.items, clayColor)
                 .group("loginar:tiny_urns")
                 .pattern("#~#")
                 .pattern("#0#")
@@ -266,23 +272,23 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .define('~', LsItems.LOGINAR_ANTENNA)
                 .define('0', Tags.Items.GEMS)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
-                .save(consumer, modId(colorName + "tiny_loginar_urn"));
+                .save(this.output, modId(colorName + "tiny_loginar_urn"));
     }
 
     private UrnUpgradeRecipeBuilder upgradedUrn(ItemLike upgradedUrn) {
-        return new UrnUpgradeRecipeBuilder(upgradedUrn);
+        return new UrnUpgradeRecipeBuilder(this.items, upgradedUrn);
     }
 
     private static class UrnRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnBaseRecipe> {
         private final int clayColor;
 
-        public UrnRecipeBuilder(int clayColor) {
-            super(RecipeCategory.BUILDING_BLOCKS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
+        public UrnRecipeBuilder(HolderGetter<Item> items, int clayColor) {
+            super(items, RecipeCategory.BUILDING_BLOCKS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
             this.clayColor = clayColor;
         }
 
         @Override
-        public UrnBaseRecipe createRecipe(ResourceLocation id) {
+        public UrnBaseRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnBaseRecipe(
                     Objects.requireNonNullElse(this.group, ""),
@@ -295,12 +301,11 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     private static class UrnUpgradeRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnUpgradeRecipe> {
-        public UrnUpgradeRecipeBuilder(ItemLike upgradedUrn) {
-            super(RecipeCategory.BUILDING_BLOCKS, new ItemStack(upgradedUrn));
+        public UrnUpgradeRecipeBuilder(HolderGetter<Item> items, ItemLike upgradedUrn) {
+            super(items, RecipeCategory.BUILDING_BLOCKS, new ItemStack(upgradedUrn));
         }
 
-        @Override
-        public UrnUpgradeRecipe createRecipe(ResourceLocation id) {
+        public UrnUpgradeRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnUpgradeRecipe(
                     Objects.requireNonNullElse(this.group, ""),

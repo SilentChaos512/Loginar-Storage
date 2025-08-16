@@ -9,79 +9,117 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.*;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class LsItems {
     public static final DeferredRegister.Items REGISTER = DeferredRegister.createItems(LoginarMod.MOD_ID);
 
     // Loginar drops
-    public static final DeferredItem<LoginarAntennaItem> LOGINAR_ANTENNA = register("loginar_antenna", () ->
-            new LoginarAntennaItem(props())
+    public static final DeferredItem<LoginarAntennaItem> LOGINAR_ANTENNA = register(
+            "loginar_antenna",
+            LoginarAntennaItem::new
     );
-    public static final DeferredItem<LoginarTentacleItem> LOGINAR_TENTACLE = register("loginar_tentacle", () ->
-            new LoginarTentacleItem(props()
+    public static final DeferredItem<LoginarTentacleItem> LOGINAR_TENTACLE = register(
+            "loginar_tentacle",
+            LoginarTentacleItem::new,
+            new Item.Properties()
                     .food(LsFoods.LOGINAR_TENTACLE)
-            )
     );
-    public static final DeferredItem<Item> LOGINAR_CALAMARI = register("loginar_calamari", () ->
-            new Item(props()
+    public static final DeferredItem<Item> LOGINAR_CALAMARI = register(
+            "loginar_calamari",
+            Item::new,
+            new Item.Properties()
                     .food(LsFoods.LOGINAR_CALAMARI)
-            )
     );
-    public static final DeferredItem<Item> FIRE_PEARL = register("fire_pearl", () ->
-            new Item(props())
+    public static final DeferredItem<Item> FIRE_PEARL = register(
+            "fire_pearl",
+            Item::new
     );
 
     // Urn upgrades
-    public static final DeferredItem<UpgradeItem> BACKPACK_UPGRADE = register("backpack_upgrade", () ->
-            new UpgradeItem(props())
+    public static final DeferredItem<UpgradeItem> BACKPACK_UPGRADE = register(
+            "backpack_upgrade",
+            UpgradeItem::new
     );
-    public static final DeferredItem<UpgradeItem> VACUUM_UPGRADE = register("vacuum_upgrade", () ->
-            new VacuumUrnUpgrade(props())
+    public static final DeferredItem<UpgradeItem> VACUUM_UPGRADE = register(
+            "vacuum_upgrade",
+            VacuumUrnUpgrade::new
     );
-    public static final DeferredItem<UpgradeItem> ITEM_SWAPPER_UPGRADE = register("item_swapper_upgrade", () ->
-            new UpgradeItem(props())
+    public static final DeferredItem<UpgradeItem> ITEM_SWAPPER_UPGRADE = register(
+            "item_swapper_upgrade",
+            UpgradeItem::new
     );
-    public static final DeferredItem<UpgradeItem> SUPPLIER_UPGRADE = register("supplier_upgrade", () ->
-            new UpgradeItem(props()));
+    public static final DeferredItem<UpgradeItem> SUPPLIER_UPGRADE = register(
+            "supplier_upgrade",
+            UpgradeItem::new
+    );
 
     // Container items
-    public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register("lunch_box", () ->
-            new LunchBoxItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register(
+            "lunch_box",
+            LunchBoxItem::new,
+            unstackable()
     );
-    public static final DeferredItem<PotionPouchItem> POTION_POUCH = register("potion_pouch", () ->
-            new PotionPouchItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<PotionPouchItem> POTION_POUCH = register(
+            "potion_pouch",
+            PotionPouchItem::new,
+            unstackable()
     );
-    public static final DeferredItem<GemBagItem> GEM_BAG = register("gem_bag", () ->
-            new GemBagItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<GemBagItem> GEM_BAG = register(
+            "gem_bag",
+            GemBagItem::new,
+            unstackable()
     );
-    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
-            new FlowerBasketItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register(
+            "flower_basket",
+            FlowerBasketItem::new,
+            unstackable()
     );
-    public static final DeferredItem<OreCrateItem> ORE_CRATE = register("ore_crate", () ->
-            new OreCrateItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<OreCrateItem> ORE_CRATE = register(
+            "ore_crate",
+            OreCrateItem::new,
+            unstackable()
     );
-    public static final DeferredItem<SeedBagItem> SEED_BAG = register("seed_bag", () ->
-            new SeedBagItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<SeedBagItem> SEED_BAG = register(
+            "seed_bag",
+            SeedBagItem::new,
+            unstackable()
     );
-    public static final DeferredItem<WoodRackItem> WOOD_RACK = register("wood_rack", () ->
-            new WoodRackItem(props().stacksTo(1).setNoCombineRepair())
+    public static final DeferredItem<WoodRackItem> WOOD_RACK = register(
+            "wood_rack",
+            WoodRackItem::new,
+            unstackable()
     );
 
     // Misc
-    public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register("fire_flinger", () ->
-            new FireFlingerItem(props().durability(64).stacksTo(1)));
-    public static final DeferredItem<SpawnEggItem> LOGINAR_SPAWN_EGG = register("loginar_spawn_egg", () ->
-            new SpawnEggItem(LsEntityTypes.LOGINAR.get(), props()));
-    public static final DeferredItem<SpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register("friendly_loginar_spawn_egg", () ->
-            new SpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR.get(), props()));
+    public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register(
+            "fire_flinger",
+            FireFlingerItem::new,
+            new Item.Properties()
+                    .durability(64)
+                    .stacksTo(1)
+    );
+    public static final DeferredItem<SpawnEggItem> LOGINAR_SPAWN_EGG = register(
+            "loginar_spawn_egg",
+            p -> new SpawnEggItem(LsEntityTypes.LOGINAR.get(), p)
+    );
+    public static final DeferredItem<SpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register(
+            "friendly_loginar_spawn_egg",
+            p -> new SpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR.get(), p)
+    );
 
-    protected static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
-        return REGISTER.register(name, item);
+    protected static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item) {
+        return REGISTER.registerItem(name, item);
     }
 
-    private static Item.Properties props() {
-        return new Item.Properties();
+    protected static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item, Item.Properties properties) {
+        return REGISTER.registerItem(name, item, properties);
+    }
+
+    private static Item.Properties unstackable() {
+        return new Item.Properties()
+                .stacksTo(1)
+                .setNoCombineRepair();
     }
 
     public static void onBuildContentsOfCreativeTabs(BuildCreativeModeTabContentsEvent event) {

@@ -2,21 +2,11 @@
   "type": "loginar:urn_upgrade",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:blackstone"
-    },
-    "*": {
-      "item": "loginar:small_loginar_urn"
-    },
-    "/": {
-      "tag": "c:rods/blaze"
-    },
-    "g": {
-      "tag": "c:ingots/gold"
-    },
-    "q": {
-      "tag": "c:gems/quartz"
-    }
+    "#": "minecraft:blackstone",
+    "*": "loginar:small_loginar_urn",
+    "/": "#c:rods/blaze",
+    "g": "#c:ingots/gold",
+    "q": "#c:gems/quartz"
   },
   "pattern": [
     "/g/",
@@ -26,6 +16,5 @@
   "result": {
     "count": 1,
     "id": "loginar:medium_loginar_urn"
-  },
-  "show_notification": false
+  }
 }

@@ -1,4 +1,4 @@
-package net.silentchaos512.loginar.data;
+package net.silentchaos512.loginar.data.client;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;

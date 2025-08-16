@@ -14,12 +14,10 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.LoginarEggBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Locale;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class LsBlocks {
@@ -34,16 +32,15 @@ public class LsBlocks {
 
     public static final DeferredBlock<LoginarEggBlock> LOGINAR_EGG = register(
             "loginar_egg",
-            () -> new LoginarEggBlock(
-                    BlockBehaviour.Properties.of()
-                            .mapColor(MapColor.COLOR_CYAN)
-                            .forceSolidOn()
-                            .strength(0.5F)
-                            .sound(SoundType.METAL)
-                            .randomTicks()
-                            .noOcclusion()
-                            .pushReaction(PushReaction.DESTROY)
-            )
+            LoginarEggBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
+                    .forceSolidOn()
+                    .strength(0.5F)
+                    .sound(SoundType.METAL)
+                    .randomTicks()
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY)
     );
 
     public static Collection<LoginarUrnBlock> getUrns() {
@@ -54,41 +51,53 @@ public class LsBlocks {
                 .collect(Collectors.toList());
     }
 
-    private static <T extends Block> DeferredBlock<T> registerNoItem(String name, Supplier<T> block) {
-        return REGISTER.register(name, block);
+    private static <T extends Block> DeferredBlock<T> registerNoItem(
+            String name,
+            Function<BlockBehaviour.Properties, T> block,
+            BlockBehaviour.Properties properties
+    ) {
+        return REGISTER.registerBlock(name, block, properties);
     }
 
-    private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block) {
-        return register(name, block, LsBlocks::defaultItem);
+    private static <T extends Block> DeferredBlock<T> register(
+            String name,
+            Function<BlockBehaviour.Properties, T> block,
+            BlockBehaviour.Properties properties
+    ) {
+        return register(name, block, properties, LsBlocks::defaultItem, new Item.Properties());
     }
 
-    private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block, Function<DeferredBlock<T>, Supplier<? extends BlockItem>> item) {
-        DeferredBlock<T> ret = registerNoItem(name, block);
-        LsItems.register(name, item.apply(ret));
+    private static <T extends Block> DeferredBlock<T> register(
+            String name,
+            Function<BlockBehaviour.Properties, T> block,
+            BlockBehaviour.Properties properties,
+            Function<DeferredBlock<T>, Function<Item.Properties, ? extends BlockItem>> item,
+            Item.Properties itemProperties
+    ) {
+        DeferredBlock<T> ret = registerNoItem(name, block, properties);
+        LsItems.register(name, item.apply(ret), itemProperties);
         return ret;
     }
 
-    private static <T extends Block> Supplier<BlockItem> defaultItem(DeferredBlock<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties());
+    private static <T extends Block> Function<Item.Properties, BlockItem> defaultItem(DeferredBlock<T> block) {
+        return p -> new BlockItem(block.get(), p);
     }
 
     private static DeferredBlock<LoginarUrnBlock> registerUrn(UrnTypes type) {
         return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
-                () -> new LoginarUrnBlock(type, urnProps()),
-                block -> () -> new LoginarUrnBlockItem(block.get(),
-                        new Item.Properties()
-                                .stacksTo(1)
-                )
+                p -> new LoginarUrnBlock(type, p),
+                BlockBehaviour.Properties.of()
+                        .strength(2f)
+                        .noOcclusion()
+                        .isSuffocating((state, level, pos) -> false)
+                        .isViewBlocking((state, level, pos) -> false)
+                        .pushReaction(PushReaction.DESTROY),
+                block -> p -> new LoginarUrnBlockItem(
+                        block.get(),
+                        p
+                ),
+                new Item.Properties().stacksTo(1)
         );
     }
 
-    @NotNull
-    private static BlockBehaviour.Properties urnProps() {
-        return BlockBehaviour.Properties.of()
-                .strength(2f)
-                .noOcclusion()
-                .isSuffocating((state, level, pos) -> false)
-                .isViewBlocking((state, level, pos) -> false)
-                .pushReaction(PushReaction.DESTROY);
-    }
 }

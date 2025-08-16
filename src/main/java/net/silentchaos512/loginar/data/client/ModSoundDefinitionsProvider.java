@@ -1,15 +1,14 @@
-package net.silentchaos512.loginar.data;
+package net.silentchaos512.loginar.data.client;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsSounds;
 
 public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
-    protected ModSoundDefinitionsProvider(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator.getPackOutput(), LoginarMod.MOD_ID, helper);
+    public ModSoundDefinitionsProvider(DataGenerator generator) {
+        super(generator.getPackOutput(), LoginarMod.MOD_ID);
     }
 
     @Override

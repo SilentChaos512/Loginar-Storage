@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "minecraft:logs"
-    },
-    "/": {
-      "tag": "c:rods/wooden"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "#minecraft:logs",
+    "/": "#c:rods/wooden",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     "/ /",

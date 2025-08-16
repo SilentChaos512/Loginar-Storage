@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:leathers"
-    },
-    "/": {
-      "tag": "c:rods/blaze"
-    },
-    "a": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "#c:leathers",
+    "/": "#c:rods/blaze",
+    "a": "loginar:loginar_antenna"
   },
   "pattern": [
     "#/#",

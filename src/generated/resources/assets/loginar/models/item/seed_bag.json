@@ -1,13 +1,5 @@
 {
   "parent": "minecraft:item/generated",
-  "overrides": [
-    {
-      "model": "loginar:item/seed_bag_filled",
-      "predicate": {
-        "loginar:filled": 1.0
-      }
-    }
-  ],
   "textures": {
     "layer0": "loginar:item/seed_bag"
   }

@@ -28,6 +28,6 @@ public class LsItemTintSources {
     }
 
     public static NextPotionInPouch nextPotionInPouch() {
-        return new NextPotionInPouch(-1);
+        return new NextPotionInPouch();
     }
 }

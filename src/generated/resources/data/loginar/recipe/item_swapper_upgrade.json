@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "loginar:loginar_antenna"
-    },
-    "i": {
-      "tag": "c:ingots/gold"
-    },
-    "w": {
-      "tag": "minecraft:wool"
-    }
+    "a": "loginar:loginar_antenna",
+    "i": "#c:ingots/gold",
+    "w": "#minecraft:wool"
   },
   "pattern": [
     " w ",

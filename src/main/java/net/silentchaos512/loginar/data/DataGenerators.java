@@ -5,8 +5,11 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
+import net.silentchaos512.loginar.data.client.*;
+import net.silentchaos512.loginar.data.tag.ModBlockTagsProvider;
+import net.silentchaos512.loginar.data.tag.ModItemTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,24 +18,22 @@ public final class DataGenerators {
     private DataGenerators() {}
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent.Client event) {
         DataGenerator gen = event.getGenerator();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         PackOutput packOutput = gen.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(event);
+        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(packOutput, lookupProvider);
         gen.addProvider(true, blockTags);
-        gen.addProvider(true, new ModItemTagsProvider(event, blockTags));
+        gen.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
 
         gen.addProvider(true, new ModLootTableProvider(event));
-        gen.addProvider(true, new ModRecipeProvider(event));
+        gen.addProvider(true, LibRecipeProvider.createRunner(packOutput, lookupProvider, "Loginar Storage Recipes", ModRecipeProvider::new));
 
         gen.addProvider(true, new ModLanguageProvider(gen));
-        gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
-        gen.addProvider(true, new ModItemModelProvider(gen, existingFileHelper));
-        gen.addProvider(true, new ModSoundDefinitionsProvider(gen, existingFileHelper));
+        gen.addProvider(true, new ModModelProvider(packOutput));
+        gen.addProvider(true, new ModSoundDefinitionsProvider(gen));
 
-        gen.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider, existingFileHelper));
+        gen.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider));
     }
 }

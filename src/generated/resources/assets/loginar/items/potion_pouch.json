@@ -1,0 +1,23 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "loginar:item/potion_pouch_empty"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "loginar:item/potion_pouch",
+      "tints": [
+        {
+          "type": "minecraft:constant",
+          "value": -1
+        },
+        {
+          "type": "loginar:next_potion_in_pouch"
+        }
+      ]
+    },
+    "property": "loginar:contains_items"
+  }
+}

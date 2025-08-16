@@ -1,19 +1,22 @@
 package net.silentchaos512.loginar.item;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
+import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +37,7 @@ public class LunchBoxItem extends ContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.getFoodProperties(null) != null;
+        return stack.get(DataComponents.FOOD) != null;
     }
 
     @Override
@@ -42,58 +45,60 @@ public class LunchBoxItem extends ContainerItem {
         return false;
     }
 
-    private int getFoodSlot(ItemStack stack, @Nullable LivingEntity entity) {
+    private void setFoodSlot(ItemStack stack, IItemHandler inventory, int slot) {
+        stack.set(LsDataComponents.USE_SLOT, slot);
+
+        if (slot < 0 || slot >= inventory.getSlots()) {
+            stack.remove(DataComponents.FOOD);
+            stack.remove(DataComponents.CONSUMABLE);
+            return;
+        }
+
+        ItemStack food = inventory.getStackInSlot(slot);
+        stack.set(DataComponents.FOOD, food.get(DataComponents.FOOD));
+        stack.set(DataComponents.CONSUMABLE, food.get(DataComponents.CONSUMABLE));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+        if (entity.tickCount % 20 != 0) return;
+
         int foodLevel = entity instanceof Player ? ((Player) entity).getFoodData().getFoodLevel() : 0;
         int neededNutrition = 20 - foodLevel;
         int currentBestNutrition = 0;
-        int slot = -1;
+        int currentFoodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, 0);
+        int bestFoodSlot = -1;
 
         IItemHandler inventory = getInventory(stack);
         for (int i = 0; i < inventory.getSlots(); ++i) {
             ItemStack food = inventory.getStackInSlot(i);
-            FoodProperties foodProperties = food.getFoodProperties(entity);
+            FoodProperties foodProperties = food.get(DataComponents.FOOD);
 
             if (foodProperties != null) {
-                return i;
-
-                // FIXME: select best food (but entity is often null...)
-                /*int nutrition = foodProperties.getNutrition();
+                int nutrition = foodProperties.nutrition();
                 boolean isBetter = false;
-                if (slot < 0) {
+                if (bestFoodSlot < 0) {
                     isBetter = true;
                 } else if (currentBestNutrition < neededNutrition && nutrition > currentBestNutrition) {
                     isBetter = true;
                 }
 
                 if (isBetter) {
-                    slot = i;
+                    bestFoodSlot = i;
                     currentBestNutrition = nutrition;
-                }*/
+                }
             }
         }
 
-        return slot;
-    }
-
-    @Override
-    public @Nullable FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
-        IItemHandler inventory = getInventory(stack);
-        int slot = getFoodSlot(stack, entity);
-        if (slot < 0) {
-            return super.getFoodProperties(stack, entity);
+        if (currentFoodSlot != bestFoodSlot) {
+            setFoodSlot(stack, inventory, bestFoodSlot);
         }
-
-        ItemStack food = inventory.getStackInSlot(slot);
-        if (!food.isEmpty() && food.getFoodProperties(entity) != null) {
-            return food.getFoodProperties(entity);
-        }
-        return super.getFoodProperties(stack, entity);
     }
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        FoodProperties foodProperties = getFoodProperties(stack, player);
+        FoodProperties foodProperties = stack.get(DataComponents.FOOD);
 
         if (player.isCrouching() || foodProperties == null) {
             // Open inventory menu
@@ -103,9 +108,9 @@ public class LunchBoxItem extends ContainerItem {
         // Eat contained food
         if (player.canEat(foodProperties.canAlwaysEat())) {
             player.startUsingItem(hand);
-            return InteractionResultHolder.consume(stack);
+            return InteractionResult.CONSUME;
         } else {
-            return InteractionResultHolder.fail(stack);
+            return InteractionResult.FAIL;
         }
     }
 
@@ -114,7 +119,7 @@ public class LunchBoxItem extends ContainerItem {
         ItemStack stackFinished = super.finishUsingItem(stack, level, entity);
         stackFinished.setCount(1);
         if (entity instanceof Player && !((Player) entity).getAbilities().instabuild) {
-            int foodSlot = getFoodSlot(stack, entity);
+            int foodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, -1);
             ComponentItemHandler inventory = getInventory(stack);
             if (foodSlot >= 0 && foodSlot < inventory.getSlots()) {
                 inventory.getStackInSlot(foodSlot).shrink(1);
@@ -124,22 +129,5 @@ public class LunchBoxItem extends ContainerItem {
             }
         }
         return stackFinished;
-    }
-
-    @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        if (getFoodSlot(stack, null) > -1) {
-            return UseAnim.EAT;
-        }
-        return super.getUseAnimation(stack);
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        FoodProperties foodProperties = getFoodProperties(stack, entity);
-        if (foodProperties != null) {
-            return foodProperties.eatDurationTicks();
-        }
-        return 0;
     }
 }

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "loginar:loginar_antenna"
-    },
-    "e": {
-      "tag": "c:ender_pearls"
-    },
-    "l": {
-      "tag": "c:leathers"
-    }
+    "a": "loginar:loginar_antenna",
+    "e": "#c:ender_pearls",
+    "l": "#c:leathers"
   },
   "pattern": [
     " e ",

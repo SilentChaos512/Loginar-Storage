@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "minecraft:wool"
-    },
-    "/": {
-      "tag": "c:nuggets/gold"
-    },
-    "g": {
-      "tag": "c:gems"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "#minecraft:wool",
+    "/": "#c:nuggets/gold",
+    "g": "#c:gems",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     "/~/",

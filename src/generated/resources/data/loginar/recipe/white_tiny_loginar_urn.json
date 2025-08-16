@@ -4,15 +4,9 @@
   "clay_color": "#FFD1B1A1",
   "group": "loginar:tiny_urns",
   "key": {
-    "#": {
-      "item": "minecraft:white_terracotta"
-    },
-    "0": {
-      "tag": "c:gems"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "minecraft:white_terracotta",
+    "0": "#c:gems",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     "#~#",

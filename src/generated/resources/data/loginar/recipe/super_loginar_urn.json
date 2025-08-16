@@ -2,21 +2,11 @@
   "type": "loginar:urn_upgrade",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:prismarine"
-    },
-    "*": {
-      "item": "loginar:huge_loginar_urn"
-    },
-    "p": {
-      "tag": "c:gems/prismarine"
-    },
-    "s": {
-      "item": "minecraft:sculk"
-    },
-    "w": {
-      "item": "minecraft:wither_rose"
-    }
+    "#": "minecraft:prismarine",
+    "*": "loginar:huge_loginar_urn",
+    "p": "#c:gems/prismarine",
+    "s": "minecraft:sculk",
+    "w": "minecraft:wither_rose"
   },
   "pattern": [
     "wsw",
@@ -26,6 +16,5 @@
   "result": {
     "count": 1,
     "id": "loginar:super_loginar_urn"
-  },
-  "show_notification": false
+  }
 }

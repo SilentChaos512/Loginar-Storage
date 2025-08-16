@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:bamboo_block"
-    },
-    "/": {
-      "tag": "c:ingots/copper"
-    },
-    "a": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "minecraft:bamboo_block",
+    "/": "#c:ingots/copper",
+    "a": "loginar:loginar_antenna"
   },
   "pattern": [
     " / ",

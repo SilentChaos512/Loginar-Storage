@@ -3,22 +3,12 @@
   "category": "misc",
   "key": {
     "#": [
-      {
-        "item": "minecraft:sugar_cane"
-      },
-      {
-        "item": "minecraft:bamboo"
-      }
+      "minecraft:sugar_cane",
+      "minecraft:bamboo"
     ],
-    "/": {
-      "tag": "c:nuggets/gold"
-    },
-    "g": {
-      "tag": "minecraft:flowers"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "/": "#c:nuggets/gold",
+    "g": "#minecraft:flowers",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     "/~/",

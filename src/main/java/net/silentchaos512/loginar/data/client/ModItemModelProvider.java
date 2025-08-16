@@ -1,13 +1,9 @@
-package net.silentchaos512.loginar.data;
+package net.silentchaos512.loginar.data.client;
 
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelInstance;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.silentchaos512.loginar.LoginarMod;
@@ -51,20 +47,39 @@ public class ModItemModelProvider extends ItemModelGenerators {
     }
 
     private void generatedFilledAndEmptyContainerItem(Item item, String filledTexture, String emptyTexture) {
-        var emptyKey = BuiltInRegistries.ITEM.getKey(item);
-        var filledKey = ResourceLocation.fromNamespaceAndPath(emptyKey.getNamespace(), emptyKey.getPath() + "_filled");
-        ModelTemplates.FLAT_ITEM.create(emptyKey, TextureMapping.layer0(LoginarMod.getId(emptyTexture)), this.modelOutput);
-        ModelTemplates.FLAT_ITEM.create(filledKey, TextureMapping.layer0(LoginarMod.getId(filledTexture)), this.modelOutput);
+        var emptyKey = ModelLocationUtils.getModelLocation(item);
+        var filledKey = ModelLocationUtils.getModelLocation(item, "_filled");
+        ModelTemplates.FLAT_ITEM.create(
+                emptyKey,
+                TextureMapping.layer0(LoginarMod.getId("item/" + emptyTexture)),
+                this.modelOutput
+        );
+        ModelTemplates.FLAT_ITEM.create(
+                filledKey,
+                TextureMapping.layer0(LoginarMod.getId("item/" + filledTexture)),
+                this.modelOutput
+        );
         var emptyModel = ItemModelUtils.plainModel(emptyKey);
         var filledModel = ItemModelUtils.plainModel(filledKey);
         generatedFilledAndEmptyContainerItem(item, filledModel, emptyModel);
     }
 
     private void generatePotionPouch(Item item, String filledTexture, String emptyTexture, String overlayTexture) {
-        var filledKey = BuiltInRegistries.ITEM.getKey(item);
-        var emptyKey = ResourceLocation.fromNamespaceAndPath(filledKey.getNamespace(), filledKey.getPath() + "_empty");
-        ModelTemplates.FLAT_ITEM.create(emptyKey, TextureMapping.layer0(LoginarMod.getId(emptyTexture)), this.modelOutput);
-        ModelTemplates.FLAT_ITEM.create(filledKey, TextureMapping.layered(LoginarMod.getId(filledTexture), LoginarMod.getId(overlayTexture)), this.modelOutput);
+        var filledKey = ModelLocationUtils.getModelLocation(item);
+        var emptyKey = ModelLocationUtils.getModelLocation(item, "_empty");
+        ModelTemplates.FLAT_ITEM.create(
+                emptyKey,
+                TextureMapping.layer0(LoginarMod.getId("item/" + emptyTexture)),
+                this.modelOutput
+        );
+        ModelTemplates.TWO_LAYERED_ITEM.create(
+                filledKey,
+                TextureMapping.layered(
+                        LoginarMod.getId("item/" + filledTexture),
+                        LoginarMod.getId("item/" + overlayTexture)
+                ),
+                this.modelOutput
+        );
         var emptyModel = ItemModelUtils.plainModel(emptyKey);
         var filledModel = ItemModelUtils.tintedModel(filledKey, ItemModelUtils.constantTint(-1), LsItemTintSources.nextPotionInPouch());
         generatedFilledAndEmptyContainerItem(item, filledModel, emptyModel);

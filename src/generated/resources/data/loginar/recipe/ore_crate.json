@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "minecraft:planks"
-    },
-    "o": {
-      "tag": "c:raw_materials"
-    },
-    "~": {
-      "item": "loginar:loginar_antenna"
-    }
+    "#": "#minecraft:planks",
+    "o": "#c:raw_materials",
+    "~": "loginar:loginar_antenna"
   },
   "pattern": [
     "ooo",

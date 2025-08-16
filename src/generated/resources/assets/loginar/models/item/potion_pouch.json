@@ -1,14 +1,7 @@
 {
   "parent": "minecraft:item/generated",
-  "overrides": [
-    {
-      "model": "loginar:item/potion_pouch_filled",
-      "predicate": {
-        "loginar:filled": 1.0
-      }
-    }
-  ],
   "textures": {
-    "layer0": "loginar:item/potion_pouch_empty"
+    "layer0": "loginar:item/potion_pouch",
+    "layer1": "loginar:item/potion_pouch_overlay"
   }
 }
