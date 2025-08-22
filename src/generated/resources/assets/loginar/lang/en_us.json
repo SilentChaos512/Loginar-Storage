@@ -52,6 +52,7 @@
   "item.loginar.loginar_tentacle": "Loginar Tentacle",
   "item.loginar.lunch_box": "Lunch Box",
   "item.loginar.lunch_box.desc": "Stores food. Use to eat, sneak + use to open.",
+  "item.loginar.lunch_box.next_food": "Next food in lunch box: %s",
   "item.loginar.ore_crate": "Ore Crate",
   "item.loginar.ore_crate.desc": "Stores and picks up raw ores",
   "item.loginar.potion_pouch": "Potion Pouch",

@@ -81,6 +81,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.GEM_BAG, "desc", "Stores and picks up gems");
         addItem(LsItems.LUNCH_BOX, "Lunch Box");
         addItemSub(LsItems.LUNCH_BOX, "desc", "Stores food. Use to eat, sneak + use to open.");
+        addItemSub(LsItems.LUNCH_BOX, "next_food", "Next food in lunch box: %s");
         addItem(LsItems.ORE_CRATE, "Ore Crate");
         addItemSub(LsItems.ORE_CRATE, "desc", "Stores and picks up raw ores");
         addItem(LsItems.POTION_POUCH, "Potion Pouch");

@@ -1,6 +1,7 @@
 package net.silentchaos512.loginar.item;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -61,11 +62,29 @@ public class LunchBoxItem extends ContainerItem {
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
-        if (entity.tickCount % 20 != 0) return;
+        if (!(slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) || !(entity instanceof Player player)) {
+            // Only tick when held by a player
+            return;
+        }
 
-        int foodLevel = entity instanceof Player ? ((Player) entity).getFoodData().getFoodLevel() : 0;
+        selectBestFoodForPlayer(stack, player);
+        if (player.tickCount % 20 == 0) {
+            displaySelectedFood(stack, player);
+        }
+    }
+
+    private void displaySelectedFood(ItemStack stack, Player player) {
+        int foodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, -1);
+        if (foodSlot >= 0 && foodSlot < getInventorySize(stack)) {
+            ItemStack food = getInventory(stack).getStackInSlot(foodSlot);
+            player.displayClientMessage(Component.translatable("item.loginar.lunch_box.next_food", food.getDisplayName().getString()), true);
+        }
+    }
+
+    private void selectBestFoodForPlayer(ItemStack stack, Player player) {
+        int foodLevel = player.getFoodData().getFoodLevel();
         int neededNutrition = 20 - foodLevel;
-        int currentBestNutrition = 0;
+        int currentBestNutritionDifference = Integer.MAX_VALUE;
         int currentFoodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, 0);
         int bestFoodSlot = -1;
 
@@ -76,16 +95,12 @@ public class LunchBoxItem extends ContainerItem {
 
             if (foodProperties != null) {
                 int nutrition = foodProperties.nutrition();
-                boolean isBetter = false;
-                if (bestFoodSlot < 0) {
-                    isBetter = true;
-                } else if (currentBestNutrition < neededNutrition && nutrition > currentBestNutrition) { // wrong... compare needed nutrition to nutrition?
-                    isBetter = true;
-                }
+                int nutritionDifference = Math.abs(nutrition - neededNutrition);
+                boolean isBetter = bestFoodSlot < 0 || nutritionDifference < currentBestNutritionDifference;
 
                 if (isBetter) {
                     bestFoodSlot = i;
-                    currentBestNutrition = nutrition;
+                    currentBestNutritionDifference = nutritionDifference;
                 }
             }
         }
@@ -118,7 +133,7 @@ public class LunchBoxItem extends ContainerItem {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         ItemStack stackFinished = super.finishUsingItem(stack, level, entity);
         stackFinished.setCount(1);
-        if (entity instanceof Player && !((Player) entity).getAbilities().instabuild) {
+        if (entity instanceof Player player && !player.getAbilities().instabuild) {
             int foodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, -1);
             ComponentItemHandler inventory = getInventory(stack);
             if (foodSlot >= 0 && foodSlot < inventory.getSlots()) {
@@ -126,6 +141,7 @@ public class LunchBoxItem extends ContainerItem {
                 ItemStack foodStack = inventory.getStackInSlot(foodSlot);
                 foodStack.shrink(1);
                 inventory.setStackInSlot(foodSlot, foodStack);
+                selectBestFoodForPlayer(stack, player);
             }
         }
         return stackFinished;
