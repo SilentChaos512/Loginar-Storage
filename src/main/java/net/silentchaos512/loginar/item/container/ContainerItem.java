@@ -77,13 +77,13 @@ public abstract class ContainerItem extends Item implements IContainerItem {
                     ++i;
                     MutableComponent mutablecomponent = item.getHoverName().copy();
                     mutablecomponent.append(" x").append(String.valueOf(item.getCount()));
-                    tooltipAdder.accept(Component.translatable("container.shulkerBox.itemCount", item.getHoverName(), item.getCount()));
+                    tooltipAdder.accept(Component.translatable("item.container.item_count", item.getHoverName(), item.getCount()));
                 }
             }
         }
 
         if (j - i > 0) {
-            tooltipAdder.accept(Component.translatable("container.shulkerBox.more", j - i).withStyle(ChatFormatting.ITALIC));
+            tooltipAdder.accept(Component.translatable("item.container.more_items", j - i).withStyle(ChatFormatting.ITALIC));
         }
     }
 }

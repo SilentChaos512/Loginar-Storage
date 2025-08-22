@@ -6,6 +6,7 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.client.renderer.item.properties.ContainsItems;
 import net.silentchaos512.loginar.client.setup.LsItemTintSources;
@@ -21,6 +22,13 @@ public class ModItemModelProvider extends ItemModelGenerators {
 
     @Override
     public void run() {
+        generateLoginarUrn(LsBlocks.TINY_LOGINAR_URN);
+        generateLoginarUrn(LsBlocks.SMALL_LOGINAR_URN);
+        generateLoginarUrn(LsBlocks.MEDIUM_LOGINAR_URN);
+        generateLoginarUrn(LsBlocks.LARGE_LOGINAR_URN);
+        generateLoginarUrn(LsBlocks.HUGE_LOGINAR_URN);
+        generateLoginarUrn(LsBlocks.SUPER_LOGINAR_URN);
+
         generateFlatItem(LsBlocks.LOGINAR_EGG.asItem(), ModelTemplates.FLAT_ITEM);
 
         generateFlatItem(LsItems.LOGINAR_ANTENNA.get(), ModelTemplates.FLAT_ITEM);
@@ -44,6 +52,16 @@ public class ModItemModelProvider extends ItemModelGenerators {
 
         generateFlatItem(LsItems.LOGINAR_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM);
         generateFlatItem(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateLoginarUrn(DeferredBlock<?> block) {
+        var urnBlockModel = ModelLocationUtils.getModelLocation(block.get());
+        var tintedItemModel = ItemModelUtils.tintedModel(
+                urnBlockModel,
+                LsItemTintSources.urnClayColor(),
+                LsItemTintSources.urnGemColor()
+        );
+        this.itemModelOutput.accept(block.asItem(), tintedItemModel);
     }
 
     private void generatedFilledAndEmptyContainerItem(Item item, String filledTexture, String emptyTexture) {

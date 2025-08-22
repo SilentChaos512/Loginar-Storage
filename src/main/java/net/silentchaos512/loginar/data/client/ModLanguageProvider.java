@@ -44,6 +44,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container", "gem_bag", "Gem Bag");
         add("container", "flower_basket", "Flower Basket");
         add("container", "ore_crate", "Ore Crate");
+        add("container", "seed_bag", "Seed Bag");
+        add("container", "wood_rack", "Wood Rack");
 
         // Entities
         addEntityType(LsEntityTypes.LOGINAR, "Loginar");

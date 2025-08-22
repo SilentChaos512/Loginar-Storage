@@ -96,7 +96,9 @@ public class LsBlocks {
                         block.get(),
                         p
                 ),
-                new Item.Properties().stacksTo(1)
+                new Item.Properties()
+                        .stacksTo(1)
+                        .useBlockDescriptionPrefix()
         );
     }
 

@@ -79,7 +79,7 @@ public class LunchBoxItem extends ContainerItem {
                 boolean isBetter = false;
                 if (bestFoodSlot < 0) {
                     isBetter = true;
-                } else if (currentBestNutrition < neededNutrition && nutrition > currentBestNutrition) {
+                } else if (currentBestNutrition < neededNutrition && nutrition > currentBestNutrition) { // wrong... compare needed nutrition to nutrition?
                     isBetter = true;
                 }
 

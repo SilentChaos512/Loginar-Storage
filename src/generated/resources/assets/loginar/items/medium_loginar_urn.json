@@ -1,6 +1,16 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "loginar:block/medium_loginar_urn"
+    "model": "loginar:block/medium_loginar_urn",
+    "tints": [
+      {
+        "type": "loginar:urn_clay_color",
+        "default": "#FF985F45"
+      },
+      {
+        "type": "loginar:urn_gem_color",
+        "default": "#FF33EBCB"
+      }
+    ]
   }
 }

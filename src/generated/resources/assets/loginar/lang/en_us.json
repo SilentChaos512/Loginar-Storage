@@ -30,6 +30,8 @@
   "container.loginar.lunch_box": "Lunch Box",
   "container.loginar.ore_crate": "Ore Crate",
   "container.loginar.potion_pouch": "Potion Pouch",
+  "container.loginar.seed_bag": "Seed Bag",
+  "container.loginar.wood_rack": "Wood Rack",
   "entity.loginar.friendly_loginar": "Friendly Loginar",
   "entity.loginar.loginar": "Loginar",
   "item.loginar.backpack_upgrade": "Backpack Urn Upgrade",
