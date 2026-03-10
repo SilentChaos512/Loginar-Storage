@@ -13,8 +13,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
 import net.silentchaos512.loginar.setup.LsDataComponents;
@@ -46,16 +45,18 @@ public class LunchBoxItem extends ContainerItem {
         return false;
     }
 
-    private void setFoodSlot(ItemStack stack, IItemHandler inventory, int slot) {
+    private void setFoodSlot(ItemStack stack, int slot) {
         stack.set(LsDataComponents.USE_SLOT, slot);
 
-        if (slot < 0 || slot >= inventory.getSlots()) {
+        var contents = getInventory(stack);
+
+        if (slot < 0 || slot >= contents.getSlots()) {
             stack.remove(DataComponents.FOOD);
             stack.remove(DataComponents.CONSUMABLE);
             return;
         }
 
-        ItemStack food = inventory.getStackInSlot(slot);
+        ItemStack food = contents.getStackInSlot(slot);
         stack.set(DataComponents.FOOD, food.get(DataComponents.FOOD));
         stack.set(DataComponents.CONSUMABLE, food.get(DataComponents.CONSUMABLE));
     }
@@ -88,7 +89,7 @@ public class LunchBoxItem extends ContainerItem {
         int currentFoodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, 0);
         int bestFoodSlot = -1;
 
-        IItemHandler inventory = getInventory(stack);
+        var inventory = getInventory(stack);
         for (int i = 0; i < inventory.getSlots(); ++i) {
             ItemStack food = inventory.getStackInSlot(i);
             FoodProperties foodProperties = food.get(DataComponents.FOOD);
@@ -106,7 +107,7 @@ public class LunchBoxItem extends ContainerItem {
         }
 
         if (currentFoodSlot != bestFoodSlot) {
-            setFoodSlot(stack, inventory, bestFoodSlot);
+            setFoodSlot(stack, bestFoodSlot);
         }
     }
 
@@ -135,12 +136,13 @@ public class LunchBoxItem extends ContainerItem {
         stackFinished.setCount(1);
         if (entity instanceof Player player && !player.getAbilities().instabuild) {
             int foodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, -1);
-            ComponentItemHandler inventory = getInventory(stack);
-            if (foodSlot >= 0 && foodSlot < inventory.getSlots()) {
-                inventory.getStackInSlot(foodSlot).shrink(1);
-                ItemStack foodStack = inventory.getStackInSlot(foodSlot);
-                foodStack.shrink(1);
-                inventory.setStackInSlot(foodSlot, foodStack);
+            var itemHandler = getItemHandler(stack);
+            if (foodSlot >= 0 && foodSlot < itemHandler.size()) {
+                var food = itemHandler.getResource(foodSlot);
+                try (var tx = Transaction.openRoot()) {
+                    itemHandler.extract(foodSlot, food, 1, tx);
+                    tx.commit();
+                }
                 selectBestFoodForPlayer(stack, player);
             }
         }

@@ -3,9 +3,8 @@ package net.silentchaos512.loginar.network;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.silentchaos512.loginar.LoginarMod;
 
-@EventBusSubscriber(modid = LoginarMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class LsNetwork {
     @SubscribeEvent
     public static void register(RegisterPayloadHandlersEvent event) {

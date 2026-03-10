@@ -11,9 +11,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractThrownPotion;
-import net.minecraft.world.entity.projectile.ThrownLingeringPotion;
-import net.minecraft.world.entity.projectile.ThrownSplashPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownLingeringPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -119,7 +119,7 @@ public class PotionPouchItem extends ContainerItem {
     }
 
     private InteractionResult throwPotion(Level level, Player player, ItemStack potion, ItemStack stack) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             AbstractThrownPotion thrownPotion = createPotion(level, player, potion);
             thrownPotion.setItem(potion);
             thrownPotion.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);

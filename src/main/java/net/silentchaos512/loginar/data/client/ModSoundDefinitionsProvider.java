@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.data.client;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsSounds;
@@ -55,7 +55,7 @@ public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
         );
     }
 
-    private static ResourceLocation modId(String path) {
+    private static Identifier modId(String path) {
         return LoginarMod.getId(path);
     }
 }

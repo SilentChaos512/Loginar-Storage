@@ -15,7 +15,7 @@ import net.silentchaos512.loginar.item.container.ContainerItemScreen;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public final class LsClientModEvents {
     private LsClientModEvents() {}
 

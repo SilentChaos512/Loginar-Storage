@@ -2,7 +2,7 @@ package net.silentchaos512.loginar.data.tag;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
+import net.silentchaos512.lib.data.tag.LibItemTagsProvider;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.LsTags;
@@ -17,14 +18,20 @@ import net.silentchaos512.loginar.setup.LsTags;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagsProvider extends ItemTagsProvider {
-    public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags) {
-        super(output, lookupProvider, blockTags, LoginarMod.MOD_ID);
+public class ModItemTagsProvider extends LibItemTagsProvider {
+    public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, LoginarMod.MOD_ID);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider p_256380_) {
-        copy(LsTags.Blocks.URNS, LsTags.Items.URNS);
+    protected void addTags(HolderLookup.Provider provider) {
+        (new ModBlockItemTagsProvider() {
+            @Override
+            protected TagAppender<Block, Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag) {
+                return new LibItemTagsProvider.BlockToItemConverter(ModItemTagsProvider.this.tag(itemTag));
+            }
+        }).run();
+
         builder(LsTags.Items.URNS_CANNOT_STORE); // Empty
         builder(LsTags.Items.URN_UPGRADES,
                 LsItems.BACKPACK_UPGRADE,
@@ -33,9 +40,18 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 LsItems.SUPPLIER_UPGRADE
         );
         tag(LsTags.Items.FLOWER_BASKET_CAN_STORE)
-                .addTag(ItemTags.FLOWERS);
+                .addTag(ItemTags.FLOWERS)
+                .add(
+                        Items.SMALL_DRIPLEAF,
+                        Items.BIG_DRIPLEAF,
+                        Items.LILY_PAD,
+                        Items.SEAGRASS,
+                        Items.SEA_PICKLE,
+                        Items.KELP
+                );
         tag(LsTags.Items.GEM_BAG_CAN_STORE)
-                .addTag(Tags.Items.GEMS);
+                .addTag(Tags.Items.GEMS)
+                .add(Items.HEART_OF_THE_SEA);
         // TODO: Make tags for loginar body armor and boots
         tag(LsTags.Items.LOGINAR_ARMOR_BODY);
         tag(LsTags.Items.LOGINAR_ARMOR_FEET);

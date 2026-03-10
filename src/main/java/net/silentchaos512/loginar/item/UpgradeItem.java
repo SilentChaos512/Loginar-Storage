@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.item;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,7 +19,7 @@ public class UpgradeItem extends Item {
     @SuppressWarnings("deprecation")
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        ResourceLocation name = NameUtils.fromItem(this);
+        Identifier name = NameUtils.fromItem(this);
         tooltipAdder.accept(TextUtil.translate("item", name.getPath() + ".desc"));
     }
 }

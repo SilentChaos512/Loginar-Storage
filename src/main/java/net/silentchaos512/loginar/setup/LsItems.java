@@ -10,9 +10,10 @@ import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.*;
 
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class LsItems {
-    public static final DeferredRegister.Items REGISTER = DeferredRegister.createItems(LoginarMod.MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(LoginarMod.MOD_ID);
 
     // Loginar drops
     public static final DeferredItem<LoginarAntennaItem> LOGINAR_ANTENNA = register(
@@ -22,13 +23,13 @@ public class LsItems {
     public static final DeferredItem<LoginarTentacleItem> LOGINAR_TENTACLE = register(
             "loginar_tentacle",
             LoginarTentacleItem::new,
-            new Item.Properties()
+            properties -> properties
                     .food(LsFoods.LOGINAR_TENTACLE)
     );
     public static final DeferredItem<Item> LOGINAR_CALAMARI = register(
             "loginar_calamari",
             Item::new,
-            new Item.Properties()
+            properties -> properties
                     .food(LsFoods.LOGINAR_CALAMARI)
     );
     public static final DeferredItem<Item> FIRE_PEARL = register(
@@ -58,66 +59,70 @@ public class LsItems {
     public static final DeferredItem<LunchBoxItem> LUNCH_BOX = register(
             "lunch_box",
             LunchBoxItem::new,
-            unstackable()
+            LsItems::unstackable
     );
     public static final DeferredItem<PotionPouchItem> POTION_POUCH = register(
             "potion_pouch",
             PotionPouchItem::new,
-            unstackable()
-    );
-    public static final DeferredItem<GemBagItem> GEM_BAG = register(
-            "gem_bag",
-            GemBagItem::new,
-            unstackable()
-    );
-    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register(
-            "flower_basket",
-            FlowerBasketItem::new,
-            unstackable()
-    );
-    public static final DeferredItem<OreCrateItem> ORE_CRATE = register(
-            "ore_crate",
-            OreCrateItem::new,
-            unstackable()
+            LsItems::unstackable
     );
     public static final DeferredItem<SeedBagItem> SEED_BAG = register(
             "seed_bag",
             SeedBagItem::new,
-            unstackable()
+            LsItems::unstackable
+    );
+    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register(
+            "flower_basket",
+            FlowerBasketItem::new,
+            LsItems::unstackable
     );
     public static final DeferredItem<WoodRackItem> WOOD_RACK = register(
             "wood_rack",
             WoodRackItem::new,
-            unstackable()
+            LsItems::unstackable
+    );
+    public static final DeferredItem<GemBagItem> GEM_BAG = register(
+            "gem_bag",
+            GemBagItem::new,
+            LsItems::unstackable
+    );
+    public static final DeferredItem<OreCrateItem> ORE_CRATE = register(
+            "ore_crate",
+            OreCrateItem::new,
+            LsItems::unstackable
     );
 
     // Misc
     public static final DeferredItem<FireFlingerItem> FIRE_FLINGER = register(
             "fire_flinger",
             FireFlingerItem::new,
-            new Item.Properties()
+            properties -> properties
                     .durability(64)
                     .stacksTo(1)
     );
     public static final DeferredItem<SpawnEggItem> LOGINAR_SPAWN_EGG = register(
             "loginar_spawn_egg",
-            p -> new SpawnEggItem(LsEntityTypes.LOGINAR.get(), p)
+            SpawnEggItem::new,
+            properties -> properties
+                    .spawnEgg(LsEntityTypes.LOGINAR.get())
     );
     public static final DeferredItem<SpawnEggItem> FRIENDLY_LOGINAR_SPAWN_EGG = register(
             "friendly_loginar_spawn_egg",
-            p -> new SpawnEggItem(LsEntityTypes.FRIENDLY_LOGINAR.get(), p)
+            SpawnEggItem::new,
+            properties -> properties
+                    .spawnEgg(LsEntityTypes.FRIENDLY_LOGINAR.get())
     );
 
-    protected static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item) {
-        return REGISTER.registerItem(name, item);
+    static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item) {
+        return ITEMS.registerItem(name, item);
     }
 
-    protected static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item, Item.Properties properties) {
-        return REGISTER.registerItem(name, item, properties);
+    static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item, UnaryOperator<Item.Properties> properties) {
+        return ITEMS.registerItem(name, item, properties);
     }
 
-    private static Item.Properties unstackable() {
-        return new Item.Properties()
+    private static Item.Properties unstackable(Item.Properties properties) {
+        return properties
                 .stacksTo(1)
                 .setNoCombineRepair();
     }

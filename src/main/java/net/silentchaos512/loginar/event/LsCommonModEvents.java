@@ -10,7 +10,7 @@ import net.silentchaos512.loginar.entity.FriendlyLoginar;
 import net.silentchaos512.loginar.entity.WildLoginar;
 import net.silentchaos512.loginar.setup.LsEntityTypes;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public final class LsCommonModEvents {
     private LsCommonModEvents() {}
 

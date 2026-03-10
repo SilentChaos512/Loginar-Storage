@@ -1,5 +1,11 @@
 {
   "values": [
-    "#minecraft:flowers"
+    "#minecraft:flowers",
+    "minecraft:small_dripleaf",
+    "minecraft:big_dripleaf",
+    "minecraft:lily_pad",
+    "minecraft:seagrass",
+    "minecraft:sea_pickle",
+    "minecraft:kelp"
   ]
 }

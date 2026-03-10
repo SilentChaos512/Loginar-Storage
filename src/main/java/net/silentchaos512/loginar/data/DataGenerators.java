@@ -13,7 +13,7 @@ import net.silentchaos512.loginar.data.tag.ModItemTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public final class DataGenerators {
     private DataGenerators() {}
 
@@ -25,7 +25,7 @@ public final class DataGenerators {
 
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(packOutput, lookupProvider);
         gen.addProvider(true, blockTags);
-        gen.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
+        gen.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider));
 
         gen.addProvider(true, new ModLootTableProvider(event));
         gen.addProvider(true, LibRecipeProvider.createRunner(packOutput, lookupProvider, "Loginar Storage Recipes", ModRecipeProvider::new));

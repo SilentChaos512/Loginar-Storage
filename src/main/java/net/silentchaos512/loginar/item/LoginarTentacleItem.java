@@ -14,7 +14,7 @@ public class LoginarTentacleItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         ItemStack itemStack = super.finishUsingItem(stack, level, entity);
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             entity.setRemainingFireTicks(120);
         }
 

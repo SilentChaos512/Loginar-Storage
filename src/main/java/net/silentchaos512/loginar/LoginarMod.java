@@ -1,6 +1,6 @@
 package net.silentchaos512.loginar;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -28,17 +28,17 @@ public final class LoginarMod {
         LsBlocks.REGISTER.register(modEventBus);
         LsDataComponents.REGISTRAR.register(modEventBus);
         LsEntityTypes.REGISTER.register(modEventBus);
-        LsItems.REGISTER.register(modEventBus);
+        LsItems.ITEMS.register(modEventBus);
         modEventBus.addListener(LsItems::onBuildContentsOfCreativeTabs);
         LsMenuTypes.REGISTER.register(modEventBus);
         LsRecipeSerializers.REGISTER.register(modEventBus);
         LsSounds.REGISTER.register(modEventBus);
     }
 
-    public static ResourceLocation getId(String path) {
+    public static Identifier getId(String path) {
         if (path.contains(":")) {
             throw new IllegalArgumentException("path contains namespace");
         }
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.api.TickingUrnUpgrade;
 import net.silentchaos512.loginar.setup.LsDataComponents;
@@ -135,38 +137,31 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
 
-        if (tag.contains(UrnHelper.NBT_CLAY_COLOR)) {
-            this.clayColor = new Color(tag.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
-        }
+        this.clayColor = new Color(input.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
+        this.gemColor = new Color(input.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
 
-        if (tag.contains(UrnHelper.NBT_GEM_COLOR)) {
-            this.gemColor = new Color(tag.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
+        if (!this.tryLoadLootTable(input)) {
+            UrnHelper.loadAllItems(input, UrnHelper.NBT_ITEMS, this.items);
         }
-
-        if (!this.tryLoadLootTable(tag) && tag.contains(UrnHelper.NBT_ITEMS)) {
-            UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_ITEMS, this.items);
-        }
-
-        if (tag.contains(UrnHelper.NBT_UPGRADES)) {
-            UrnHelper.loadAllItems(tag, registries, UrnHelper.NBT_UPGRADES, this.upgrades);
-        }
+        UrnHelper.loadAllItems(input, UrnHelper.NBT_UPGRADES, this.upgrades);
 
         this.hasChanged = true;
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        if (!this.trySaveLootTable(tag)) {
-            UrnHelper.saveAllItems(tag, registries, UrnHelper.NBT_ITEMS, this.items, false);
-        }
-        UrnHelper.saveAllItems(tag, registries, UrnHelper.NBT_UPGRADES, this.upgrades, false);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
 
-        tag.putInt(UrnHelper.NBT_CLAY_COLOR, this.clayColor.getColor() & 0xFFFFFF);
-        tag.putInt(UrnHelper.NBT_GEM_COLOR, this.gemColor.getColor() & 0xFFFFFF);
+        if (!this.trySaveLootTable(output)) {
+            UrnHelper.saveAllItems(output, UrnHelper.NBT_ITEMS, this.items, false);
+        }
+        UrnHelper.saveAllItems(output, UrnHelper.NBT_UPGRADES, this.upgrades, false);
+
+        output.putInt(UrnHelper.NBT_CLAY_COLOR, this.clayColor.getColor() & 0xFFFFFF);
+        output.putInt(UrnHelper.NBT_GEM_COLOR, this.gemColor.getColor() & 0xFFFFFF);
     }
 
     @Nullable
@@ -184,10 +179,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
-        CompoundTag tags = pkt.getTag();
-        this.clayColor = new Color(tags.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
-        this.gemColor = new Color(tags.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
+    public void onDataPacket(Connection net, ValueInput input) {
+        super.onDataPacket(net, input);
+        this.clayColor = new Color(input.getIntOr(UrnHelper.NBT_CLAY_COLOR, UrnHelper.DEFAULT_CLAY_COLOR.getColor()));
+        this.gemColor = new Color(input.getIntOr(UrnHelper.NBT_GEM_COLOR, UrnHelper.DEFAULT_GEM_COLOR.getColor()));
     }
 }

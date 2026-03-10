@@ -39,7 +39,7 @@ public class LoginarUrnBlockItem extends BlockItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (UrnHelper.hasUpgrade(stack, LsItems.BACKPACK_UPGRADE)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 openContainer((ServerPlayer) player, stack);
             }
             return InteractionResult.SUCCESS;
@@ -70,7 +70,7 @@ public class LoginarUrnBlockItem extends BlockItem {
         var customData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
 
         if (customData != null) {
-            CompoundTag tags = customData.copyTag();
+            CompoundTag tags = customData.copyTagWithoutId();
             if (tags.contains("LootTable")) {
                 tooltipAdder.accept(Component.literal("???????"));
             }

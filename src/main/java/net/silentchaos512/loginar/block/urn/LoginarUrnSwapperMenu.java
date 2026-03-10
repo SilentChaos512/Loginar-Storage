@@ -7,10 +7,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerCopySlot;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.network.SwapItemFromUrnPayload;
 import net.silentchaos512.loginar.setup.LsDataComponents;
@@ -52,7 +52,7 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
             ItemStack item = slot.getItem();
 
             LoginarMod.LOGGER.info("Attempting to swap urn item with hand: {}", item);
-            PacketDistributor.sendToServer(new SwapItemFromUrnPayload(slotIndex));
+            ClientPacketDistributor.sendToServer(new SwapItemFromUrnPayload(slotIndex));
             player.closeContainer();
         }
     }

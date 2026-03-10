@@ -6,7 +6,7 @@ import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyE
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.client.renderer.item.properties.ContainsItems;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class LsItemModelProperties {
     @SubscribeEvent
     public static void onRegisterConditionalItemModelProperties(RegisterConditionalItemModelPropertyEvent event) {

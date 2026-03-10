@@ -9,8 +9,8 @@ import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
@@ -25,6 +25,7 @@ import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFu
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -68,7 +69,7 @@ public class ModLootTableProvider extends LootTableProvider {
         );
     }
 
-    private static ResourceLocation modId(String path) {
+    private static Identifier modId(String path) {
         return LoginarMod.getId(path);
     }
 
@@ -99,7 +100,7 @@ public class ModLootTableProvider extends LootTableProvider {
                                             .add(
                                                     LootItem.lootTableItem(block)
                                                             .apply(
-                                                                    CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                                                    CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY)
                                                                             .include(DataComponents.CUSTOM_NAME)
                                                                             .include(DataComponents.CONTAINER)
                                                                             .include(DataComponents.LOCK)

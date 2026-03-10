@@ -62,7 +62,7 @@ public class LoginarEggBlock extends Block {
     }
 
     private boolean shouldUpdateHatchLevel(Level level) {
-        float time = level.getTimeOfDay(1.0f);
+        float time = (level.getGameTime() % 24_000) / 24_000f;
         if (time < 0.19f && time > 0.15f) return true;
         return level.random.nextInt(50) == 0;
     }
@@ -73,7 +73,7 @@ public class LoginarEggBlock extends Block {
 
     @Override
     protected void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-        if (onMagma(pLevel, pPos) && !pLevel.isClientSide) {
+        if (onMagma(pLevel, pPos) && !pLevel.isClientSide()) {
             pLevel.levelEvent(2012, pPos, 15);
         }
     }

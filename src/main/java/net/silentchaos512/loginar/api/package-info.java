@@ -1,4 +1,4 @@
 @NullMarked
-package net.silentchaos512.loginar.data.tag;
+package net.silentchaos512.loginar.api;
 
 import org.jspecify.annotations.NullMarked;

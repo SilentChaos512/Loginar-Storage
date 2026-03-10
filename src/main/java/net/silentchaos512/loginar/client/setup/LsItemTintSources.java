@@ -10,7 +10,7 @@ import net.silentchaos512.loginar.client.color.item.NextPotionInPouch;
 import net.silentchaos512.loginar.client.color.item.UrnClayColor;
 import net.silentchaos512.loginar.client.color.item.UrnGemColor;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class LsItemTintSources {
     @SubscribeEvent
     public static void onItemColors(RegisterColorHandlersEvent.ItemTintSources event) {

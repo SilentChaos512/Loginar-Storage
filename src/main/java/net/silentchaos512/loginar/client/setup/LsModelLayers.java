@@ -7,7 +7,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.client.model.LoginarModel;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class LsModelLayers {
     public static final ModelLayerLocation LOGINAR = new ModelLayerLocation(LoginarMod.getId("loginar"), "main");
     public static final ModelLayerLocation LOGINAR_BABY = new ModelLayerLocation(LoginarMod.getId("loginar_baby"), "main");

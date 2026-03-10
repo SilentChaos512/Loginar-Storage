@@ -1,10 +1,10 @@
 package net.silentchaos512.loginar.data.client;
 
-import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.model.ModelInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.silentchaos512.lib.data.client.LibBlockModelGenerators;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
@@ -13,8 +13,8 @@ import net.silentchaos512.loginar.setup.LsBlocks;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModBlockModelGenerator extends BlockModelGenerators {
-    public ModBlockModelGenerator(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
+public class ModBlockModelGenerator extends LibBlockModelGenerators {
+    public ModBlockModelGenerator(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(blockStateOutput, itemModelOutput, modelOutput);
     }
 
@@ -31,7 +31,7 @@ public class ModBlockModelGenerator extends BlockModelGenerators {
         );
     }
 
-    private static ResourceLocation id(String path) {
+    private static Identifier id(String path) {
         return LoginarMod.getId(path);
     }
 }

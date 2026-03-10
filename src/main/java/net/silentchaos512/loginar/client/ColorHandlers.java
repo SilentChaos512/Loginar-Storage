@@ -7,7 +7,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.setup.LsBlocks;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public final class ColorHandlers {
     private ColorHandlers() {}
 

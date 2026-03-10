@@ -3,7 +3,7 @@ package net.silentchaos512.loginar.block.urn;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -42,7 +42,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
                     .apply(builder, (urnType, properties) -> new LoginarUrnBlock(urnType.orElse(UrnTypes.MEDIUM), properties))
     );
 
-    public static final ResourceLocation CONTENTS = ResourceLocation.withDefaultNamespace("contents");
+    public static final Identifier CONTENTS = Identifier.withDefaultNamespace("contents");
 
     private final UrnTypes type;
 
@@ -131,7 +131,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof LoginarUrnBlockEntity urn) {
-            if (!level.isClientSide && player.isCreative() && !urn.isEmpty()) {
+            if (!level.isClientSide() && player.isCreative() && !urn.isEmpty()) {
                 ItemStack itemstack = new ItemStack(this);
                 itemstack.applyComponents(urn.collectComponents());
 

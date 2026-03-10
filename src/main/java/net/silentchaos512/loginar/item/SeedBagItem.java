@@ -6,8 +6,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.silentchaos512.lib.item.FakeItemUseContext;
 import net.silentchaos512.loginar.item.container.ContainerItem;
 import net.silentchaos512.loginar.item.container.ContainerItemMenu;
@@ -64,7 +63,7 @@ public class SeedBagItem extends ContainerItem {
 
     @Nullable
     private BlockItem getSeedToPlant(ItemStack stack) {
-        IItemHandler inventory = getInventory(stack);
+        var inventory = getInventory(stack);
         for (int i = 0; i < inventory.getSlots(); ++i) {
             ItemStack itemInBag = inventory.getStackInSlot(i);
             if (itemInBag.getItem() instanceof BlockItem blockItem) {
@@ -75,14 +74,15 @@ public class SeedBagItem extends ContainerItem {
     }
 
     private void consumeSeed(ItemStack stack) {
-        ComponentItemHandler inventory = getInventory(stack);
-        for (int i = 0; i < inventory.getSlots(); ++i) {
-            ItemStack itemInBag = inventory.getStackInSlot(i);
+        var itemHandler = getItemHandler(stack);
+        for (int index = 0; index < itemHandler.size(); ++index) {
+            var itemInBag = itemHandler.getResource(index);
             if (itemInBag.getItem() instanceof BlockItem) {
-                ItemStack copy = itemInBag.copy();
-                copy.shrink(1);
-                inventory.setStackInSlot(i, copy);
-                return;
+                try (var tx = Transaction.openRoot()) {
+                    itemHandler.extract(index, itemInBag, 1, tx);
+                    tx.commit();
+                    return;
+                }
             }
         }
     }

@@ -7,15 +7,17 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.network.OpenUrnForItemSwapPayload;
 import net.silentchaos512.loginar.network.OpenBackpackUrnPayload;
+import net.silentchaos512.loginar.network.OpenUrnForItemSwapPayload;
 import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class KeyTracker {
+    private static final KeyMapping.Category CATEGORY = new KeyMapping.Category(LoginarMod.getId("keys"));
     public static final KeyMapping OPEN_BACKPACK = createKeyBinding("openBackpack", GLFW.GLFW_KEY_I);
     public static final KeyMapping SWAP_URN_ITEMS = createKeyBinding("swapUrnItems", GLFW.GLFW_KEY_X);
 
@@ -25,8 +27,16 @@ public class KeyTracker {
                 KeyConflictContext.IN_GAME,
                 InputConstants.Type.KEYSYM,
                 key,
-                "key.category." + LoginarMod.MOD_ID
+                CATEGORY
         );
+    }
+
+    @SubscribeEvent
+    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+        event.registerCategory(CATEGORY);
+
+//        event.register(OPEN_BACKPACK);
+//        event.register(SWAP_URN_ITEMS);
     }
 
     @SubscribeEvent
@@ -38,9 +48,9 @@ public class KeyTracker {
 
         if (event.getAction() == GLFW.GLFW_PRESS && Minecraft.getInstance().screen == null)
             if (event.getKey() == OPEN_BACKPACK.getKey().getValue()) {
-                PacketDistributor.sendToServer(new OpenBackpackUrnPayload());
+                ClientPacketDistributor.sendToServer(new OpenBackpackUrnPayload());
             } else if (event.getKey() == SWAP_URN_ITEMS.getKey().getValue()) {
-                PacketDistributor.sendToServer(new OpenUrnForItemSwapPayload());
+                ClientPacketDistributor.sendToServer(new OpenUrnForItemSwapPayload());
             }
     }
 }

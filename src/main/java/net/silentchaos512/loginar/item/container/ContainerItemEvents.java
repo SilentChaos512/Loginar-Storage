@@ -9,8 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.silentchaos512.loginar.LoginarMod;
 
 @EventBusSubscriber(modid = LoginarMod.MOD_ID)
@@ -25,10 +25,15 @@ public class ContainerItemEvents {
 
         for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
             ItemStack stack = player.getInventory().getItem(i);
-            if (stack.getItem() instanceof IContainerItem && ((IContainerItem) stack.getItem()).canPickup(itemOnGround)) {
-                IItemHandler itemHandler = ((IContainerItem) stack.getItem()).getInventory(stack);
-                itemOnGround = ItemHandlerHelper.insertItem(itemHandler, itemOnGround, false);
-                event.getItemEntity().getItem().setCount(itemOnGround.getCount());
+            if (stack.getItem() instanceof IContainerItem containerItem && containerItem.canPickup(itemOnGround)) {
+                var itemHandler = containerItem.getItemHandler(stack);
+                try (var tx = Transaction.openRoot()) {
+                    int amountInserted = itemHandler.insert(ItemResource.of(itemOnGround), itemOnGround.getCount(), tx);
+                    if (amountInserted > 0) {
+                        itemOnGround.shrink(amountInserted);
+                        tx.commit();
+                    }
+                }
 
                 if (itemOnGround.isEmpty()) {
                     event.setCanPickup(TriState.TRUE);

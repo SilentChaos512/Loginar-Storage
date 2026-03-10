@@ -23,7 +23,7 @@ public class ContainerItemMenu extends AbstractContainerMenu {
     public <T extends Item & IContainerItem> ContainerItemMenu(int id, Inventory playerInventory, MenuType<?> containerType, Class<T> containerItemClass) {
         super(containerType, id);
         this.item = getHeldContainerItem(playerInventory.player, containerItemClass);
-        this.itemHandler = containerItemClass.cast(this.item.getItem()).getInventory(this.item);
+        this.itemHandler = containerItemClass.cast(this.item.getItem()).getDeprecatedItemHandler(this.item);
         this.containerItemClass = containerItemClass;
 
         Predicate<ItemStack> validItems = s -> containerItemClass.cast(this.item.getItem()).canStore(s);
@@ -62,6 +62,10 @@ public class ContainerItemMenu extends AbstractContainerMenu {
                 blocked = slot.index;
             }
         }
+    }
+
+    ItemStack getItem() {
+        return this.item;
     }
 
     private static ItemStack getHeldContainerItem(Player player, Class<? extends Item> itemClass) {

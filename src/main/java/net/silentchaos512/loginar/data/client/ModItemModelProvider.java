@@ -4,7 +4,7 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.silentchaos512.loginar.LoginarMod;
@@ -16,7 +16,7 @@ import net.silentchaos512.loginar.setup.LsItems;
 import java.util.function.BiConsumer;
 
 public class ModItemModelProvider extends ItemModelGenerators {
-    public ModItemModelProvider(ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
+    public ModItemModelProvider(ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(itemModelOutput, modelOutput);
     }
 

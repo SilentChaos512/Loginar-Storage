@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.data.client;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.silentchaos512.lib.util.NameUtils;
@@ -52,7 +52,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addEntityType(LsEntityTypes.FRIENDLY_LOGINAR, "Friendly Loginar");
 
         // Keybindings
-        add("key.category." + LoginarMod.MOD_ID, "Loginar Storage");
+        add("key.category." + LoginarMod.MOD_ID + ".keys", "Loginar Storage");
         add("key", "openBackpack", "Open Backpack Urn");
         add("key", "swapUrnItems", "Swap Item Into Swapper Urn");
 
@@ -76,7 +76,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItemSub(LsItems.SUPPLIER_UPGRADE, "desc", "Replenishes consumed items (blocks, tools, etc.) when a stack is used up");
         // Container items
         addItem(LsItems.FLOWER_BASKET, "Flower Basket");
-        addItemSub(LsItems.FLOWER_BASKET, "desc", "Stores and picks up flowers");
+        addItemSub(LsItems.FLOWER_BASKET, "desc", "Stores and picks up flowers and some other plants");
         addItem(LsItems.GEM_BAG, "Gem Bag");
         addItemSub(LsItems.GEM_BAG, "desc", "Stores and picks up gems");
         addItem(LsItems.LUNCH_BOX, "Lunch Box");
@@ -113,7 +113,7 @@ public class ModLanguageProvider extends LanguageProvider {
     }
 
     private void addItemSub(ItemLike item, String suffix, String value) {
-        ResourceLocation name = NameUtils.fromItem(item);
+        Identifier name = NameUtils.fromItem(item);
         add(String.format("item.%s.%s.%s", name.getNamespace(), name.getPath(), suffix), value);
     }
 

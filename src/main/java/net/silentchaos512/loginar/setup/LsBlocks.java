@@ -18,6 +18,7 @@ import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class LsBlocks {
@@ -33,7 +34,7 @@ public class LsBlocks {
     public static final DeferredBlock<LoginarEggBlock> LOGINAR_EGG = register(
             "loginar_egg",
             LoginarEggBlock::new,
-            BlockBehaviour.Properties.of()
+            properties -> properties
                     .mapColor(MapColor.COLOR_CYAN)
                     .forceSolidOn()
                     .strength(0.5F)
@@ -54,7 +55,7 @@ public class LsBlocks {
     private static <T extends Block> DeferredBlock<T> registerNoItem(
             String name,
             Function<BlockBehaviour.Properties, T> block,
-            BlockBehaviour.Properties properties
+            UnaryOperator<BlockBehaviour.Properties> properties
     ) {
         return REGISTER.registerBlock(name, block, properties);
     }
@@ -62,17 +63,17 @@ public class LsBlocks {
     private static <T extends Block> DeferredBlock<T> register(
             String name,
             Function<BlockBehaviour.Properties, T> block,
-            BlockBehaviour.Properties properties
+            UnaryOperator<BlockBehaviour.Properties> properties
     ) {
-        return register(name, block, properties, LsBlocks::defaultItem, new Item.Properties());
+        return register(name, block, properties, LsBlocks::defaultItem, UnaryOperator.identity());
     }
 
     private static <T extends Block> DeferredBlock<T> register(
             String name,
             Function<BlockBehaviour.Properties, T> block,
-            BlockBehaviour.Properties properties,
+            UnaryOperator<BlockBehaviour.Properties> properties,
             Function<DeferredBlock<T>, Function<Item.Properties, ? extends BlockItem>> item,
-            Item.Properties itemProperties
+            UnaryOperator<Item.Properties> itemProperties
     ) {
         DeferredBlock<T> ret = registerNoItem(name, block, properties);
         LsItems.register(name, item.apply(ret), itemProperties);
@@ -85,8 +86,8 @@ public class LsBlocks {
 
     private static DeferredBlock<LoginarUrnBlock> registerUrn(UrnTypes type) {
         return register(type.name().toLowerCase(Locale.ROOT) + "_loginar_urn",
-                p -> new LoginarUrnBlock(type, p),
-                BlockBehaviour.Properties.of()
+                properties -> new LoginarUrnBlock(type, properties),
+                properties -> properties
                         .strength(2f)
                         .noOcclusion()
                         .isSuffocating((state, level, pos) -> false)
@@ -96,7 +97,7 @@ public class LsBlocks {
                         block.get(),
                         p
                 ),
-                new Item.Properties()
+                properties -> properties
                         .stacksTo(1)
                         .useBlockDescriptionPrefix()
         );

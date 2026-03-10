@@ -2,10 +2,10 @@ package net.silentchaos512.loginar.item.container;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -47,8 +47,8 @@ public abstract class ContainerItem extends Item implements IContainerItem {
     }
 
     @Override
-    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        if (!worldIn.isClientSide) {
+    public InteractionResult use(Level levelIn, Player playerIn, InteractionHand handIn) {
+        if (!levelIn.isClientSide()) {
             playerIn.openMenu(new SimpleMenuProvider((id, playerInventory, player) -> {
                 return this.getMenuType().create(id, playerInventory, new RegistryFriendlyByteBuf(Unpooled.buffer(), player.registryAccess(), ConnectionType.NEOFORGE));
             }, this.containerName));

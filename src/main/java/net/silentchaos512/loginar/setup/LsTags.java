@@ -1,7 +1,7 @@
 package net.silentchaos512.loginar.setup;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -49,7 +49,7 @@ public final class LsTags {
         }
 
         private static TagKey<Item> common(String path) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", path));
+            return ItemTags.create(Identifier.fromNamespaceAndPath("c", path));
         }
     }
 }

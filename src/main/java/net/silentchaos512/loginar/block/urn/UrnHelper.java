@@ -1,13 +1,13 @@
 package net.silentchaos512.loginar.block.urn;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.ItemStackWithSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsItems;
@@ -37,7 +37,7 @@ public final class UrnHelper {
     }
 
     public static boolean canUrnStore(ItemStack stack) {
-        return !isUrn(stack) && !stack.is(LsTags.Items.URNS_CANNOT_STORE) && stack.getItem().canFitInsideContainerItems();
+        return !isUrn(stack) && !stack.is(LsTags.Items.URNS_CANNOT_STORE) && stack.canFitInsideContainerItems();
     }
 
     public static NonNullList<ItemStack> getItemsMutableCopy(ItemStack stack) {
@@ -211,37 +211,28 @@ public final class UrnHelper {
         return false;
     }
 
-    public static void loadAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items) {
+    public static void loadAllItems(ValueInput input, String tagKey, NonNullList<ItemStack> items) {
         // Taken from ContainerHelper, but can specify the list name
-        ListTag listtag = tag.getListOrEmpty(tagKey);
-
-        for (int i = 0; i < listtag.size(); ++i) {
-            CompoundTag compoundtag = listtag.getCompoundOrEmpty(i);
-            int j = compoundtag.getByteOr("Slot", (byte) 0) & 255;
-            if (j >= 0 && j < items.size()) {
-                items.set(j, ItemStack.parse(provider, compoundtag).orElse(ItemStack.EMPTY));
+        for (ItemStackWithSlot itemstackwithslot : input.listOrEmpty(tagKey, ItemStackWithSlot.CODEC)) {
+            if (itemstackwithslot.isValidInContainer(items.size())) {
+                items.set(itemstackwithslot.slot(), itemstackwithslot.stack());
             }
         }
-
     }
 
-    public static CompoundTag saveAllItems(CompoundTag tag, HolderLookup.Provider provider, String tagKey, NonNullList<ItemStack> items, boolean alwaysPutTag) {
+    public static void saveAllItems(ValueOutput output, String tagKey, NonNullList<ItemStack> items, boolean allowEmpty) {
         // Taken from ContainerHelper, but can specify the list name
-        ListTag listtag = new ListTag();
+        ValueOutput.TypedOutputList<ItemStackWithSlot> typedoutputlist = output.list(tagKey, ItemStackWithSlot.CODEC);
 
-        for (int i = 0; i < items.size(); ++i) {
+        for (int i = 0; i < items.size(); i++) {
             ItemStack itemstack = items.get(i);
             if (!itemstack.isEmpty()) {
-                CompoundTag compoundtag = new CompoundTag();
-                compoundtag.putByte("Slot", (byte) i);
-                listtag.add(itemstack.save(provider, compoundtag));
+                typedoutputlist.add(new ItemStackWithSlot(i, itemstack));
             }
         }
 
-        if (!listtag.isEmpty() || alwaysPutTag) {
-            tag.put(tagKey, listtag);
+        if (typedoutputlist.isEmpty() && !allowEmpty) {
+            output.discard(tagKey);
         }
-
-        return tag;
     }
 }
