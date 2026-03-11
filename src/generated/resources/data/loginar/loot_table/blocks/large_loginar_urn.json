@@ -16,7 +16,6 @@
               "function": "minecraft:copy_components",
               "include": [
                 "minecraft:custom_name",
-                "minecraft:container",
                 "minecraft:lock",
                 "minecraft:container_loot",
                 "loginar:urn_clay_color",

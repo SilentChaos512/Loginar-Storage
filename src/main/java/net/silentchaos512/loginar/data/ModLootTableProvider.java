@@ -102,7 +102,6 @@ public class ModLootTableProvider extends LootTableProvider {
                                                             .apply(
                                                                     CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY)
                                                                             .include(DataComponents.CUSTOM_NAME)
-                                                                            .include(DataComponents.CONTAINER)
                                                                             .include(DataComponents.LOCK)
                                                                             .include(DataComponents.CONTAINER_LOOT)
                                                                             .include(LsDataComponents.URN_CLAY_COLOR.get())

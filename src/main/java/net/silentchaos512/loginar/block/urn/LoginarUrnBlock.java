@@ -3,14 +3,17 @@ package net.silentchaos512.loginar.block.urn;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.BlockGetter;
@@ -131,10 +134,9 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof LoginarUrnBlockEntity urn) {
-            if (!level.isClientSide() && player.isCreative() && !urn.isEmpty()) {
+            if (!level.isClientSide() && player.preventsBlockDrops() && !urn.isEmpty()) {
                 ItemStack itemstack = new ItemStack(this);
                 itemstack.applyComponents(urn.collectComponents());
-
                 ItemEntity itementity = new ItemEntity(level, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, itemstack);
                 itementity.setDefaultPickUpDelay();
                 level.addFreshEntity(itementity);
@@ -154,7 +156,6 @@ public class LoginarUrnBlock extends BaseEntityBlock {
                 for (int i = 0; i < urn.getContainerSize(); ++i) {
                     consumer.accept(urn.getItem(i));
                 }
-
             });
         }
 
@@ -167,6 +168,11 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected void affectNeighborsAfterRemoval(BlockState p_393743_, ServerLevel p_394398_, BlockPos p_393898_, boolean p_394318_) {
+        Containers.updateNeighboursAfterDestroy(p_393743_, p_394398_, p_393898_);
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return this.type.blockShape();
     }
@@ -175,6 +181,11 @@ public class LoginarUrnBlock extends BaseEntityBlock {
     @Override
     public boolean hasAnalogOutputSignal(BlockState p_60457_) {
         return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState p_56223_, Level p_56224_, BlockPos p_56225_, Direction p_434981_) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(p_56224_.getBlockEntity(p_56225_));
     }
 
     @Override

@@ -65,6 +65,11 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
         pComponents.set(LsDataComponents.URN_UPGRADES, ItemContainerContents.fromItems(this.upgrades));
     }
 
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        // Do not drop contents!
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, LoginarUrnBlockEntity blockEntity) {
         for (ItemStack upgrade : blockEntity.upgrades) {
             if (!upgrade.isEmpty() && upgrade.getItem() instanceof TickingUrnUpgrade tickingUrnUpgrade) {

@@ -15,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.UrnTypes;
@@ -82,12 +83,12 @@ public class LoginarUrnBlockItem extends BlockItem {
     }
 
     private static void tooltipUrnData(ItemStack stack, Consumer<Component> tooltipAdder) {
-        var clayColor = UrnHelper.getClayColor(stack);
-        var clayColorText = TextUtil.withColor(Component.literal(clayColor.format()), clayColor);
+        int clayColor = UrnHelper.getClayColor(stack).getColor() & 0xFFFFFF;
+        var clayColorText = TextUtil.withColor(Component.literal(Color.format(clayColor)), clayColor);
         tooltipAdder.accept(TextUtil.misc("urn.clayColor", clayColorText));
 
-        var gemColor = UrnHelper.getGemColor(stack);
-        var gemColorText = TextUtil.withColor(Component.literal(gemColor.format()), gemColor);
+        int gemColor = UrnHelper.getGemColor(stack).getColor() & 0xFFFFFF;
+        var gemColorText = TextUtil.withColor(Component.literal(Color.format(gemColor)), gemColor);
         tooltipAdder.accept(TextUtil.misc("urn.gemColor", gemColorText));
     }
 
@@ -110,12 +111,12 @@ public class LoginarUrnBlockItem extends BlockItem {
             ++j;
             if (i <= 4) {
                 ++i;
-                tooltipAdder.accept(Component.translatable("container.shulkerBox.itemCount", item.getHoverName(), item.getCount()));
+                tooltipAdder.accept(Component.translatable("item.container.item_count", item.getHoverName(), item.getCount()));
             }
         }
 
         if (j - i > 0) {
-            tooltipAdder.accept(Component.translatable("container.shulkerBox.more", j - i).withStyle(ChatFormatting.ITALIC));
+            tooltipAdder.accept(Component.translatable("item.container.more_items", j - i).withStyle(ChatFormatting.ITALIC));
         }
     }
 }
