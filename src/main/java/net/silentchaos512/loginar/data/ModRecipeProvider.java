@@ -30,8 +30,6 @@ import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsItems;
 import net.silentchaos512.loginar.setup.LsTags;
 
-import java.util.Objects;
-
 public class ModRecipeProvider extends LibRecipeProvider {
     public ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
         super(registries, recipeOutput, LoginarMod.MOD_ID);
@@ -48,6 +46,113 @@ public class ModRecipeProvider extends LibRecipeProvider {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 600)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(this.output, modId("loginar_calamari_campfire_cooking"));
+
+        // Crafting items
+
+        // Tiny Crystal
+        shapeless(RecipeCategory.MISC, LsItems.TINY_CRYSTAL)
+                .requires(LsBlocks.FIRE_FLOWER)
+                .unlockedBy("has_item", has(LsBlocks.FIRE_FLOWER))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.TINY_CRYSTAL, 2)
+                .requires(LsItems.SMALL_CRYSTAL)
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
+                .save(this.output, modId("tiny_crystal_from_small"));
+        // Small Crystal
+        shaped(RecipeCategory.MISC, LsItems.SMALL_CRYSTAL)
+                .pattern("#a#")
+                .pattern("#*#")
+                .pattern("#b#")
+                .define('*', LsItems.TINY_CRYSTAL)
+                .define('#', Tags.Items.INGOTS_COPPER)
+                .define('a', Tags.Items.GEMS_AMETHYST)
+                .define('b', Items.GLOW_BERRIES)
+                .unlockedBy("has_item", has(LsItems.TINY_CRYSTAL))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.SMALL_CRYSTAL, 2)
+                .requires(LsItems.SMALL_CRYSTAL)
+                .requires(Tags.Items.INGOTS_COPPER)
+                .requires(Tags.Items.INGOTS_COPPER)
+                .requires(Tags.Items.INGOTS_COPPER)
+                .requires(Tags.Items.INGOTS_COPPER)
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
+                .save(this.output, modId("small_crystal_clone"));
+        shapeless(RecipeCategory.MISC, LsItems.SMALL_CRYSTAL)
+                .requires(LsItems.LOGINAR_ANTENNA)
+                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .save(this.output, modId("easy_small_crystal"));
+        // Medium Crystal
+        shaped(RecipeCategory.MISC, LsItems.MEDIUM_CRYSTAL)
+                .pattern("/g/")
+                .pattern("q*q")
+                .pattern("###")
+                .define('*', LsItems.SMALL_CRYSTAL)
+                .define('/', Tags.Items.RODS_BLAZE)
+                .define('g', Tags.Items.INGOTS_GOLD)
+                .define('q', Tags.Items.GEMS_QUARTZ)
+                .define('#', Blocks.BLACKSTONE)
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.MEDIUM_CRYSTAL, 2)
+                .requires(LsItems.MEDIUM_CRYSTAL)
+                .requires(Tags.Items.GEMS_QUARTZ)
+                .requires(Tags.Items.GEMS_QUARTZ)
+                .requires(Tags.Items.GEMS_QUARTZ)
+                .requires(Tags.Items.GEMS_QUARTZ)
+                .unlockedBy("has_item", has(LsItems.MEDIUM_CRYSTAL))
+                .save(this.output, modId("medium_crystal_clone"));
+        // Large Crystal
+        shaped(RecipeCategory.MISC, LsItems.LARGE_CRYSTAL)
+                .pattern("cnw")
+                .pattern("o*o")
+                .pattern("###")
+                .define('*', LsItems.MEDIUM_CRYSTAL)
+                .define('o', Items.ENDER_EYE)
+                .define('n', Tags.Items.INGOTS_NETHERITE)
+                .define('c', Items.CRIMSON_FUNGUS)
+                .define('w', Items.WARPED_FUNGUS)
+                .define('#', Blocks.CRYING_OBSIDIAN)
+                .unlockedBy("has_item", has(LsItems.MEDIUM_CRYSTAL))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.LARGE_CRYSTAL, 2)
+                .requires(LsItems.LARGE_CRYSTAL)
+                .requires(Items.ENDER_EYE, 3)
+                .unlockedBy("has_item", has(LsItems.LARGE_CRYSTAL))
+                .save(this.output, modId("large_crystal_clone"));
+        // Huge Crystal
+        shaped(RecipeCategory.MISC, LsItems.HUGE_CRYSTAL)
+                .pattern("csc")
+                .pattern("e*e")
+                .pattern("###")
+                .define('*', LsItems.LARGE_CRYSTAL)
+                .define('c', Items.CHORUS_FLOWER)
+                .define('s', Items.SHULKER_SHELL)
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .define('#', Blocks.PURPUR_BLOCK)
+                .unlockedBy("has_item", has(LsItems.LARGE_CRYSTAL))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.HUGE_CRYSTAL, 2)
+                .requires(LsItems.HUGE_CRYSTAL)
+                .requires(Items.CHORUS_FLOWER, 2)
+                .unlockedBy("has_item", has(LsItems.HUGE_CRYSTAL))
+                .save(this.output, modId("huge_crystal_clone"));
+        // Super Crystal
+        shaped(RecipeCategory.MISC, LsItems.SUPER_CRYSTAL)
+                .pattern("wsw")
+                .pattern("p*p")
+                .pattern("###")
+                .define('*', LsItems.HUGE_CRYSTAL)
+                .define('w', Items.WITHER_ROSE)
+                .define('s', Items.SCULK)
+                .define('p', Tags.Items.GEMS_PRISMARINE)
+                .define('#', Blocks.PRISMARINE)
+                .unlockedBy("has_item", has(LsItems.HUGE_CRYSTAL))
+                .save(this.output);
+        shapeless(RecipeCategory.MISC, LsItems.SUPER_CRYSTAL, 2)
+                .requires(LsItems.SUPER_CRYSTAL)
+                .requires(Items.WITHER_ROSE)
+                .unlockedBy("has_item", has(LsItems.SUPER_CRYSTAL))
+                .save(this.output, modId("super_crystal_clone"));
 
         // Loginar Urn recipes
 
@@ -72,62 +177,41 @@ public class ModRecipeProvider extends LibRecipeProvider {
         baseUrn(Blocks.BLACK_TERRACOTTA, 0x251610);
 
         upgradedUrn(LsBlocks.SMALL_LOGINAR_URN)
-                .pattern("#a#")
-                .pattern("#*#")
-                .pattern("#b#")
+                .pattern("/")
+                .pattern("*")
                 .define('*', LsBlocks.TINY_LOGINAR_URN)
-                .define('#', Tags.Items.INGOTS_COPPER)
-                .define('a', Tags.Items.GEMS_AMETHYST)
-                .define('b', Items.GLOW_BERRIES)
+                .define('/', LsItems.SMALL_CRYSTAL)
                 .unlockedBy("has_item", has(LsBlocks.TINY_LOGINAR_URN))
                 .save(this.output);
 
         upgradedUrn(LsBlocks.MEDIUM_LOGINAR_URN)
-                .pattern("/g/")
-                .pattern("q*q")
-                .pattern("###")
+                .pattern("/")
+                .pattern("*")
                 .define('*', LsBlocks.SMALL_LOGINAR_URN)
-                .define('/', Tags.Items.RODS_BLAZE)
-                .define('g', Tags.Items.INGOTS_GOLD)
-                .define('q', Tags.Items.GEMS_QUARTZ)
-                .define('#', Blocks.BLACKSTONE)
+                .define('/', LsItems.MEDIUM_CRYSTAL)
                 .unlockedBy("has_item", has(LsBlocks.SMALL_LOGINAR_URN))
                 .save(this.output);
 
         upgradedUrn(LsBlocks.LARGE_LOGINAR_URN)
-                .pattern("cnw")
-                .pattern("o*o")
-                .pattern("###")
+                .pattern("/")
+                .pattern("*")
                 .define('*', LsBlocks.MEDIUM_LOGINAR_URN)
-                .define('o', Items.ENDER_EYE)
-                .define('n', Tags.Items.INGOTS_NETHERITE)
-                .define('c', Items.CRIMSON_FUNGUS)
-                .define('w', Items.WARPED_FUNGUS)
-                .define('#', Blocks.CRYING_OBSIDIAN)
+                .define('/', LsItems.LARGE_CRYSTAL)
                 .unlockedBy("has_item", has(LsBlocks.MEDIUM_LOGINAR_URN))
                 .save(this.output);
 
         upgradedUrn(LsBlocks.HUGE_LOGINAR_URN)
-                .pattern("csc")
-                .pattern("e*e")
-                .pattern("###")
+                .pattern("/")
+                .pattern("*")
                 .define('*', LsBlocks.LARGE_LOGINAR_URN)
-                .define('c', Items.CHORUS_FLOWER)
-                .define('s', Items.SHULKER_SHELL)
-                .define('e', Tags.Items.GEMS_EMERALD)
-                .define('#', Blocks.PURPUR_BLOCK)
-                .unlockedBy("has_item", has(LsBlocks.LARGE_LOGINAR_URN))
+                .define('/', LsItems.HUGE_CRYSTAL)
                 .save(this.output);
 
         upgradedUrn(LsBlocks.SUPER_LOGINAR_URN)
-                .pattern("wsw")
-                .pattern("p*p")
-                .pattern("###")
+                .pattern("/")
+                .pattern("*")
                 .define('*', LsBlocks.HUGE_LOGINAR_URN)
-                .define('w', Items.WITHER_ROSE)
-                .define('s', Items.SCULK)
-                .define('p', Tags.Items.GEMS_PRISMARINE)
-                .define('#', Blocks.PRISMARINE)
+                .define('/', LsItems.SUPER_CRYSTAL)
                 .unlockedBy("has_item", has(LsBlocks.HUGE_LOGINAR_URN))
                 .save(this.output);
 
@@ -181,74 +265,76 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .pattern("#c#")
                 .define('/', Tags.Items.RODS_WOODEN)
                 .define('#', Blocks.RED_TERRACOTTA)
-                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('a', LsItems.SMALL_CRYSTAL)
                 .define('c', LsItems.LOGINAR_CALAMARI)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
         shaped(RecipeCategory.BREWING, LsItems.POTION_POUCH)
                 .pattern("#/#")
                 .pattern("#a#")
                 .pattern(" # ")
-                .define('a', LsItems.LOGINAR_ANTENNA)
+                .define('a', LsItems.SMALL_CRYSTAL)
                 .define('/', Tags.Items.RODS_BLAZE)
                 .define('#', Tags.Items.LEATHERS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shaped(RecipeCategory.MISC, LsItems.GEM_BAG)
+        shaped(RecipeCategory.TOOLS, LsItems.GEM_BAG)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.SMALL_CRYSTAL)
                 .define('/', Tags.Items.NUGGETS_GOLD)
                 .define('#', ItemTags.WOOL)
                 .define('g', Tags.Items.GEMS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shaped(RecipeCategory.MISC, LsItems.FLOWER_BASKET)
+        shaped(RecipeCategory.TOOLS, LsItems.FLOWER_BASKET)
                 .pattern("/~/")
                 .pattern("#g#")
                 .pattern("###")
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.SMALL_CRYSTAL)
                 .define('/', Tags.Items.NUGGETS_GOLD)
                 .define('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
                 .define('g', ItemTags.FLOWERS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shaped(RecipeCategory.MISC, LsItems.ORE_CRATE)
+        shaped(RecipeCategory.TOOLS, LsItems.ORE_CRATE)
                 .pattern("ooo")
                 .pattern("#~#")
                 .pattern("###")
                 .define('o', Tags.Items.RAW_MATERIALS)
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.SMALL_CRYSTAL)
                 .define('#', ItemTags.PLANKS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shaped(RecipeCategory.MISC, LsItems.SEED_BAG)
+        shaped(RecipeCategory.TOOLS, LsItems.SEED_BAG)
                 .pattern(" ~ ")
                 .pattern("#s#")
                 .pattern(" # ")
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.SMALL_CRYSTAL)
                 .define('#', ItemTags.WOOL)
                 .define('s', Tags.Items.SEEDS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shaped(RecipeCategory.MISC, LsItems.WOOD_RACK)
+        shaped(RecipeCategory.TOOLS, LsItems.WOOD_RACK)
                 .pattern("/ /")
                 .pattern("/~/")
                 .pattern("# #")
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.SMALL_CRYSTAL)
                 .define('/', Tags.Items.RODS_WOODEN)
                 .define('#', ItemTags.LOGS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.SMALL_CRYSTAL))
                 .save(this.output);
 
-        shapeless(RecipeCategory.MISC, LsItems.FIRE_FLINGER)
+        // Misc
+
+        shapeless(RecipeCategory.TOOLS, LsItems.FIRE_FLINGER)
                 .requires(LsItems.LOGINAR_ANTENNA)
                 .requires(LsTags.Items.GEMS_FIRE_PEARL)
                 .unlockedBy("has_item", has(LsItems.FIRE_PEARL))
@@ -269,9 +355,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .pattern("#0#")
                 .pattern("###")
                 .define('#', clay)
-                .define('~', LsItems.LOGINAR_ANTENNA)
+                .define('~', LsItems.TINY_CRYSTAL)
                 .define('0', Tags.Items.GEMS)
-                .unlockedBy("has_item", has(LsItems.LOGINAR_ANTENNA))
+                .unlockedBy("has_item", has(LsItems.TINY_CRYSTAL))
                 .save(this.output, modId(colorName + "tiny_loginar_urn"));
     }
 
@@ -283,7 +369,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
         private final int clayColor;
 
         public UrnRecipeBuilder(HolderGetter<Item> items, int clayColor) {
-            super(items, RecipeCategory.BUILDING_BLOCKS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
+            super(items, RecipeCategory.DECORATIONS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
             this.clayColor = clayColor;
         }
 
@@ -291,7 +377,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
         public UrnBaseRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnBaseRecipe(
-                    Objects.requireNonNullElse(this.group, ""),
+                    this.group,
                     RecipeBuilder.determineBookCategory(this.category),
                     pattern,
                     this.result,
@@ -302,13 +388,13 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
     private static class UrnUpgradeRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnUpgradeRecipe> {
         public UrnUpgradeRecipeBuilder(HolderGetter<Item> items, ItemLike upgradedUrn) {
-            super(items, RecipeCategory.BUILDING_BLOCKS, new ItemStack(upgradedUrn));
+            super(items, RecipeCategory.DECORATIONS, new ItemStack(upgradedUrn));
         }
 
         public UrnUpgradeRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnUpgradeRecipe(
-                    Objects.requireNonNullElse(this.group, ""),
+                    this.group,
                     RecipeBuilder.determineBookCategory(this.category),
                     pattern,
                     this.result

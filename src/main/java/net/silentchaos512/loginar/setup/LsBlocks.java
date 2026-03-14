@@ -1,9 +1,9 @@
 package net.silentchaos512.loginar.setup;
 
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -42,6 +42,23 @@ public class LsBlocks {
                     .randomTicks()
                     .noOcclusion()
                     .pushReaction(PushReaction.DESTROY)
+    );
+
+    public static final DeferredBlock<Block> FIRE_FLOWER = register(
+            "fire_flower",
+            properties -> new FlowerBlock(MobEffects.FIRE_RESISTANCE, 12f, properties),
+            properties -> properties
+                    .sound(SoundType.GRASS)
+                    .strength(0)
+                    .noCollision()
+                    .lightLevel(state -> 10)
+    );
+    public static final DeferredBlock<FlowerPotBlock> POTTED_FIRE_FLOWER = register(
+            "potted_fire_flower",
+            properties -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, FIRE_FLOWER, properties),
+            properties -> properties
+                    .strength(0)
+                    .lightLevel(state -> 10)
     );
 
     public static Collection<LoginarUrnBlock> getUrns() {

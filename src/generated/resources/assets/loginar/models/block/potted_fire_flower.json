@@ -1,0 +1,6 @@
+{
+  "parent": "silentlib:block/flower_pot_cross_cutout",
+  "textures": {
+    "plant": "loginar:block/fire_flower"
+  }
+}

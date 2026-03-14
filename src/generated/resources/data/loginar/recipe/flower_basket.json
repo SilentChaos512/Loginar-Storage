@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "#": [
       "minecraft:sugar_cane",
@@ -8,7 +8,7 @@
     ],
     "/": "#c:nuggets/gold",
     "g": "#minecraft:flowers",
-    "~": "loginar:loginar_antenna"
+    "~": "loginar:small_crystal"
   },
   "pattern": [
     "/~/",

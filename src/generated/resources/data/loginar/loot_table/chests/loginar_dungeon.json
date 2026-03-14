@@ -11,14 +11,34 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "loginar:tiny_crystal",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
                 "max": 2.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "loginar:loginar_antenna",
+          "name": "loginar:small_crystal",
           "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "loginar:medium_crystal"
         },
         {
           "type": "minecraft:item",
@@ -34,7 +54,7 @@
             }
           ],
           "name": "minecraft:bone",
-          "weight": 2
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -50,11 +70,7 @@
             }
           ],
           "name": "minecraft:gunpowder",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:name_tag"
+          "weight": 5
         },
         {
           "type": "minecraft:item",
@@ -157,7 +173,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond"
+          "name": "minecraft:diamond",
+          "weight": 12
         },
         {
           "type": "minecraft:item",
@@ -172,7 +189,8 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:emerald"
+          "name": "minecraft:emerald",
+          "weight": 12
         },
         {
           "type": "minecraft:item",
@@ -187,7 +205,8 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:quartz"
+          "name": "minecraft:quartz",
+          "weight": 12
         },
         {
           "type": "minecraft:item",
@@ -202,7 +221,12 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:amethyst_shard"
+          "name": "minecraft:amethyst_shard",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_ingot"
         }
       ],
       "rolls": {

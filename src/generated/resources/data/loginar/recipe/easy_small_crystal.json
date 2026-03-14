@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "loginar:loginar_antenna"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:small_crystal"
+  }
+}

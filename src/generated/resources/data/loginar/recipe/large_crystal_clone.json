@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "loginar:large_crystal",
+    "minecraft:ender_eye",
+    "minecraft:ender_eye",
+    "minecraft:ender_eye"
+  ],
+  "result": {
+    "count": 2,
+    "id": "loginar:large_crystal"
+  }
+}

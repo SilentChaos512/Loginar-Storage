@@ -1,12 +1,12 @@
 {
   "type": "loginar:urn_base",
-  "category": "building",
+  "category": "misc",
   "clay_color": "#FF392A24",
   "group": "loginar:tiny_urns",
   "key": {
     "#": "minecraft:gray_terracotta",
     "0": "#c:gems",
-    "~": "loginar:loginar_antenna"
+    "~": "loginar:tiny_crystal"
   },
   "pattern": [
     "#~#",

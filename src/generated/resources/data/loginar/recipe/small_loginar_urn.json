@@ -1,16 +1,13 @@
 {
   "type": "loginar:urn_upgrade",
-  "category": "building",
+  "category": "misc",
   "key": {
-    "#": "#c:ingots/copper",
     "*": "loginar:tiny_loginar_urn",
-    "a": "#c:gems/amethyst",
-    "b": "minecraft:glow_berries"
+    "/": "loginar:small_crystal"
   },
   "pattern": [
-    "#a#",
-    "#*#",
-    "#b#"
+    "/",
+    "*"
   ],
   "result": {
     "count": 1,

@@ -37,6 +37,13 @@ public class ModItemModelProvider extends ItemModelGenerators {
         generateFlatItem(LsItems.FIRE_PEARL.get(), ModelTemplates.FLAT_ITEM);
         generateFlatItem(LsItems.FIRE_FLINGER.get(), ModelTemplates.FLAT_ITEM);
 
+        generateFlatItem(LsItems.TINY_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.SMALL_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.MEDIUM_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.LARGE_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.HUGE_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        generateFlatItem(LsItems.SUPER_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+
         generateFlatItem(LsItems.BACKPACK_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
         generateFlatItem(LsItems.VACUUM_UPGRADE.get(), ModelTemplates.FLAT_ITEM);
         generateFlatItem(LsItems.ITEM_SWAPPER_UPGRADE.get(), ModelTemplates.FLAT_ITEM);

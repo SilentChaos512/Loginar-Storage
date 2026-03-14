@@ -1,11 +1,11 @@
 {
   "type": "loginar:urn_base",
-  "category": "building",
+  "category": "misc",
   "group": "loginar:tiny_urns",
   "key": {
     "#": "minecraft:terracotta",
     "0": "#c:gems",
-    "~": "loginar:loginar_antenna"
+    "~": "loginar:tiny_crystal"
   },
   "pattern": [
     "#~#",

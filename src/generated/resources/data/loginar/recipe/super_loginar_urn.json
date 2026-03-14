@@ -1,17 +1,13 @@
 {
   "type": "loginar:urn_upgrade",
-  "category": "building",
+  "category": "misc",
   "key": {
-    "#": "minecraft:prismarine",
     "*": "loginar:huge_loginar_urn",
-    "p": "#c:gems/prismarine",
-    "s": "minecraft:sculk",
-    "w": "minecraft:wither_rose"
+    "/": "loginar:super_crystal"
   },
   "pattern": [
-    "wsw",
-    "p*p",
-    "###"
+    "/",
+    "*"
   ],
   "result": {
     "count": 1,
