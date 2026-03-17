@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Lunch box now selects the best food (avoids overfilling hunger bar) and displays the next food to be eaten when held
 
+## [1.21.1-1.4.7] - 2026-03-17
+### Changed
+- Increased the size of most urns
+  - Tiny and small are the same
+  - Medium: 9x3 -> 9x4
+  - Large: 9x4 -> 9x6
+  - Huge: 9x5 -> 9x9
+  - Super: 9x6 -> 12x9
+
 ## [1.21.1-1.4.6] - 2025-07-10
 ### Added
 - Missing recipe for the seed bag

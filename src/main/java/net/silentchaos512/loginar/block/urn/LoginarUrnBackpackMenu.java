@@ -3,7 +3,6 @@ package net.silentchaos512.loginar.block.urn;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -13,45 +12,28 @@ import net.neoforged.neoforge.items.ItemHandlerCopySlot;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
-public class LoginarUrnBackpackMenu extends AbstractContainerMenu {
+public class LoginarUrnBackpackMenu extends AbstractLoginarUrnMenu {
     private final ItemStack item;
     private final IItemHandler itemHandler;
     private final int containerRows;
     int urnSlot = -1;
 
-    public LoginarUrnBackpackMenu(int windowId, Inventory inv, RegistryFriendlyByteBuf data) {
-        this(windowId, inv, ItemStack.STREAM_CODEC.decode(data));
+    public LoginarUrnBackpackMenu(int windowId, Inventory playerInventory, RegistryFriendlyByteBuf data) {
+        this(windowId, playerInventory, ItemStack.STREAM_CODEC.decode(data));
     }
 
-    public LoginarUrnBackpackMenu(int windowId, Inventory inv, ItemStack itemIn) {
-        super(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), windowId);
+    public LoginarUrnBackpackMenu(int windowId, Inventory playerInventory, ItemStack itemIn) {
+        super(LsMenuTypes.LOGINAR_URN_BACKPACK.get(), windowId, getUrnTypeFromItem(itemIn));
         this.item = itemIn;
-        var size = ((LoginarUrnBlockItem) this.item.getItem()).getUrnType().inventorySize();
+        var size = urnType().totalInventorySize();
+        var rowSize = urnType().size().width();
         this.itemHandler = new ComponentItemHandler(this.item, LsDataComponents.CONTAINED_ITEMS.get(), size);
-        this.containerRows = this.itemHandler.getSlots() / 9;
-        int i = (containerRows - 4) * 18;
+        this.containerRows = this.itemHandler.getSlots() / rowSize;
+        int xOffsetPlayerInventory = urnType().renderInfo().playerInventoryXOffset();
+        int yOffsetPlayerInventory = (containerRows - 4) * 18 + urnType().renderInfo().playerInventoryYOffset();
 
-        // Urn inventory slots
-        for(int j = 0; j < containerRows; ++j) {
-            for(int k = 0; k < 9; ++k) {
-                this.addSlot(new BackpackSlot(this.itemHandler, k + j * 9, 8 + k * 18, 18 + j * 18));
-            }
-        }
-
-        // Player inventory slots
-        for(int l = 0; l < 3; ++l) {
-            for(int j1 = 0; j1 < 9; ++j1) {
-                this.addSlot(new Slot(inv, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
-            }
-        }
-
-        // Player hotbar slots
-        for(int i1 = 0; i1 < 9; ++i1) {
-            Slot slot = this.addSlot(new Slot(inv, i1, 8 + i1 * 18, 161 + i));
-            if (i1 == inv.getSelectedSlot() && ItemStack.matches(inv.getSelectedItem(), this.item)) {
-                this.urnSlot = slot.index;
-            }
-        }
+        addUrnInventorySlots(rowSize, this.containerRows, (slot, x, y) -> new BackpackSlot(this.itemHandler, slot, x, y));
+        addPlayerInventorySlots(playerInventory, xOffsetPlayerInventory, yOffsetPlayerInventory);
     }
 
     public int getRowCount() {return this.containerRows; }

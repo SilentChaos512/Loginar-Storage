@@ -1,18 +1,12 @@
 package net.silentchaos512.loginar.block.urn;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.lib.util.Color;
-import net.silentchaos512.loginar.LoginarMod;
 
 // TODO: Make it so JEI doesn't show on the side...
-public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnSwapperMenu> {
-    private static final Identifier TEXTURE = LoginarMod.getId("textures/gui/urn_swap.png");
-
+public class LoginarUrnSwapperScreen extends AbstractLoginarUrnScreen<LoginarUrnSwapperMenu> {
     private final int inventoryRows;
 
     public LoginarUrnSwapperScreen(LoginarUrnSwapperMenu container, Inventory playerInventory, Component title) {
@@ -20,6 +14,7 @@ public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnS
         this.inventoryRows = container.getRowCount();
         this.imageWidth = 180;
         this.imageHeight = 119 + this.inventoryRows * 20;
+        setGuiTexture(container.urnType().size(), true);
     }
 
     @Override
@@ -33,7 +28,7 @@ public class LoginarUrnSwapperScreen extends AbstractContainerScreen<LoginarUrnS
         if (minecraft == null) return;
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, this.imageWidth, 17 + this.inventoryRows * 20, 256, 256);
+        graphics.blit(this.guiTexture, x, y, 0, 0, this.imageWidth, 17 + this.inventoryRows * 20, 256, 256);
     }
 
     @Override

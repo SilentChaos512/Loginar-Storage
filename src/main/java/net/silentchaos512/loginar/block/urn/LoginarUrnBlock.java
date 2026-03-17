@@ -117,7 +117,10 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         } else {
             BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof LoginarUrnBlockEntity urn) {
-                player.openMenu(urn, buf -> buf.writeByte(this.type.inventorySize()));
+                player.openMenu(urn, buf -> {
+                    buf.writeByte(this.type.totalInventorySize());
+                    buf.writeByte(this.type.ordinal());
+                });
 //                player.awardStat(Stats.OPEN_SHULKER_BOX);
                 PiglinAi.angerNearbyPiglins(serverLevel, player, true);
 

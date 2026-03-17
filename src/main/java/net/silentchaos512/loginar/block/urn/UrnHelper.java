@@ -42,7 +42,7 @@ public final class UrnHelper {
 
     public static NonNullList<ItemStack> getItemsMutableCopy(ItemStack stack) {
         var items = stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.EMPTY);
-        return ItemStackUtil.createMutableCopyOfList(items, Objects.requireNonNull(UrnTypes.fromItem(stack)).inventorySize());
+        return ItemStackUtil.createMutableCopyOfList(items, Objects.requireNonNull(UrnTypes.fromItem(stack)).totalInventorySize());
     }
 
     public static NonNullList<ItemStack> getUpgradesMutableCopy(ItemStack stack) {
