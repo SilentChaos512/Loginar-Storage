@@ -5,45 +5,30 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
+import net.silentchaos512.loginar.setup.UrnTypes;
 
-public class LoginarUrnMenu extends AbstractContainerMenu {
+public class LoginarUrnMenu extends AbstractLoginarUrnMenu {
     private final Container container;
     private final int containerRows;
 
     public LoginarUrnMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        this(containerId, playerInventory, new SimpleContainer(buf.readByte()));
+        this(containerId, playerInventory, new SimpleContainer(buf.readByte()), UrnTypes.read(buf));
     }
 
-    public LoginarUrnMenu(int containerId, Inventory playerInventory, Container container) {
-        super(LsMenuTypes.LOGINAR_URN.get(), containerId);
+    public LoginarUrnMenu(int containerId, Inventory playerInventory, Container container, UrnTypes urnType) {
+        super(LsMenuTypes.LOGINAR_URN.get(), containerId, urnType);
         this.container = container;
         checkContainerSize(this.container, this.container.getContainerSize());
-        this.containerRows = this.container.getContainerSize() / 9;
-//        this.container.startOpen(playerInventory.player);
-        int i = (containerRows - 4) * 18;
+        int rowSize = urnType().size().width();
+        this.containerRows = this.container.getContainerSize() / rowSize;
+        int xOffsetPlayerInventory = urnType.renderInfo().playerInventoryXOffset();
+        int yOffsetPlayerInventory = (this.containerRows - 4) * 18 + urnType.renderInfo().playerInventoryYOffset();
 
-        // Urn inventory slots
-        for(int j = 0; j < containerRows; ++j) {
-            for(int k = 0; k < 9; ++k) {
-                this.addSlot(new UrnSlot(this.container, k + j * 9, 8 + k * 18, 18 + j * 18));
-            }
-        }
-
-        // Player inventory slots
-        for(int l = 0; l < 3; ++l) {
-            for(int j1 = 0; j1 < 9; ++j1) {
-                this.addSlot(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
-            }
-        }
-
-        // Player hotbar slots
-        for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(playerInventory, i1, 8 + i1 * 18, 161 + i));
-        }
+        addUrnInventorySlots(rowSize, this.containerRows, (slot, x, y) -> new UrnSlot(this.container, slot, x, y));
+        addPlayerInventorySlots(playerInventory, xOffsetPlayerInventory, yOffsetPlayerInventory);
     }
 
     public int getRowCount() {

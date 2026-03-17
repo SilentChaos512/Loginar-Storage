@@ -43,9 +43,9 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
     public LoginarUrnBlockEntity(UrnTypes type, BlockPos pos, BlockState state) {
         super(type.blockEntity().get(), pos, state);
         this.type = type;
-        this.items = NonNullList.withSize(this.type.inventorySize(), ItemStack.EMPTY);
+        this.items = NonNullList.withSize(this.type.totalInventorySize(), ItemStack.EMPTY);
         this.upgrades = NonNullList.withSize(this.type.upgradeSlots(), ItemStack.EMPTY);
-        this.slots = IntStream.range(0, this.type.inventorySize()).toArray();
+        this.slots = IntStream.range(0, this.type.totalInventorySize()).toArray();
     }
 
     void setDataFromPlacedItem(ItemStack placedItem) {
@@ -75,6 +75,10 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
             level.sendBlockUpdated(pos, state, state, 3);
             blockEntity.hasChanged = false;
         }
+    }
+
+    public UrnTypes getUrnType() {
+        return this.type;
     }
 
     public Color getClayColor() {
@@ -127,12 +131,12 @@ public class LoginarUrnBlockEntity extends RandomizableContainerBlockEntity impl
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
-        return new LoginarUrnMenu(containerId, playerInventory, this);
+        return new LoginarUrnMenu(containerId, playerInventory, this, this.type);
     }
 
     @Override
     public int getContainerSize() {
-        return this.type.inventorySize();
+        return this.type.totalInventorySize();
     }
 
     @Override

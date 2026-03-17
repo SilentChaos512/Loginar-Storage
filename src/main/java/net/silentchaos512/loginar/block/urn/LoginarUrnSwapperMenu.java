@@ -3,7 +3,6 @@ package net.silentchaos512.loginar.block.urn;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +15,7 @@ import net.silentchaos512.loginar.network.SwapItemFromUrnPayload;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsMenuTypes;
 
-public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
+public class LoginarUrnSwapperMenu extends AbstractLoginarUrnMenu {
     private final ItemStack item;
     private final int inventorySize;
     private final IItemHandler itemHandler;
@@ -27,16 +26,20 @@ public class LoginarUrnSwapperMenu extends AbstractContainerMenu {
     }
 
     public LoginarUrnSwapperMenu(int windowId, Inventory inv, ItemStack itemIn) {
-        super(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), windowId);
+        super(LsMenuTypes.LOGINAR_URN_SWAPPER.get(), windowId, getUrnTypeFromItem(itemIn));
         this.item = itemIn;
-        this.inventorySize = ((LoginarUrnBlockItem) this.item.getItem()).getUrnType().inventorySize();
+        this.inventorySize = urnType().totalInventorySize();
         this.itemHandler = new ComponentItemHandler(this.item, LsDataComponents.CONTAINED_ITEMS.get(), this.inventorySize);
-        this.containerRows = this.itemHandler.getSlots() / 9;
+        int rowSize = urnType().size().width();
+        this.containerRows = this.itemHandler.getSlots() / rowSize;
 
         // Urn inventory slots
-        for (int r = 0; r < containerRows; ++r) {
-            for (int c = 0; c < 9; ++c) {
-                this.addSlot(new GhostSlot(this.itemHandler, c + r * 9, 2 + c * 20, 19 + r * 20));
+        for (int row = 0; row < containerRows; ++row) {
+            for (int col = 0; col < rowSize; ++col) {
+                int slot = col + row * rowSize;
+                var px = 2 + col * 20;
+                var py = 19 + row * 20;
+                this.addSlot(new GhostSlot(this.itemHandler, slot, px, py));
             }
         }
     }

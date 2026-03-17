@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -15,12 +16,16 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
+import net.silentchaos512.loginar.util.UrnRenderInfo;
+import net.silentchaos512.loginar.util.UrnSize;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public enum UrnTypes implements StringRepresentable {
-    TINY("tiny", 1, 1,
+    TINY("tiny",
+            new UrnSize(9, 1, 1, 1),
+            UrnRenderInfo.STANDARD,
             () -> LsBlocks.TINY_LOGINAR_URN,
             () -> LsBlockEntityTypes.TINY_LOGINAR_URN,
             Shapes.or(
@@ -30,7 +35,9 @@ public enum UrnTypes implements StringRepresentable {
                     Block.box(5.5, 1, 5.5, 10.5, 10, 10.5)
             )
     ),
-    SMALL("small", 2, 1,
+    SMALL("small",
+            new UrnSize(9, 2, 1, 1),
+            UrnRenderInfo.STANDARD,
             () -> LsBlocks.SMALL_LOGINAR_URN,
             () -> LsBlockEntityTypes.SMALL_LOGINAR_URN,
             Shapes.or(
@@ -40,7 +47,9 @@ public enum UrnTypes implements StringRepresentable {
                     Block.box(5, 1, 5, 11, 11, 11)
             )
     ),
-    MEDIUM("medium", 3, 2,
+    MEDIUM("medium",
+            new UrnSize(9, 4, 1, 2),
+            UrnRenderInfo.STANDARD,
             () -> LsBlocks.MEDIUM_LOGINAR_URN,
             () -> LsBlockEntityTypes.MEDIUM_LOGINAR_URN,
             Shapes.or(
@@ -50,7 +59,9 @@ public enum UrnTypes implements StringRepresentable {
                     Block.box(4.5, 1, 4.5, 11.5, 12.5, 11.5)
             )
     ),
-    LARGE("large", 4, 2,
+    LARGE("large",
+            new UrnSize(9, 6, 1, 2),
+            UrnRenderInfo.STANDARD,
             () -> LsBlocks.LARGE_LOGINAR_URN,
             () -> LsBlockEntityTypes.LARGE_LOGINAR_URN,
             Shapes.or(
@@ -60,7 +71,9 @@ public enum UrnTypes implements StringRepresentable {
                     Block.box(4, 1, 4, 12, 12, 12)
             )
     ),
-    HUGE("huge", 5, 3,
+    HUGE("huge",
+            new UrnSize(9, 9, 1, 3),
+            UrnRenderInfo.HUGE_9X9,
             () -> LsBlocks.HUGE_LOGINAR_URN,
             () -> LsBlockEntityTypes.HUGE_LOGINAR_URN,
             Shapes.or(
@@ -70,7 +83,9 @@ public enum UrnTypes implements StringRepresentable {
                     Block.box(3.5, 1, 3.5, 12.5, 12, 12.5)
             )
     ),
-    SUPER("super", 6, 3,
+    SUPER("super",
+            new UrnSize(12, 9, 1, 3),
+            UrnRenderInfo.SUPER_9X12,
             () -> LsBlocks.SUPER_LOGINAR_URN,
             () -> LsBlockEntityTypes.SUPER_LOGINAR_URN,
             Shapes.or(
@@ -88,23 +103,22 @@ public enum UrnTypes implements StringRepresentable {
     );
 
     private final String name;
-    private final int inventorySize;
-    private final int upgradeSlots;
+    private final UrnSize size;
+    private final UrnRenderInfo renderInfo;
     private final Supplier<DeferredBlock<LoginarUrnBlock>> block;
     private final Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity;
     private final VoxelShape blockShape;
 
     UrnTypes(
             String name,
-             int inventoryRowCount,
-             int upgradeSlots,
-             Supplier<DeferredBlock<LoginarUrnBlock>> block,
-             Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity,
-             VoxelShape blockShape
+            UrnSize size, UrnRenderInfo renderInfo,
+            Supplier<DeferredBlock<LoginarUrnBlock>> block,
+            Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity,
+            VoxelShape blockShape
     ) {
         this.name = name;
-        this.inventorySize = 9 * inventoryRowCount;
-        this.upgradeSlots = upgradeSlots;
+        this.size = size;
+        this.renderInfo = renderInfo;
         this.block = block;
         this.blockEntity = blockEntity;
         this.blockShape = blockShape;
@@ -120,12 +134,20 @@ public enum UrnTypes implements StringRepresentable {
         return null;
     }
 
-    public int inventorySize() {
-        return inventorySize;
+    public UrnSize size() {
+        return this.size;
+    }
+
+    public UrnRenderInfo renderInfo() {
+        return this.renderInfo;
+    }
+
+    public int totalInventorySize() {
+        return this.size.getInventorySize();
     }
 
     public int upgradeSlots() {
-        return upgradeSlots;
+        return this.size.upgradeSlots();
     }
 
     public DeferredBlock<LoginarUrnBlock> block() {
@@ -151,5 +173,10 @@ public enum UrnTypes implements StringRepresentable {
     @Override
     public String getSerializedName() {
         return this.name;
+    }
+
+    public static UrnTypes read(ByteBuf buf) {
+        byte b = buf.readByte();
+        return values()[Mth.clamp(b, 0, values().length - 1)];
     }
 }
