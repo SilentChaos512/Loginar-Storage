@@ -3,8 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.21.11-1.6.0] - 2026-03-22
 - Ported to NeoForge 1.21.11
+- Crafting Rework! Some recipes were changed and some new items were added to make crafting multiple loginar urns much easier.
+### Added
+- Fire flowers, which generate occasionally on the surface. They can be used to craft tiny crystals, but tiny crystals can be obtained other ways as well.
+- Crystal crafting items. They come in six sizes, which match up with loginar urn sizes.
+  - Tiny crystal can be crafted from fire flowers or small crystals
+  - Small crystals can be crafted from loginar antennae, tiny crystals, or "cloned" like others
+  - All other crystals have a recipe using the previous crystal (similar to the old urn upgrade recipes), plus a "clone" recipe which is significantly cheaper.
+  - The idea behind this change is that getting your first crystal/urn of a given size is difficult, while getting more of the same is easier.
+### Changed
+- Loginar urns and other container items (lunchbox, gem bag, etc.) now require crystals in place of loginar antennae
+- Loginar urns are now upgraded by crafting them with a crystal, rather than the previous, complex recipes.
 
 ## [1.21.5-1.5.0] - 2025-08-22
 - Ported to NeoForge 1.21.5
