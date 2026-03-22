@@ -1,0 +1,6 @@
+{
+  "parent": "silentlib:block/cross_cutout",
+  "textures": {
+    "cross": "loginar:block/fire_flower"
+  }
+}

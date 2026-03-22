@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
+  "category": "equipment",
   "ingredients": [
     "loginar:loginar_antenna",
     "#c:gems/fire_pearl"

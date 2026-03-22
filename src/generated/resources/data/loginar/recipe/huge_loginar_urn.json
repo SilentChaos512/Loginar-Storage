@@ -1,17 +1,13 @@
 {
   "type": "loginar:urn_upgrade",
-  "category": "building",
+  "category": "misc",
   "key": {
-    "#": "minecraft:purpur_block",
     "*": "loginar:large_loginar_urn",
-    "c": "minecraft:chorus_flower",
-    "e": "#c:gems/emerald",
-    "s": "minecraft:shulker_shell"
+    "/": "loginar:huge_crystal"
   },
   "pattern": [
-    "csc",
-    "e*e",
-    "###"
+    "/",
+    "*"
   ],
   "result": {
     "count": 1,

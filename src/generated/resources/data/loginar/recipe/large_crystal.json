@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:crying_obsidian",
+    "*": "loginar:medium_crystal",
+    "c": "minecraft:crimson_fungus",
+    "n": "#c:ingots/netherite",
+    "o": "minecraft:ender_eye",
+    "w": "minecraft:warped_fungus"
+  },
+  "pattern": [
+    "cnw",
+    "o*o",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:large_crystal"
+  }
+}

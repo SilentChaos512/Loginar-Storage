@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "#": "#minecraft:wool",
     "/": "#c:nuggets/gold",
     "g": "#c:gems",
-    "~": "loginar:loginar_antenna"
+    "~": "loginar:small_crystal"
   },
   "pattern": [
     "/~/",

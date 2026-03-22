@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:purpur_block",
+    "*": "loginar:large_crystal",
+    "c": "minecraft:chorus_flower",
+    "e": "#c:gems/emerald",
+    "s": "minecraft:shulker_shell"
+  },
+  "pattern": [
+    "csc",
+    "e*e",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:huge_crystal"
+  }
+}

@@ -32,10 +32,15 @@ public class LsItems {
             properties -> properties
                     .food(LsFoods.LOGINAR_CALAMARI)
     );
-    public static final DeferredItem<Item> FIRE_PEARL = register(
-            "fire_pearl",
-            Item::new
-    );
+    public static final DeferredItem<Item> FIRE_PEARL = registerSimpleItem("fire_pearl");
+
+    // Crafting items
+    public static final DeferredItem<Item> TINY_CRYSTAL = registerSimpleItem("tiny_crystal");
+    public static final DeferredItem<Item> SMALL_CRYSTAL = registerSimpleItem("small_crystal");
+    public static final DeferredItem<Item> MEDIUM_CRYSTAL = registerSimpleItem("medium_crystal");
+    public static final DeferredItem<Item> LARGE_CRYSTAL = registerSimpleItem("large_crystal");
+    public static final DeferredItem<Item> HUGE_CRYSTAL = registerSimpleItem("huge_crystal");
+    public static final DeferredItem<Item> SUPER_CRYSTAL = registerSimpleItem("super_crystal");
 
     // Urn upgrades
     public static final DeferredItem<UpgradeItem> BACKPACK_UPGRADE = register(
@@ -121,6 +126,10 @@ public class LsItems {
         return ITEMS.registerItem(name, item, properties);
     }
 
+    static DeferredItem<Item> registerSimpleItem(String name) {
+        return ITEMS.registerItem(name, Item::new);
+    }
+
     private static Item.Properties unstackable(Item.Properties properties) {
         return properties
                 .stacksTo(1)
@@ -136,6 +145,9 @@ public class LsItems {
             event.accept(LsBlocks.HUGE_LOGINAR_URN.get());
             event.accept(LsBlocks.SUPER_LOGINAR_URN.get());
         }
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(LsBlocks.FIRE_FLOWER);
+        }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(LUNCH_BOX.get());
             event.accept(POTION_POUCH.get());
@@ -143,6 +155,12 @@ public class LsItems {
             event.accept(LOGINAR_CALAMARI.get());
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(TINY_CRYSTAL.get());
+            event.accept(SMALL_CRYSTAL.get());
+            event.accept(MEDIUM_CRYSTAL.get());
+            event.accept(LARGE_CRYSTAL.get());
+            event.accept(HUGE_CRYSTAL.get());
+            event.accept(SUPER_CRYSTAL.get());
             event.accept(LOGINAR_ANTENNA.get());
             event.accept(FIRE_PEARL.get());
         }

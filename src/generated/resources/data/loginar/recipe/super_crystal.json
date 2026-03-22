@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:prismarine",
+    "*": "loginar:huge_crystal",
+    "p": "#c:gems/prismarine",
+    "s": "minecraft:sculk",
+    "w": "minecraft:wither_rose"
+  },
+  "pattern": [
+    "wsw",
+    "p*p",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:super_crystal"
+  }
+}

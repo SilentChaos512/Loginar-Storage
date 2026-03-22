@@ -29,6 +29,8 @@ public class ModBlockModelGenerator extends LibBlockModelGenerators {
         this.blockStateOutput.accept(
                 createSimpleBlock(LsBlocks.LOGINAR_EGG.get(), plainVariant(id("block/loginar_egg")))
         );
+
+        createPlantCutoutWithDefaultItem(LsBlocks.FIRE_FLOWER.get(), LsBlocks.POTTED_FIRE_FLOWER.get());
     }
 
     private static Identifier id(String path) {

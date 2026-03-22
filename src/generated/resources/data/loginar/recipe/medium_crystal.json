@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:blackstone",
+    "*": "loginar:small_crystal",
+    "/": "#c:rods/blaze",
+    "g": "#c:ingots/gold",
+    "q": "#c:gems/quartz"
+  },
+  "pattern": [
+    "/g/",
+    "q*q",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "loginar:medium_crystal"
+  }
+}
