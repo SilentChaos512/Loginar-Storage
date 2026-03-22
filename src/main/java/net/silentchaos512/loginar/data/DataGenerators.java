@@ -30,6 +30,8 @@ public final class DataGenerators {
         gen.addProvider(true, new ModLootTableProvider(event));
         gen.addProvider(true, LibRecipeProvider.createRunner(packOutput, lookupProvider, "Loginar Storage Recipes", ModRecipeProvider::new));
 
+        gen.addProvider(true, new ModWorldGenGenerator(packOutput, lookupProvider));
+
         gen.addProvider(true, new ModLanguageProvider(gen));
         gen.addProvider(true, new ModModelProvider(packOutput));
         gen.addProvider(true, new ModSoundDefinitionsProvider(gen));

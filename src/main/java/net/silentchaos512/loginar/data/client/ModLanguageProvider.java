@@ -36,6 +36,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(LsBlocks.HUGE_LOGINAR_URN, "Huge Loginar Urn");
         addBlock(LsBlocks.SUPER_LOGINAR_URN, "Super Loginar Urn");
         addBlock(LsBlocks.LOGINAR_EGG, "Loginar Egg");
+        addBlock(LsBlocks.FIRE_FLOWER, "Fire Flower");
 
         // Containers
         add("container", "loginar_urn", "Loginar Urn");
@@ -65,6 +66,12 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(LsItems.FRIENDLY_LOGINAR_SPAWN_EGG, "Friendly Loginar Spawn Egg");
         addItem(LsItems.FIRE_PEARL, "Fire Pearl");
         addItem(LsItems.FIRE_FLINGER, "Fire Flinger");
+        addItem(LsItems.TINY_CRYSTAL, "Tiny Crystal");
+        addItem(LsItems.SMALL_CRYSTAL, "Small Crystal");
+        addItem(LsItems.MEDIUM_CRYSTAL, "Medium Crystal");
+        addItem(LsItems.LARGE_CRYSTAL, "Large Crystal");
+        addItem(LsItems.HUGE_CRYSTAL, "Huge Crystal");
+        addItem(LsItems.SUPER_CRYSTAL, "Super Crystal");
         // Urn Upgrades
         addItem(LsItems.BACKPACK_UPGRADE, "Backpack Urn Upgrade");
         addItemSub(LsItems.BACKPACK_UPGRADE, "desc", "Allows the urn to be opened without placing it");

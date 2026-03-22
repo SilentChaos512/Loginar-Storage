@@ -51,14 +51,12 @@ public class LsBlocks {
                     .sound(SoundType.GRASS)
                     .strength(0)
                     .noCollision()
-                    .lightLevel(state -> 10)
     );
     public static final DeferredBlock<FlowerPotBlock> POTTED_FIRE_FLOWER = register(
             "potted_fire_flower",
             properties -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, FIRE_FLOWER, properties),
             properties -> properties
                     .strength(0)
-                    .lightLevel(state -> 10)
     );
 
     public static Collection<LoginarUrnBlock> getUrns() {
@@ -82,7 +80,7 @@ public class LsBlocks {
             Function<BlockBehaviour.Properties, T> block,
             UnaryOperator<BlockBehaviour.Properties> properties
     ) {
-        return register(name, block, properties, LsBlocks::defaultItem, UnaryOperator.identity());
+        return register(name, block, properties, LsBlocks::defaultItem, Item.Properties::useBlockDescriptionPrefix);
     }
 
     private static <T extends Block> DeferredBlock<T> register(
