@@ -12,7 +12,7 @@ public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu>
     public static final Identifier TEXTURE_URN_9X6 = LoginarMod.getId("textures/gui/urn.png");
     public static final Identifier TEXTURE_URN_9X9 = LoginarMod.getId("textures/gui/urn_9x9.png");
     public static final Identifier TEXTURE_URN_12X9 = LoginarMod.getId("textures/gui/urn_12x9.png");
-    public static final Identifier TEXTURE_URN_SWAP_9X6 = LoginarMod.getId("textures/gui/urn.png");
+    public static final Identifier TEXTURE_URN_SWAP_9X6 = LoginarMod.getId("textures/gui/urn_swap.png");
     public static final Identifier TEXTURE_URN_SWAP_9X9 = LoginarMod.getId("textures/gui/urn_swap_9x9.png");
     public static final Identifier TEXTURE_URN_SWAP_12X9 = LoginarMod.getId("textures/gui/urn_swap_12x9.png");
 
