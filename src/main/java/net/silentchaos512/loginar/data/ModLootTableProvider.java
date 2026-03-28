@@ -15,7 +15,6 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContextSource;
@@ -34,7 +33,6 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
-import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 import net.silentchaos512.loginar.setup.LsBlocks;
 import net.silentchaos512.loginar.setup.LsDataComponents;
 import net.silentchaos512.loginar.setup.LsItems;
@@ -83,8 +81,7 @@ public class ModLootTableProvider extends LootTableProvider {
             // Loginar urns (very similar to shulker boxes)
             for (UrnTypes type : UrnTypes.values()) {
                 LoginarUrnBlock block = type.block().get();
-                BlockEntityType<LoginarUrnBlockEntity> blockEntity = type.blockEntity().get();
-                add(block, createLoginarUrnDrop(block, blockEntity));
+                add(block, createLoginarUrnDrop(block));
             }
 
             add(LsBlocks.LOGINAR_EGG.get(), createSilkTouchOnlyTable(LsBlocks.LOGINAR_EGG));
@@ -92,7 +89,7 @@ public class ModLootTableProvider extends LootTableProvider {
             add(LsBlocks.POTTED_FIRE_FLOWER.get(), createPotFlowerItemTable(LsBlocks.FIRE_FLOWER));
         }
 
-        private LootTable.Builder createLoginarUrnDrop(LoginarUrnBlock block, BlockEntityType<LoginarUrnBlockEntity> blockEntity) {
+        private LootTable.Builder createLoginarUrnDrop(LoginarUrnBlock block) {
             return LootTable.lootTable()
                     .withPool(
                             applyExplosionCondition(
