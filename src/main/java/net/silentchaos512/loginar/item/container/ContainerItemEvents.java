@@ -11,9 +11,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import net.silentchaos512.loginar.LoginarMod;
 
-@EventBusSubscriber(modid = LoginarMod.MOD_ID)
+@EventBusSubscriber
 public class ContainerItemEvents {
     @SubscribeEvent
     public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
@@ -44,8 +43,10 @@ public class ContainerItemEvents {
         }
 
         if (itemOnGround.getCount() != initialCount) {
-            float pitch = ((player.level().random.nextFloat() - player.level().random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
-            player.level().playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
+            var level = player.level();
+            var random = level.getRandom();
+            float pitch = ((random.nextFloat() - random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
+            level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
                     SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, pitch);
         }
     }

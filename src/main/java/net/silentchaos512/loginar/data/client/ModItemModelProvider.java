@@ -4,6 +4,7 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -76,12 +77,12 @@ public class ModItemModelProvider extends ItemModelGenerators {
         var filledKey = ModelLocationUtils.getModelLocation(item, "_filled");
         ModelTemplates.FLAT_ITEM.create(
                 emptyKey,
-                TextureMapping.layer0(LoginarMod.getId("item/" + emptyTexture)),
+                TextureMapping.layer0(new Material(LoginarMod.getId("item/" + emptyTexture))),
                 this.modelOutput
         );
         ModelTemplates.FLAT_ITEM.create(
                 filledKey,
-                TextureMapping.layer0(LoginarMod.getId("item/" + filledTexture)),
+                TextureMapping.layer0(new Material(LoginarMod.getId("item/" + filledTexture))),
                 this.modelOutput
         );
         var emptyModel = ItemModelUtils.plainModel(emptyKey);
@@ -94,14 +95,14 @@ public class ModItemModelProvider extends ItemModelGenerators {
         var emptyKey = ModelLocationUtils.getModelLocation(item, "_empty");
         ModelTemplates.FLAT_ITEM.create(
                 emptyKey,
-                TextureMapping.layer0(LoginarMod.getId("item/" + emptyTexture)),
+                TextureMapping.layer0(new Material(LoginarMod.getId("item/" + emptyTexture))),
                 this.modelOutput
         );
         ModelTemplates.TWO_LAYERED_ITEM.create(
                 filledKey,
                 TextureMapping.layered(
-                        LoginarMod.getId("item/" + filledTexture),
-                        LoginarMod.getId("item/" + overlayTexture)
+                        new Material(LoginarMod.getId("item/" + filledTexture)),
+                        new Material(LoginarMod.getId("item/" + overlayTexture))
                 ),
                 this.modelOutput
         );

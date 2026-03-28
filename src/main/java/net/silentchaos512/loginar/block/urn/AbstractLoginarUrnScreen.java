@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.loginar.LoginarMod;
+import net.silentchaos512.loginar.util.UrnRenderInfo;
 import net.silentchaos512.loginar.util.UrnSize;
 
 public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu> extends AbstractContainerScreen<T> {
@@ -12,23 +13,25 @@ public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu>
     public static final Identifier TEXTURE_URN_9X9 = LoginarMod.getId("textures/gui/urn_9x9.png");
     public static final Identifier TEXTURE_URN_12X9 = LoginarMod.getId("textures/gui/urn_12x9.png");
     public static final Identifier TEXTURE_URN_SWAP_9X6 = LoginarMod.getId("textures/gui/urn.png");
-    public static final Identifier TEXTURE_URN_SWAP_9X9 = LoginarMod.getId("textures/gui/urn_9x9.png");
-    public static final Identifier TEXTURE_URN_SWAP_12X9 = LoginarMod.getId("textures/gui/urn_12x9.png");
-
-    private static final int WIDTH_9X = 176;
-    private static final int WIDTH_12X = 236;
-    private static final int HEIGHT_X6 = 222;
-    private static final int HEIGHT_X9 = 276;
+    public static final Identifier TEXTURE_URN_SWAP_9X9 = LoginarMod.getId("textures/gui/urn_swap_9x9.png");
+    public static final Identifier TEXTURE_URN_SWAP_12X9 = LoginarMod.getId("textures/gui/urn_swap_12x9.png");
 
     protected Identifier guiTexture = TEXTURE_URN_9X6;
-    private boolean isFlexibleTexture = true;
+    protected UrnRenderInfo urnRenderInfo;
 
     public AbstractLoginarUrnScreen(T menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+        var type = menu.urnType;
+        var renderInfo = type.renderInfo();
+        this(menu, playerInventory, title, renderInfo.textureWidth(), renderInfo.textureHeight(type.size().height()));
+    }
+
+    public AbstractLoginarUrnScreen(T menu, Inventory playerInventory, Component title, int imageWidth, int imageHeight) {
+        super(menu, playerInventory, title, imageWidth, imageHeight);
+        this.urnRenderInfo = menu.urnType.renderInfo();
     }
 
     public boolean isFlexibleTexture() {
-        return isFlexibleTexture;
+        return this.urnRenderInfo.isFlexibleTexture();
     }
 
     public void setGuiTexture(UrnSize size, boolean isSwapper) {
@@ -36,21 +39,6 @@ public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu>
             this.guiTexture = getSwapGuiTexture(size);
         } else {
             this.guiTexture = getGuiTexture(size);
-        }
-        this.isFlexibleTexture = true;
-
-        if (size.width() == 12) {
-            this.imageWidth = WIDTH_12X;
-            this.isFlexibleTexture = false;
-        } else {
-            this.imageWidth = WIDTH_9X;
-        }
-
-        if (size.height() == 9) {
-            this.imageHeight = HEIGHT_X9;
-            this.isFlexibleTexture = false;
-        } else {
-            this.imageHeight = HEIGHT_X6;
         }
     }
 

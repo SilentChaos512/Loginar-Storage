@@ -75,26 +75,9 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         return CODEC;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
-    }
-
-    public static int getBlockColor(BlockState state, @Nullable BlockGetter level, @Nullable BlockPos pos, int tintIndex) {
-        if (level != null && pos != null) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof LoginarUrnBlockEntity urn) {
-                if (tintIndex == 0) {
-                    // Main body (clay)
-                    return urn.getClayColor().getColor();
-                } else if (tintIndex == 1) {
-                    // Decorative gem
-                    return urn.getGemColor().getColor();
-                }
-            }
-        }
-        return Color.VALUE_WHITE;
     }
 
     public ItemStack makeStack(@Nullable Color clayColor, @Nullable Color gemColor) {
@@ -124,7 +107,7 @@ public class LoginarUrnBlock extends BaseEntityBlock {
 //                player.awardStat(Stats.OPEN_SHULKER_BOX);
                 PiglinAi.angerNearbyPiglins(serverLevel, player, true);
 
-                level.playSound(null, pos, LsSounds.URN_OPEN.get(), SoundSource.BLOCKS, 0.5f, level.random.nextFloat() * 0.1f + 0.9f);
+                level.playSound(null, pos, LsSounds.URN_OPEN.get(), SoundSource.BLOCKS, 0.5f, level.getRandom().nextFloat() * 0.1f + 0.9f);
 
                 return InteractionResult.CONSUME;
             } else {
@@ -180,7 +163,6 @@ public class LoginarUrnBlock extends BaseEntityBlock {
         return this.type.blockShape();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean hasAnalogOutputSignal(BlockState p_60457_) {
         return true;

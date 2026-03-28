@@ -78,7 +78,7 @@ public class LunchBoxItem extends ContainerItem {
         int foodSlot = stack.getOrDefault(LsDataComponents.USE_SLOT, -1);
         if (foodSlot >= 0 && foodSlot < getInventorySize(stack)) {
             ItemStack food = getInventory(stack).getStackInSlot(foodSlot);
-            player.displayClientMessage(Component.translatable("item.loginar.lunch_box.next_food", food.getDisplayName().getString()), true);
+            player.sendOverlayMessage(Component.translatable("item.loginar.lunch_box.next_food", food.getDisplayName().getString()));
         }
     }
 

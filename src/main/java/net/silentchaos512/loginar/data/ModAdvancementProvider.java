@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.loginar.LoginarMod;
@@ -39,10 +39,10 @@ public class ModAdvancementProvider extends AdvancementProvider {
             var itemHolderGetter = provider.lookupOrThrow(Registries.ITEM);
             AdvancementHolder root = Advancement.Builder.advancement()
                     .display(
-                            new ItemStack(LsItems.LOGINAR_ANTENNA.get()),
+                            new ItemStackTemplate(LsItems.LOGINAR_ANTENNA),
                             title("root"),
                             description("root"),
-                            Identifier.withDefaultNamespace("textures/block/deepslate_bricks.png"),
+                            Identifier.withDefaultNamespace("block/deepslate_bricks"),
                             AdvancementType.TASK,
                             false,
                             false,
@@ -80,14 +80,14 @@ public class ModAdvancementProvider extends AdvancementProvider {
         }
 
         private static AdvancementHolder simpleGetItem(Consumer<AdvancementHolder> consumer, ItemLike item, AdvancementHolder parent, AdvancementType advancementType) {
-            return simpleGetItem(consumer, item, new ItemStack(item), parent, NameUtils.fromItem(item).getPath(), advancementType);
+            return simpleGetItem(consumer, item, new ItemStackTemplate(item.asItem()), parent, NameUtils.fromItem(item).getPath(), advancementType);
         }
 
         private static AdvancementHolder simpleGetItem(Consumer<AdvancementHolder> consumer, ItemLike item, AdvancementHolder parent, String key) {
-            return simpleGetItem(consumer, item, new ItemStack(item), parent, key, AdvancementType.TASK);
+            return simpleGetItem(consumer, item, new ItemStackTemplate(item.asItem()), parent, key, AdvancementType.TASK);
         }
 
-        private static AdvancementHolder simpleGetItem(Consumer<AdvancementHolder> consumer, ItemLike item, ItemStack icon, AdvancementHolder parent, String key, AdvancementType advancementType) {
+        private static AdvancementHolder simpleGetItem(Consumer<AdvancementHolder> consumer, ItemLike item, ItemStackTemplate icon, AdvancementHolder parent, String key, AdvancementType advancementType) {
             return Advancement.Builder.advancement()
                     .parent(parent)
                     .display(icon, title(key), description(key), null, advancementType, true, true, false)

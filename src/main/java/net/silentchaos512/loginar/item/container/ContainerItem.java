@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -67,23 +68,22 @@ public abstract class ContainerItem extends Item implements IContainerItem {
     }
 
     private static void tooltipItemsList(Consumer<Component> tooltipAdder, ItemContainerContents contents) {
-        int i = 0;
-        int j = 0;
+        int lineCount = 0;
+        int itemCount = 0;
 
-        for (ItemStack item : contents.nonEmptyItems()) {
-            if (!item.isEmpty()) {
-                ++j;
-                if (i <= 4) {
-                    ++i;
-                    MutableComponent mutablecomponent = item.getHoverName().copy();
-                    mutablecomponent.append(" x").append(String.valueOf(item.getCount()));
-                    tooltipAdder.accept(Component.translatable("item.container.item_count", item.getHoverName(), item.getCount()));
-                }
+        for (ItemStackTemplate template : contents.nonEmptyItems()) {
+            var item = template.create();
+            ++itemCount;
+            if (lineCount <= 4) {
+                ++lineCount;
+                MutableComponent mutablecomponent = item.getHoverName().copy();
+                mutablecomponent.append(" x").append(String.valueOf(item.getCount()));
+                tooltipAdder.accept(Component.translatable("item.container.item_count", item.getHoverName(), item.getCount()));
             }
         }
 
-        if (j - i > 0) {
-            tooltipAdder.accept(Component.translatable("item.container.more_items", j - i).withStyle(ChatFormatting.ITALIC));
+        if (itemCount - lineCount > 0) {
+            tooltipAdder.accept(Component.translatable("item.container.more_items", itemCount - lineCount).withStyle(ChatFormatting.ITALIC));
         }
     }
 }

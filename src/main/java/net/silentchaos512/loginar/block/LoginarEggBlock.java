@@ -54,7 +54,7 @@ public class LoginarEggBlock extends Block {
                 FriendlyLoginar babyLoginar = LsEntityTypes.FRIENDLY_LOGINAR.get().create(level, EntitySpawnReason.BREEDING);
                 if (babyLoginar != null) {
                     babyLoginar.setBaby(true);
-                    babyLoginar.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0f);
+                    babyLoginar.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, Mth.wrapDegrees(level.getRandom().nextFloat() * 360.0F), 0f);
                     level.addFreshEntity(babyLoginar);
                 }
             }
@@ -64,7 +64,7 @@ public class LoginarEggBlock extends Block {
     private boolean shouldUpdateHatchLevel(Level level) {
         float time = (level.getGameTime() % 24_000) / 24_000f;
         if (time < 0.19f && time > 0.15f) return true;
-        return level.random.nextInt(50) == 0;
+        return level.getRandom().nextInt(50) == 0;
     }
 
     public boolean onMagma(BlockGetter level, BlockPos pos) {

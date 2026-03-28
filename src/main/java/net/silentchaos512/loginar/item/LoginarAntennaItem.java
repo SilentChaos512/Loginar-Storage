@@ -17,7 +17,7 @@ public class LoginarAntennaItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (level instanceof ServerLevelAccessor && WildLoginar.isSpawningChunk((ServerLevelAccessor) level, player.blockPosition())) {
-            player.displayClientMessage(TextUtil.translate("item", "loginar_antenna.lit"), true);
+            player.sendOverlayMessage(TextUtil.translate("item", "loginar_antenna.lit"));
         }
         return InteractionResult.SUCCESS;
     }

@@ -1,6 +1,6 @@
 package net.silentchaos512.loginar.block.urn;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.lib.util.Color;
@@ -10,29 +10,21 @@ public class LoginarUrnSwapperScreen extends AbstractLoginarUrnScreen<LoginarUrn
     private final int inventoryRows;
 
     public LoginarUrnSwapperScreen(LoginarUrnSwapperMenu container, Inventory playerInventory, Component title) {
-        super(container, playerInventory, title);
-        this.inventoryRows = container.getRowCount();
-        this.imageWidth = 180;
-        this.imageHeight = 119 + this.inventoryRows * 20;
+        var rowCount = container.getRowCount();
+        super(container, playerInventory, title, 180, 119 + rowCount * 20);
+        this.inventoryRows = rowCount;
         setGuiTexture(container.urnType().size(), true);
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics graphics, float p_97788_, int p_97789_, int p_97790_) {
-        if (minecraft == null) return;
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         graphics.blit(this.guiTexture, x, y, 0, 0, this.imageWidth, 17 + this.inventoryRows * 20, 256, 256);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int xIn, int yIn) {
-        graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, Color.VALUE_WHITE);
+    protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+        graphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, Color.VALUE_WHITE);
     }
 }

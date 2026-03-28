@@ -11,6 +11,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -104,19 +105,20 @@ public class LoginarUrnBlockItem extends BlockItem {
     }
 
     private static void tooltipItemsList(ItemStack stack, Consumer<Component> tooltipAdder) {
-        int i = 0;
-        int j = 0;
+        int lineCount = 0;
+        int itemCount = 0;
 
-        for (ItemStack item : stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.EMPTY).nonEmptyItems()) {
-            ++j;
-            if (i <= 4) {
-                ++i;
+        for (ItemStackTemplate template : stack.getOrDefault(LsDataComponents.CONTAINED_ITEMS, ItemContainerContents.EMPTY).nonEmptyItems()) {
+            var item = template.create();
+            ++itemCount;
+            if (lineCount <= 4) {
+                ++lineCount;
                 tooltipAdder.accept(Component.translatable("item.container.item_count", item.getHoverName(), item.getCount()));
             }
         }
 
-        if (j - i > 0) {
-            tooltipAdder.accept(Component.translatable("item.container.more_items", j - i).withStyle(ChatFormatting.ITALIC));
+        if (itemCount - lineCount > 0) {
+            tooltipAdder.accept(Component.translatable("item.container.more_items", itemCount - lineCount).withStyle(ChatFormatting.ITALIC));
         }
     }
 }

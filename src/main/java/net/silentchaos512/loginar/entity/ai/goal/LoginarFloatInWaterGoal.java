@@ -2,7 +2,7 @@ package net.silentchaos512.loginar.entity.ai.goal;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
 
 public class LoginarFloatInWaterGoal extends FloatGoal {
     private final Mob mob;
@@ -14,7 +14,8 @@ public class LoginarFloatInWaterGoal extends FloatGoal {
 
     @Override
     public boolean canUse() {
-        return this.mob.isInWater() && this.mob.getFluidTypeHeight(NeoForgeMod.WATER_TYPE.value()) > this.mob.getFluidJumpThreshold()
-                || this.mob.isInFluidType((fluidType, height) -> this.mob.canSwimInFluidType(fluidType) && height > this.mob.getFluidJumpThreshold());
+        return this.mob.isInWater()
+                && this.mob.getFluidHeight(Tags.Fluids.WATER) > this.mob.getFluidJumpThreshold()
+                /*|| this.mob.isInFluidType((fluidType, height) -> this.mob.canSwimInFluidType(fluidType) && height > this.mob.getFluidJumpThreshold())*/;
     }
 }

@@ -1,6 +1,5 @@
 package net.silentchaos512.loginar.data;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
@@ -66,22 +64,10 @@ public class ModWorldGenGenerator extends DatapackBuiltinEntriesProvider {
         return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, LoginarMod.getId(path));
     }
 
-    private static ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>> fireFlower() {
+    private static ConfiguredFeature<SimpleBlockConfiguration, Feature<SimpleBlockConfiguration>> fireFlower() {
         return new ConfiguredFeature<>(
-                Feature.NO_BONEMEAL_FLOWER,
-                new RandomPatchConfiguration(32, 2, 3,
-                        Holder.direct(
-                                new PlacedFeature(
-                                        Holder.direct(
-                                                new ConfiguredFeature<>(
-                                                        Feature.SIMPLE_BLOCK,
-                                                        new SimpleBlockConfiguration(BlockStateProvider.simple(LsBlocks.FIRE_FLOWER.get()))
-                                                )
-                                        ),
-                                        List.of(BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE))
-                                )
-                        )
-                )
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(LsBlocks.FIRE_FLOWER.get()))
         );
     }
 
@@ -92,9 +78,13 @@ public class ModWorldGenGenerator extends DatapackBuiltinEntriesProvider {
                 ctx.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(key),
                 List.of(
                         LoginarChunkFilter.INSTANCE,
+                        RarityFilter.onAverageOnceEvery(4),
                         InSquarePlacement.spread(),
                         HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING),
-                        BiomeFilter.biome()
+                        BiomeFilter.biome(),
+                        CountPlacement.of(4),
+                        RandomOffsetPlacement.ofTriangle(7, 3),
+                        BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE)
                 )
         );
         ctx.register(placedKey("fire_flower"), placed);

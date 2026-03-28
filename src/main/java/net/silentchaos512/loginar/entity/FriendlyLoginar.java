@@ -1,5 +1,6 @@
 package net.silentchaos512.loginar.entity;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -22,7 +23,6 @@ import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -40,8 +40,8 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
         super(pEntityType, pLevel);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         this.setPathfindingMalus(PathType.LAVA, 8.0F);
-        this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
-        this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
+        this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, 0.0F);
+        this.setPathfindingMalus(PathType.FIRE, 0.0F);
     }
 
     @Override
@@ -171,8 +171,8 @@ public class FriendlyLoginar extends TamableAnimal implements Loginar {
                     this.gameEvent(GameEvent.EAT);
                     return InteractionResult.SUCCESS;
                 } else {
-                    if (heldItem.getItem() instanceof DyeItem dyeItem) {
-                        DyeColor dyeColor = dyeItem.getDyeColor();
+                    if (heldItem.has(DataComponents.DYE)) {
+                        DyeColor dyeColor = heldItem.get(DataComponents.DYE);
                         // TODO: Set antenna light color
                         return InteractionResult.SUCCESS;
                     }

@@ -1,22 +1,18 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.neoforged.neoforge.common.Tags;
+import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
@@ -29,7 +25,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UrnBaseRecipe extends ShapedRecipe {
+public class UrnBaseRecipe extends ExtendedShapedRecipe {
+    public static final MapCodec<UrnBaseRecipe> CODEC = RecordCodecBuilder.mapCodec(
+            i -> i.group(
+                    CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
+                    CraftingBookInfo.MAP_CODEC.forGetter(r -> r.bookInfo),
+                    ShapedRecipePattern.MAP_CODEC.forGetter(r -> r.pattern),
+                    ItemStackTemplate.CODEC.fieldOf("result").forGetter(r -> r.result),
+                    Color.CODEC.optionalFieldOf("clay_color", UrnHelper.DEFAULT_CLAY_COLOR).forGetter(r -> r.clayColor)
+            ).apply(i, UrnBaseRecipe::new)
+    );
+    public static final StreamCodec<RegistryFriendlyByteBuf, UrnBaseRecipe> STREAM_CODEC = StreamCodec.composite(
+            Recipe.CommonInfo.STREAM_CODEC,
+            r -> r.commonInfo,
+            CraftingRecipe.CraftingBookInfo.STREAM_CODEC,
+            r -> r.bookInfo,
+            ShapedRecipePattern.STREAM_CODEC,
+            r -> r.pattern,
+            ItemStackTemplate.STREAM_CODEC,
+            r -> r.result,
+            Color.STREAM_CODEC,
+            r -> r.clayColor,
+            UrnBaseRecipe::new
+    );
+    public static final RecipeSerializer<UrnBaseRecipe> SERIALIZER = new RecipeSerializer<>(CODEC, STREAM_CODEC);
+
     // TODO: Must be a better way to handle this... A registry or something? Or a data map?
     private static final Map<TagKey<Item>, Color> GEM_COLORS = ImmutableMap.of(
             Tags.Items.GEMS_AMETHYST, new Color(0x8D6ACC),
@@ -43,26 +63,20 @@ public class UrnBaseRecipe extends ShapedRecipe {
     );
 
     private final Color clayColor;
-    final ItemStack result;
-    final String group;
-    final CraftingBookCategory category;
 
-    public UrnBaseRecipe(String pGroup, CraftingBookCategory pCategory, ShapedRecipePattern pPattern, ItemStack pResult, Color clayColor) {
-        super(pGroup, pCategory, pPattern, pResult, false);
+    public UrnBaseRecipe(CommonInfo commonInfo, CraftingBookInfo bookInfo, ShapedRecipePattern pattern, ItemStackTemplate result, Color clayColor) {
+        super(commonInfo, bookInfo, pattern, result);
         this.clayColor = clayColor;
-        this.result = pResult;
-        this.group = pGroup;
-        this.category = pCategory;
     }
 
     @Override
-    public RecipeSerializer<? extends ShapedRecipe> getSerializer() {
+    public RecipeSerializer<? extends UrnBaseRecipe> getSerializer() {
         return LsRecipeSerializers.URN.get();
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
-        if (this.result.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
+    public ItemStack assemble(CraftingInput input) {
+        if (this.result.item().value() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
             Color gemColor = getGemColor(findGem(input));
             return block.makeStack(this.clayColor, gemColor);
         } else {
@@ -73,8 +87,8 @@ public class UrnBaseRecipe extends ShapedRecipe {
 
     @Override
     public List<RecipeDisplay> display() {
-        ItemStack displayResult = this.result.copy();
-        if (this.result.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
+        ItemStack displayResult = this.result.create();
+        if (displayResult.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LoginarUrnBlock block) {
             displayResult = block.makeStack(this.clayColor, null);
         }
         return List.of(
@@ -82,7 +96,7 @@ public class UrnBaseRecipe extends ShapedRecipe {
                         this.pattern.width(),
                         this.pattern.height(),
                         this.pattern.ingredients().stream().map(p_380107_ -> p_380107_.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(),
-                        new SlotDisplay.ItemStackSlotDisplay(displayResult),
+                        new SlotDisplay.ItemStackSlotDisplay(ItemStackTemplate.fromNonEmptyStack(displayResult)),
                         new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)
                 )
         );
@@ -117,49 +131,5 @@ public class UrnBaseRecipe extends ShapedRecipe {
         }
 
         return UrnHelper.DEFAULT_GEM_COLOR;
-    }
-
-    public static class Serializer implements RecipeSerializer<UrnBaseRecipe> {
-        public static final MapCodec<UrnBaseRecipe> CODEC = RecordCodecBuilder.mapCodec(
-                builder -> builder.group(
-                                Codec.STRING.optionalFieldOf("group", "").forGetter(r -> r.group),
-                                CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(r -> r.category),
-                                ShapedRecipePattern.MAP_CODEC.forGetter(r -> r.pattern),
-                                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(r -> r.result),
-                                Color.CODEC.optionalFieldOf("clay_color", UrnHelper.DEFAULT_CLAY_COLOR).forGetter(r -> r.clayColor)
-                        )
-                        .apply(builder, UrnBaseRecipe::new)
-        );
-        public static final StreamCodec<RegistryFriendlyByteBuf, UrnBaseRecipe> STREAM_CODEC = StreamCodec.of(
-                Serializer::toNetwork,
-                Serializer::fromNetwork
-        );
-
-        @Override
-        public MapCodec<UrnBaseRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, UrnBaseRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        public static UrnBaseRecipe fromNetwork(RegistryFriendlyByteBuf pBuffer) {
-            String group = pBuffer.readUtf();
-            CraftingBookCategory category = pBuffer.readEnum(CraftingBookCategory.class);
-            ShapedRecipePattern pattern = ShapedRecipePattern.STREAM_CODEC.decode(pBuffer);
-            ItemStack result = ItemStack.STREAM_CODEC.decode(pBuffer);
-            Color clayColor = Color.read(pBuffer);
-            return new UrnBaseRecipe(group, category, pattern, result, clayColor);
-        }
-
-        public static void toNetwork(RegistryFriendlyByteBuf pBuffer, UrnBaseRecipe pRecipe) {
-            pBuffer.writeUtf(pRecipe.group);
-            pBuffer.writeEnum(pRecipe.category);
-            ShapedRecipePattern.STREAM_CODEC.encode(pBuffer, pRecipe.pattern);
-            ItemStack.STREAM_CODEC.encode(pBuffer, pRecipe.result);
-            pRecipe.clayColor.write(pBuffer);
-        }
     }
 }

@@ -13,12 +13,11 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/block/deepslate_bricks.png",
+    "background": "minecraft:block/deepslate_bricks",
     "description": {
       "translate": "advancement.loginar.root.description"
     },
     "icon": {
-      "count": 1,
       "id": "loginar:loginar_antenna"
     },
     "show_toast": false,

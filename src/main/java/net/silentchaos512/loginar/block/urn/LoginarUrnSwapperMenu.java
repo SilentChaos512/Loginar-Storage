@@ -3,7 +3,7 @@ package net.silentchaos512.loginar.block.urn;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -49,7 +49,7 @@ public class LoginarUrnSwapperMenu extends AbstractLoginarUrnMenu {
     }
 
     @Override
-    public void clicked(int slotIndex, int dragType, ClickType clickType, Player player) {
+    public void clicked(int slotIndex, int buttonNum, ContainerInput containerInput, Player player) {
         if (slotIndex > -1 && slotIndex < this.inventorySize) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack item = slot.getItem();

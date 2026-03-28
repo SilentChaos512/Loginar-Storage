@@ -1,9 +1,7 @@
 package net.silentchaos512.loginar.crafting.recipe;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,9 +18,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class UrnModificationRecipe extends CustomRecipe {
-    public UrnModificationRecipe(CraftingBookCategory pCategory) {
-        super(pCategory);
-    }
+    public static final UrnModificationRecipe INSTANCE = new UrnModificationRecipe();
 
     @Override
     public RecipeSerializer<? extends CustomRecipe> getSerializer() {
@@ -48,7 +44,7 @@ public class UrnModificationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         StackList list = StackList.from(input);
         ItemStack urn = list.uniqueMatch(UrnModificationRecipe::isUrn).copy();
         Collection<ItemStack> mods = list.allMatches(UrnModificationRecipe::isModifierItem);

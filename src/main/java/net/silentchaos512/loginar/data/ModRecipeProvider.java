@@ -2,15 +2,15 @@ package net.silentchaos512.loginar.data;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
@@ -37,7 +37,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, CookingBookCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 200)
                 .unlockedBy("has_item", has(LsItems.LOGINAR_TENTACLE))
                 .save(this.output, modId("loginar_calamari_smelting"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(LsItems.LOGINAR_TENTACLE), RecipeCategory.FOOD, LsItems.LOGINAR_CALAMARI, 0.35f, 100)
@@ -369,7 +369,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
         private final int clayColor;
 
         public UrnRecipeBuilder(HolderGetter<Item> items, int clayColor) {
-            super(items, RecipeCategory.DECORATIONS, new ItemStack(LsBlocks.TINY_LOGINAR_URN));
+            super(items, RecipeCategory.DECORATIONS, new ItemStackTemplate(LsBlocks.TINY_LOGINAR_URN.asItem()));
             this.clayColor = clayColor;
         }
 
@@ -377,8 +377,8 @@ public class ModRecipeProvider extends LibRecipeProvider {
         public UrnBaseRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnBaseRecipe(
-                    this.group,
-                    RecipeBuilder.determineBookCategory(this.category),
+                    this.commonInfo,
+                    this.bookInfo,
                     pattern,
                     this.result,
                     new Color(clayColor)
@@ -388,14 +388,14 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
     private static class UrnUpgradeRecipeBuilder extends ExtendedShapedRecipeBuilder<UrnUpgradeRecipe> {
         public UrnUpgradeRecipeBuilder(HolderGetter<Item> items, ItemLike upgradedUrn) {
-            super(items, RecipeCategory.DECORATIONS, new ItemStack(upgradedUrn));
+            super(items, RecipeCategory.DECORATIONS, new ItemStackTemplate(upgradedUrn.asItem()));
         }
 
         public UrnUpgradeRecipe createRecipe(ResourceKey<Recipe<?>> id) {
             ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
             return new UrnUpgradeRecipe(
-                    this.group,
-                    RecipeBuilder.determineBookCategory(this.category),
+                    this.commonInfo,
+                    this.bookInfo,
                     pattern,
                     this.result
             );
