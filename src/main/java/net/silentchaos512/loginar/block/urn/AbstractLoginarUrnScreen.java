@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.loginar.LoginarMod;
-import net.silentchaos512.loginar.util.UrnRenderInfo;
+import net.silentchaos512.loginar.util.UrnScreenRenderInfo;
 import net.silentchaos512.loginar.util.UrnSize;
 
 public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu> extends AbstractContainerScreen<T> {
@@ -17,7 +17,7 @@ public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu>
     public static final Identifier TEXTURE_URN_SWAP_12X9 = LoginarMod.getId("textures/gui/urn_swap_12x9.png");
 
     protected Identifier guiTexture = TEXTURE_URN_9X6;
-    protected UrnRenderInfo urnRenderInfo;
+    protected UrnScreenRenderInfo urnScreenRenderInfo;
 
     public AbstractLoginarUrnScreen(T menu, Inventory playerInventory, Component title) {
         var type = menu.urnType;
@@ -27,11 +27,11 @@ public abstract class AbstractLoginarUrnScreen<T extends AbstractLoginarUrnMenu>
 
     public AbstractLoginarUrnScreen(T menu, Inventory playerInventory, Component title, int imageWidth, int imageHeight) {
         super(menu, playerInventory, title, imageWidth, imageHeight);
-        this.urnRenderInfo = menu.urnType.renderInfo();
+        this.urnScreenRenderInfo = menu.urnType.renderInfo();
     }
 
     public boolean isFlexibleTexture() {
-        return this.urnRenderInfo.isFlexibleTexture();
+        return this.urnScreenRenderInfo.isFlexibleTexture();
     }
 
     public void setGuiTexture(UrnSize size, boolean isSwapper) {

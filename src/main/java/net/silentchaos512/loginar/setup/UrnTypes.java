@@ -16,7 +16,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlock;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockEntity;
 import net.silentchaos512.loginar.block.urn.LoginarUrnBlockItem;
-import net.silentchaos512.loginar.util.UrnRenderInfo;
+import net.silentchaos512.loginar.util.UrnScreenRenderInfo;
 import net.silentchaos512.loginar.util.UrnSize;
 
 import javax.annotation.Nullable;
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 public enum UrnTypes implements StringRepresentable {
     TINY("tiny",
             new UrnSize(9, 1, 1, 1),
-            UrnRenderInfo.STANDARD,
+            UrnScreenRenderInfo.STANDARD,
             () -> LsBlocks.TINY_LOGINAR_URN,
             () -> LsBlockEntityTypes.TINY_LOGINAR_URN,
             Shapes.or(
@@ -37,7 +37,7 @@ public enum UrnTypes implements StringRepresentable {
     ),
     SMALL("small",
             new UrnSize(9, 2, 1, 1),
-            UrnRenderInfo.STANDARD,
+            UrnScreenRenderInfo.STANDARD,
             () -> LsBlocks.SMALL_LOGINAR_URN,
             () -> LsBlockEntityTypes.SMALL_LOGINAR_URN,
             Shapes.or(
@@ -49,7 +49,7 @@ public enum UrnTypes implements StringRepresentable {
     ),
     MEDIUM("medium",
             new UrnSize(9, 4, 1, 2),
-            UrnRenderInfo.STANDARD,
+            UrnScreenRenderInfo.STANDARD,
             () -> LsBlocks.MEDIUM_LOGINAR_URN,
             () -> LsBlockEntityTypes.MEDIUM_LOGINAR_URN,
             Shapes.or(
@@ -61,7 +61,7 @@ public enum UrnTypes implements StringRepresentable {
     ),
     LARGE("large",
             new UrnSize(9, 6, 1, 2),
-            UrnRenderInfo.STANDARD,
+            UrnScreenRenderInfo.STANDARD,
             () -> LsBlocks.LARGE_LOGINAR_URN,
             () -> LsBlockEntityTypes.LARGE_LOGINAR_URN,
             Shapes.or(
@@ -73,7 +73,7 @@ public enum UrnTypes implements StringRepresentable {
     ),
     HUGE("huge",
             new UrnSize(9, 9, 1, 3),
-            UrnRenderInfo.HUGE_9X9,
+            UrnScreenRenderInfo.HUGE_9X9,
             () -> LsBlocks.HUGE_LOGINAR_URN,
             () -> LsBlockEntityTypes.HUGE_LOGINAR_URN,
             Shapes.or(
@@ -85,7 +85,7 @@ public enum UrnTypes implements StringRepresentable {
     ),
     SUPER("super",
             new UrnSize(12, 9, 1, 3),
-            UrnRenderInfo.SUPER_9X12,
+            UrnScreenRenderInfo.SUPER_9X12,
             () -> LsBlocks.SUPER_LOGINAR_URN,
             () -> LsBlockEntityTypes.SUPER_LOGINAR_URN,
             Shapes.or(
@@ -104,14 +104,14 @@ public enum UrnTypes implements StringRepresentable {
 
     private final String name;
     private final UrnSize size;
-    private final UrnRenderInfo renderInfo;
+    private final UrnScreenRenderInfo renderInfo;
     private final Supplier<DeferredBlock<LoginarUrnBlock>> block;
     private final Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity;
     private final VoxelShape blockShape;
 
     UrnTypes(
             String name,
-            UrnSize size, UrnRenderInfo renderInfo,
+            UrnSize size, UrnScreenRenderInfo renderInfo,
             Supplier<DeferredBlock<LoginarUrnBlock>> block,
             Supplier<DeferredHolder<BlockEntityType<?>, BlockEntityType<LoginarUrnBlockEntity>>> blockEntity,
             VoxelShape blockShape
@@ -138,7 +138,7 @@ public enum UrnTypes implements StringRepresentable {
         return this.size;
     }
 
-    public UrnRenderInfo renderInfo() {
+    public UrnScreenRenderInfo renderInfo() {
         return this.renderInfo;
     }
 
