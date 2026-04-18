@@ -1,0 +1,9 @@
+{
+  "layers": {
+    "loginar/armor": [
+      {
+        "texture": "loginar:loginar_body_armor"
+      }
+    ]
+  }
+}

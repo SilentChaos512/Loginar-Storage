@@ -35,6 +35,7 @@ public final class DataGenerators {
         gen.addProvider(true, new ModLanguageProvider(gen));
         gen.addProvider(true, new ModModelProvider(packOutput));
         gen.addProvider(true, new ModSoundDefinitionsProvider(gen));
+        gen.addProvider(true, new ModEquipmentAssetProvider(packOutput));
 
         gen.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider));
     }

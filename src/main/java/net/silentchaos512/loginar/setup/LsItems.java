@@ -1,13 +1,18 @@
 package net.silentchaos512.loginar.setup;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.loginar.LoginarMod;
 import net.silentchaos512.loginar.item.*;
+import net.silentchaos512.loginar.util.Const;
 
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -104,6 +109,38 @@ public class LsItems {
             properties -> properties
                     .durability(64)
                     .stacksTo(1)
+    );
+    public static final DeferredItem<Item> LOGINAR_BODY_ARMOR = register(
+            "loginar_body_armor",
+            Item::new,
+            properties -> properties
+                    .component(
+                            DataComponents.EQUIPPABLE,
+                            Equippable.builder(EquipmentSlot.BODY)
+                                    .setEquipSound(SoundEvents.HARNESS_EQUIP)
+                                    .setAsset(Const.LOGINAR_BODY_ARMOR_EQUIPMENT_ASSET)
+                                    .setAllowedEntities(LsEntityTypes.FRIENDLY_LOGINAR.get())
+                                    .setEquipOnInteract(true)
+                                    .setCanBeSheared(true)
+                                    .setShearingSound(SoundEvents.SADDLE_UNEQUIP)
+                                    .build()
+                    )
+    );
+    public static final DeferredItem<Item> LOGINAR_BOOTS = register(
+            "loginar_boots",
+            Item::new,
+            properties -> properties
+                    .component(
+                            DataComponents.EQUIPPABLE,
+                            Equippable.builder(EquipmentSlot.FEET)
+                                    .setEquipSound(SoundEvents.HARNESS_EQUIP)
+                                    .setAsset(Const.LOGINAR_BODY_ARMOR_EQUIPMENT_ASSET)
+                                    .setAllowedEntities(LsEntityTypes.FRIENDLY_LOGINAR.get())
+                                    .setEquipOnInteract(true)
+                                    .setCanBeSheared(true)
+                                    .setShearingSound(SoundEvents.SADDLE_UNEQUIP)
+                                    .build()
+                    )
     );
     public static final DeferredItem<SpawnEggItem> LOGINAR_SPAWN_EGG = register(
             "loginar_spawn_egg",

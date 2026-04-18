@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/resources/model/EquipmentClientInfo$LayerType",
+      "name": "LOGINAR_BODY",
+      "constructor": "(Ljava/lang/String;)V",
+      "parameters": {
+        "class": "net/silentchaos512/loginar/util/Const",
+        "field": "LOGINAR_BODY_LAYER"
+      }
+    }
+  ]
+}
