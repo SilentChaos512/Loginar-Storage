@@ -111,7 +111,7 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    implementation("net.silentchaos512:silent-lib-1.21-neoforge:${project.silentlib_version}")
+    implementation("net.silentchaos512:silent-lib-1.21.1-neoforge:${project.silentlib_version}")
 
     // Silent Gear
     if (project.hasProperty("silentgear_version")) {
