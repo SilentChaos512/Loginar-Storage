@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [26.1.2-1.6.1] - 2026-04-18
+### Added
+- (Non-functional) Began work on armor for friendly loginars. Not obtainable or usable yet.
+### Changed
+- Urn coloring now uses the Mixbox algorithm, requiring Silent Lib 11.2.0+
+
 ## [26.1-1.6.0] - 2026-03-28
 - Ported to NeoForge 26.1
 
